@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -13,6 +14,8 @@ import numpy as np
 
 from src.data.mnist import load_test_data
 from src.mlp.network import MLP
+from src.mlp.metrics import classification_report
+from src.mlp.reporting import save_diagnostic_figures
 from src.mlp.trainer import evaluate
 
 
@@ -24,24 +27,37 @@ def main() -> None:
     parser.add_argument("--batch-size", type=int, default=1024)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--no-download", action="store_true")
+    parser.add_argument("--figures-dir", type=Path, help="Export diagnostic figures to this directory.")
+    parser.add_argument("--history", type=Path, help="Optional training history CSV to plot.")
     args = parser.parse_args()
+    if args.batch_size <= 0:
+        parser.error("--batch-size must be positive.")
+    if args.history is not None and args.figures_dir is None:
+        parser.error("--history requires --figures-dir.")
+    if args.history is not None and not args.history.is_file():
+        parser.error("--history must name an existing CSV file.")
     if args.output is not None and args.output.exists():
         raise FileExistsError("Evaluation output already exists; choose a new path.")
     model = MLP.load(args.model)
     x, y = load_test_data(args.data_dir, download=not args.no_download)
     metrics = evaluate(model, x, y, args.batch_size)
-    confusion = np.zeros((10, 10), dtype=np.int64)
+    probabilities = []
     for start in range(0, len(x), args.batch_size):
-        predictions = model.forward(x[start:start + args.batch_size]).argmax(axis=1)
-        np.add.at(confusion, (y[start:start + args.batch_size], predictions), 1)
+        probabilities.append(model.predict_proba(x[start:start + args.batch_size]))
+    probabilities = np.concatenate(probabilities)
+    detailed = classification_report(probabilities, y)
     report = {"checkpoint": str(args.model), "test_samples": len(x),
               "test_loss": metrics["loss"], "test_accuracy": metrics["accuracy"],
-              "confusion_matrix": confusion.tolist(), "matrix_axes": "rows=true, columns=predicted"}
-    content = json.dumps(report, indent=2)
+              "checkpoint_sha256": hashlib.sha256(args.model.read_bytes()).hexdigest(),
+              "parameter_count": sum(p.value.size for p in model.parameters()),
+              "architecture": list(model.layer_sizes), **detailed}
+    content = json.dumps(report, indent=2, allow_nan=False)
     print(content)
     if args.output is not None:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(content, encoding="utf-8")
+    if args.figures_dir is not None:
+        save_diagnostic_figures(x, y, probabilities, args.figures_dir, args.history)
 
 
 if __name__ == "__main__":
