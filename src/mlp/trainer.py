@@ -8,6 +8,7 @@ from time import perf_counter
 import numpy as np
 
 from .losses import CrossEntropyLoss
+from .losses import validate_targets
 from .metrics import accuracy
 from .network import MLP
 from .optimizers import SGD
@@ -18,7 +19,8 @@ LOGGER = logging.getLogger(__name__)
 def evaluate(model: MLP, x: np.ndarray, y: np.ndarray,
              batch_size: int = 1024) -> dict[str, float]:
     """Return sample-weighted loss and accuracy without changing model caches."""
-    if batch_size <= 0 or len(x) == 0 or len(x) != len(y):
+    if (isinstance(batch_size, bool) or not isinstance(batch_size, (int, np.integer))
+            or batch_size <= 0 or len(x) == 0 or len(x) != len(y)):
         raise ValueError("Evaluation requires nonempty aligned data and a positive batch size.")
     criterion = CrossEntropyLoss()
     loss_sum = accuracy_sum = 0.0
@@ -39,7 +41,7 @@ class Trainer:
 
     def __init__(self, model: MLP, optimizer: SGD, batch_size: int = 64,
                  seed: int = 42) -> None:
-        if batch_size <= 0:
+        if isinstance(batch_size, bool) or not isinstance(batch_size, (int, np.integer)) or batch_size <= 0:
             raise ValueError("batch_size must be positive.")
         self.model = model
         self.optimizer = optimizer
@@ -52,8 +54,13 @@ class Trainer:
             x_val: np.ndarray, y_val: np.ndarray, epochs: int = 20,
             checkpoint: str | Path | None = None) -> list[dict[str, float | int]]:
         """Train with shuffled mini-batches, including the final partial batch."""
-        if epochs <= 0 or len(x_train) == 0 or len(x_train) != len(y_train):
+        if (isinstance(epochs, bool) or not isinstance(epochs, (int, np.integer))
+                or epochs <= 0 or len(x_train) == 0 or len(x_train) != len(y_train)):
             raise ValueError("Training requires positive epochs and nonempty aligned data.")
+        if (x_train.ndim != 2 or x_train.shape[1] != self.model.layer_sizes[0]
+                or not np.isfinite(x_train).all()):
+            raise ValueError("Training inputs must be a finite matrix matching the input layer.")
+        validate_targets(y_train, len(x_train), self.model.layer_sizes[-1])
         evaluate(self.model, x_val, y_val)
         criterion = CrossEntropyLoss()
         best_loss = float("inf")

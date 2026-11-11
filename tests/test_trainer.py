@@ -25,6 +25,20 @@ class TrainerTests(unittest.TestCase):
         self.assertAlmostEqual(measured["loss"], expected_loss, places=6)
         self.assertAlmostEqual(measured["accuracy"], accuracy(logits, self.y))
 
+    def test_bad_training_labels_do_not_partially_update_parameters(self) -> None:
+        model = MLP((3, 2), seed=2)
+        original = [p.value.copy() for p in model.parameters()]
+        labels = self.y.copy()
+        labels[-1] = 2
+        with self.assertRaises(ValueError):
+            Trainer(model, SGD(), batch_size=5).fit(self.x, labels, self.x, self.y)
+        for parameter, initial in zip(model.parameters(), original):
+            np.testing.assert_array_equal(parameter.value, initial)
+
+    def test_noninteger_batch_size_is_rejected(self) -> None:
+        with self.assertRaises(ValueError):
+            Trainer(MLP((3, 2)), SGD(), batch_size=2.5)
+
     def test_training_is_reproducible_and_saves_selected_epoch(self) -> None:
         histories = []
         models = []

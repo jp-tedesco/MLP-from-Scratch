@@ -65,6 +65,8 @@ def main() -> None:
         raise ValueError("Epochs, batch size, and hidden sizes must be positive.")
     if args.train_limit is not None and args.train_limit <= 0:
         raise ValueError("train-limit must be positive.")
+    model = MLP([784, *args.hidden_sizes, 10], seed=args.seed)
+    optimizer = SGD(args.learning_rate)
     # Refuse accidental overwrites of previous experiment artifacts.
     args.output_dir.mkdir(parents=True, exist_ok=True)
     if any(args.output_dir.iterdir()):
@@ -75,8 +77,7 @@ def main() -> None:
         count = min(args.train_limit, len(x_train))
         indices = np.random.default_rng(args.seed).permutation(len(x_train))[:count]
         x_train, y_train = x_train[indices], y_train[indices]
-    model = MLP([784, *args.hidden_sizes, 10], seed=args.seed)
-    trainer = Trainer(model, SGD(args.learning_rate), args.batch_size, args.seed)
+    trainer = Trainer(model, optimizer, args.batch_size, args.seed)
     config = {key: str(value) if isinstance(value, Path) else value
               for key, value in vars(args).items()}
     config.update({"python_version": platform.python_version(), "numpy_version": np.__version__,
