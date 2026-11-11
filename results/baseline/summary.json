@@ -1,0 +1,11 @@
+{
+  "best_epoch": 13,
+  "best_validation": {
+    "epoch": 13,
+    "train_loss": 0.01335541414936148,
+    "train_accuracy": 0.9973,
+    "val_loss": 0.08361034409831021,
+    "val_accuracy": 0.9773,
+    "seconds": 4.125548699999854
+  }
+}

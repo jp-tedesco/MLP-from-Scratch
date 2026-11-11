@@ -134,12 +134,16 @@ If PowerShell activation is restricted, use `.\.venv\Scripts\python.exe` instead
 ## Training
 
 ```bash
-python scripts/train.py --epochs 20 --batch-size 64 --learning-rate 0.1 --seed 42 --output-dir results/baseline
+python scripts/train.py --epochs 20 --batch-size 64 --learning-rate 0.1 --seed 42 --output-dir results/my-run
 ```
 
 The initial run downloads approximately 12 MB of gzip files. A default split contains 50,000 training, 10,000 validation, and 10,000 test images. Inputs are flattened to 784 float32 values in `[0, 1]`. Labels remain integer class indices. The training command loads the test partition through the dataset interface but never computes test metrics or uses test data to select parameters.
 
-The output directory must be empty, preventing accidental overwrites. A successful run creates:
+The output directory must be empty, preventing accidental overwrites.
+
+The recorded experiment and its trained checkpoints are already included in [results/baseline/](results/baseline/). Use a different directory, as in the command above, for new training runs. See [the results guide](results/README.md) to evaluate the published checkpoint directly.
+
+A successful run creates:
 
 | Artifact | Purpose |
 |---|---|
@@ -165,7 +169,7 @@ Other options include `--hidden-sizes 256 128`, `--validation-size 10000`, `--no
 Freeze architecture and hyperparameters using validation, then evaluate the selected checkpoint:
 
 ```bash
-python scripts/evaluate.py --model results/baseline/best_model.npz --output results/baseline/test_metrics.json --no-download
+python scripts/evaluate.py --model results/my-run/best_model.npz --output results/my-run/test_metrics.json --no-download
 ```
 
 Evaluation prints test loss, accuracy, and a confusion matrix (rows are true classes, columns are predicted classes). Output files must not already exist. Do not repeatedly tune settings using test scores.
@@ -173,10 +177,10 @@ Evaluation prints test loss, accuracy, and a confusion matrix (rows are true cla
 It also exports per-class precision/recall/F1, macro and micro one-vs-rest AUC, and a Wilson accuracy interval. To regenerate the visual report for a newly trained run:
 
 ```bash
-python scripts/evaluate.py --model results/baseline/best_model.npz --output results/baseline/detailed_metrics.json --figures-dir results/baseline/figures --history results/baseline/history.csv --no-download
+python scripts/evaluate.py --model results/my-run/best_model.npz --output results/my-run/detailed_metrics.json --figures-dir results/my-run/figures --history results/my-run/history.csv --no-download
 ```
 
-The committed figures in `docs/assets/` belong to the recorded baseline. This command writes new figures into the run directory so that a new experiment does not silently replace those baseline illustrations. Published raw metrics are in `docs/baseline_metrics.json`; training weights remain local and can be regenerated with the documented command.
+The committed figures in `docs/assets/` belong to the recorded baseline. This command writes new figures into the new run directory. Published raw metrics are in `docs/baseline_metrics.json`, and the original trained weights and run artifacts are included in `results/baseline/`.
 
 ## Architecture and mathematics
 

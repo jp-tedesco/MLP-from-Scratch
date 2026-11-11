@@ -1,0 +1,27 @@
+{
+  "data_dir": "data",
+  "output_dir": "results/baseline",
+  "hidden_sizes": [
+    128,
+    64
+  ],
+  "epochs": 20,
+  "batch_size": 64,
+  "learning_rate": 0.1,
+  "validation_size": 10000,
+  "seed": 42,
+  "train_limit": null,
+  "no_download": false,
+  "no_plot": false,
+  "python_version": "3.14.4",
+  "numpy_version": "2.5.4",
+  "train_samples": 50000,
+  "validation_samples": 10000,
+  "architecture": [
+    784,
+    128,
+    64,
+    10
+  ],
+  "selection_metric": "minimum validation loss"
+}

@@ -33,13 +33,13 @@ This full-data run was executed locally on 2026-11-11. These are measured values
 | Trainable parameters | 109,386 |
 
 ```bash
-python scripts/train.py --epochs 20 --batch-size 64 --learning-rate 0.1 --seed 42 --output-dir results/baseline
-python scripts/evaluate.py --model results/baseline/best_model.npz --output results/baseline/test_metrics.json --no-download
+python scripts/train.py --epochs 20 --batch-size 64 --learning-rate 0.1 --seed 42 --output-dir results/reproduction
+python scripts/evaluate.py --model results/reproduction/best_model.npz --output results/reproduction/test_metrics.json --no-download
 ```
 
 The last epoch reached 97.80% validation accuracy, but epoch 13 had lower validation loss and was selected according to the predefined criterion. The run showed temporary loss spikes during earlier epochs; no settings were changed after inspecting the test score. Floating-point differences between systems can change the selected epoch or metrics.
 
-Local run artifacts (weights, configuration, history, learning curves, and test confusion matrix) remain under `results/baseline/` and are excluded from Git. Regenerate them with the commands above. This record does not claim deployment readiness as a web service or externally audited production validation.
+The recorded run artifacts, including both model checkpoints, are published under `results/baseline/`. The commands above use a separate directory to reproduce the experiment without overwriting the published run. Paths in the published configuration were normalized to repository-relative notation; model parameters and measured results are unchanged. This record does not claim deployment readiness as a web service or externally audited production validation.
 
 ## Extended diagnostic report
 

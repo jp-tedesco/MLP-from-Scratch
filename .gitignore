@@ -5,6 +5,8 @@ data/*
 !data/README.md
 results/*
 !results/.gitkeep
+!results/README.md
+!results/baseline/
 .pytest_cache/
 *.egg-info/
 .mplconfig/
