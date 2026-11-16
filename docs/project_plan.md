@@ -12,7 +12,7 @@ Goal: turn handwritten-digit images into numbers the network can process.
 - Split only the official training data into training and validation using a reproducible stratified split; preserve the official test data.
 - Verify shapes, label ranges, reproducibility, and malformed-file detection.
 
-Implementation: `src/data/mnist.py`.
+Implementation: `src/mnist_mlp/data/mnist.py`.
 
 ## Phase 2: Build the prediction path
 

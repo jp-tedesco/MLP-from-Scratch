@@ -126,7 +126,7 @@ source .venv/bin/activate
 ```
 
 ```bash
-python -m pip install -r requirements.txt
+python -m pip install -e .
 ```
 
 If PowerShell activation is restricted, use `.\.venv\Scripts\python.exe` instead of `python`. Dependencies use compatible version ranges; each run records Python and NumPy versions. To capture the exact environment, run `python -m pip freeze > results/environment.txt`.
@@ -204,9 +204,9 @@ ReLU multiplies the incoming derivative by `(Z > 0)`, choosing derivative zero a
 
 ```python
 import numpy as np
-from src.mlp.network import MLP
-from src.mlp.losses import CrossEntropyLoss
-from src.mlp.optimizers import SGD
+from mnist_mlp.network import MLP
+from mnist_mlp.losses import CrossEntropyLoss
+from mnist_mlp.optimizers import SGD
 
 model = MLP((784, 128, 64, 10), seed=42)
 loss = CrossEntropyLoss()
@@ -224,22 +224,33 @@ Inference preserves pending training caches. Training caches and gradients are o
 
 ## Project structure
 
+We use an installable `src` layout. After `python -m pip install -e .`, import `mnist_mlp` rather than `src`. See [the migration notes](CHANGELOG.md) and [contribution guide](CONTRIBUTING.md). Our numerical implementation and published checkpoint format are unchanged.
+
 ```text
-src/data/mnist.py       # Download, parsing, normalization, stratified split
-src/mlp/activations.py  # ReLU and stable Softmax
-src/mlp/layers.py       # Dense forward/backward and parameters
-src/mlp/losses.py       # Stable categorical cross-entropy
-src/mlp/metrics.py      # Accuracy, precision/recall/F1, ROC/AUC, Wilson interval
-src/mlp/reporting.py    # Real digit examples and diagnostic figures
-src/mlp/network.py      # Architecture, prediction, serialization
-src/mlp/optimizers.py   # SGD
-src/mlp/trainer.py      # Mini-batch training and batched evaluation
+src/mnist_mlp/data/mnist.py       # Download, parsing, normalization, stratified split
+src/mnist_mlp/activations.py  # ReLU and stable Softmax
+src/mnist_mlp/layers.py       # Dense forward/backward and parameters
+src/mnist_mlp/losses.py       # Stable categorical cross-entropy
+src/mnist_mlp/metrics.py      # Accuracy, precision/recall/F1, ROC/AUC, Wilson interval
+src/mnist_mlp/reporting.py    # Real digit examples and diagnostic figures
+src/mnist_mlp/network.py      # Architecture, prediction, serialization
+src/mnist_mlp/optimizers.py   # SGD
+src/mnist_mlp/trainer.py      # Mini-batch training and batched evaluation
 scripts/train.py       # Training CLI and artifact export
 scripts/evaluate.py    # Test evaluation CLI
 tests/                 # Numerical, data, and integration tests
 docs/project_plan.md   # Implementation milestones
 docs/experiments.md    # Experiment protocol and measured results
+docs/presentations/   # Complete English and Portuguese Beamer sources
+pyproject.toml        # Package metadata and dependency declarations
+CONTRIBUTING.md       # Development and review conventions
 ```
+
+## Presentations and collaboration
+
+We provide [complete English and Portuguese LaTeX presentations](docs/presentations/README.md), each with 27 slides in exactly three parts: neural network fundamentals, dataset overview, and learning process/results. Both versions include localized figures. We recommend compiling to PDF for email and full-screen presentation; compilation instructions and the local build limitation are documented alongside the sources.
+
+We use professional collaborative language and focused commits. The [development history](docs/commit_workflow.md) records the original milestones and the current update without rewriting earlier commits.
 
 ## Verification and troubleshooting
 
