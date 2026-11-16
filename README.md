@@ -241,21 +241,21 @@ scripts/evaluate.py    # Test evaluation CLI
 tests/                 # Numerical, data, and integration tests
 docs/project_plan.md   # Implementation milestones
 docs/experiments.md    # Experiment protocol and measured results
-docs/presentations/   # Complete English and Portuguese Beamer sources
+docs/slides/   # Complete English and Portuguese Beamer sources
 pyproject.toml        # Package metadata and dependency declarations
 CONTRIBUTING.md       # Development and review conventions
 ```
 
 ## Presentations and collaboration
 
-We provide [complete English and Portuguese LaTeX presentations](docs/presentations/README.md), each with 27 slides in exactly three parts: neural network fundamentals, dataset overview, and learning process/results. Both versions include localized figures. The sources and compiled PDFs are published together, with rebuild instructions alongside them.
+We provide [complete English and Portuguese LaTeX presentations](docs/slides/README.md), each with 24 slides in exactly three parts: general neural network theory, dataset overview, and our implementation/training/results. Both public versions omit author names, include localized figures, and target a 30-minute talk. A local-only academic variant adds a programming-fundamentals subsection and title-page authors; it is ignored by Git. The sources and compiled PDFs are published together, with rebuild instructions alongside them.
 
 Ready-to-present PDFs are published alongside the editable LaTeX sources:
 
 | Language | Presentation PDF | Editable source |
 |---|---|---|
-| English | [Download slides](docs/presentations/slides_en.pdf) | [LaTeX](docs/presentations/slides_en.tex) |
-| Portuguese | [Download slides](docs/presentations/slides_pt.pdf) | [LaTeX](docs/presentations/slides_pt.tex) |
+| English | [Download slides](docs/slides/slides_en.pdf) | [LaTeX](docs/slides/slides_en.tex) |
+| Portuguese | [Download slides](docs/slides/slides_pt.pdf) | [LaTeX](docs/slides/slides_pt.tex) |
 
 We recommend these PDFs for presentation and email because the equations and layout remain consistent without requiring a TeX installation on the recipient's computer.
 

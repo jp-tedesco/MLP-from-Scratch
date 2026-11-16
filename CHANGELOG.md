@@ -1,5 +1,12 @@
 # Changelog
 
+## Presentation update - 2026-11-16
+
+- We moved the canonical presentations to `docs/slides/` and rebuilt the English and Portuguese main sources/PDFs as 24-slide talks with a 30-minute pacing guide.
+- Part 1 now covers general theory only; Part 2 introduces MNIST and measured class proportions; Part 3 connects the theory to our implementation and results.
+- Public decks contain no group-member names. Separate 27-slide academic variants are local-only and excluded by `.gitignore`.
+- We compiled all four versions and checked their page counts, image references, rendered layouts, and the identity of their shared content. No training algorithms or measured model results changed.
+
 ## 0.1.0 - 2026-11-15
 
 ### Repository organization
