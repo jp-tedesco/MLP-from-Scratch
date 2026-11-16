@@ -2,6 +2,8 @@
 
 ## Presentation update - 2026-11-16
 
+- We added a title page before the unchanged motivation slide, followed by a preface, and replaced the final question slide with a closing slide. All intervening slides remain unchanged. Public decks now have 26 slides; local academic variants have 29, with the same dates and author-visibility rules.
+
 - We rebuilt the presentation narrative around understanding connections, activations, predictions, and learning, with the project motivation on the first slide and explicit transition slides for the three parts.
 - We removed project code excerpts and filenames from all decks. Academic programming concepts are explained through their roles in the workflow, while the main and academic talks retain a 30-minute pacing plan.
 
