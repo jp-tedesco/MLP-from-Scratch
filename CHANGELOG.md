@@ -2,6 +2,8 @@
 
 ## Presentation update - 2026-11-16
 
+- We shortened the preface to the topic of each part and removed author/date fields from the motivation slide. Local academic variants retain their three programming-fundamentals slides at the end of Part 1.
+
 - We removed the dedicated closing slide from both languages and variants, leaving all remaining slides unchanged. Public decks now contain 25 slides; local academic decks contain 28.
 
 - We added a title page before the unchanged motivation slide, followed by a preface, and replaced the final question slide with a closing slide. All intervening slides remain unchanged. Public decks now have 26 slides; local academic variants have 29, with the same dates and author-visibility rules.
