@@ -1,0 +1,15 @@
+% Editable educational diagram; not a measured model result.
+\begin{tikzpicture}[>=stealth,
+value/.style={circle,draw=navy,thick,minimum size=9mm,fill=navy!10},
+labelled/.style={font=\small,fill=white,inner sep=2pt}]
+\node[value] (a) at (0,1.15) {2};
+\node[value] (b) at (0,-1.15) {1};
+\node[circle,draw=teal,very thick,minimum size=17mm,fill=teal!12,font=\small] (n) at (4,0) {combina};
+\node[value,fill=teal!25] (out) at (6.8,0) {1};
+\draw[->,very thick,navy] (a) -- node[labelled,above,sloped] {peso +0,5} (n);
+\draw[->,very thick,teal] (b) -- node[labelled,below,sloped] {peso -1} (n);
+\draw[->,thick] (n) -- node[labelled,above] {resultado} (out);
+\node[font=\small] (bias) at (4,-1.65) {viés +1};
+\draw[->,thick] (bias) -- (n);
+\node[font=\scriptsize,text=navy] at (3.1,1.85) {Valores ilustrativos, antes da ativação};
+\end{tikzpicture}

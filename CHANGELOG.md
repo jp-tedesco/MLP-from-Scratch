@@ -2,6 +2,8 @@
 
 ## Presentation update - 2026-11-16
 
+- We added four editable teaching diagrams within Part 1 and consolidated repeated explanations, yielding 25 public slides and 28 local academic slides. Per-slide narration budgets reserve questions and at least 2:25 of margin inside the 30-minute academic slot. The academic conditional example now distinguishes explicit branches from maximum selection through NumPy.
+
 - We expanded the start of Part 3 into three accessible slides following a real MNIST 7 from pixel brightness through the dense layers to its saved-checkpoint prediction. Example provenance and raw scores accompany the figures; remaining slides and model parameters are unchanged. Public decks now have 27 slides and local academic variants have 30.
 
 - We shortened the preface to the topic of each part and removed author/date fields from the motivation slide. Local academic variants retain their three programming-fundamentals slides at the end of Part 1.

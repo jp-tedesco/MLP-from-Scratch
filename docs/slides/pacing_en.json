@@ -1,0 +1,135 @@
+{
+  "language": "en",
+  "slide_count": 25,
+  "narration_seconds": 1415,
+  "questions_seconds": 120,
+  "buffer_seconds": 265,
+  "maximum_seconds": 1800,
+  "slides": [
+    {
+      "slide": 1,
+      "title": "Title page",
+      "seconds": 20
+    },
+    {
+      "slide": 2,
+      "title": "Why we built this project",
+      "seconds": 35
+    },
+    {
+      "slide": 3,
+      "title": "Preface",
+      "seconds": 20
+    },
+    {
+      "slide": 4,
+      "title": "Part 1",
+      "seconds": 10
+    },
+    {
+      "slide": 5,
+      "title": "A neural network combines information in layers",
+      "seconds": 90
+    },
+    {
+      "slide": 6,
+      "title": "Connections decide what matters more",
+      "seconds": 75
+    },
+    {
+      "slide": 7,
+      "title": "Activation functions give layers flexibility",
+      "seconds": 90
+    },
+    {
+      "slide": 8,
+      "title": "Softmax organizes scores; we choose the largest",
+      "seconds": 75
+    },
+    {
+      "slide": 9,
+      "title": "Learning repeats three steps",
+      "seconds": 100
+    },
+    {
+      "slide": 10,
+      "title": "Part 2",
+      "seconds": 10
+    },
+    {
+      "slide": 11,
+      "title": "The task: recognize one handwritten digit",
+      "seconds": 70
+    },
+    {
+      "slide": 12,
+      "title": "Every digit has a place in the data",
+      "seconds": 40
+    },
+    {
+      "slide": 13,
+      "title": "Practice is different from the final test",
+      "seconds": 75
+    },
+    {
+      "slide": 14,
+      "title": "Part 3",
+      "seconds": 10
+    },
+    {
+      "slide": 15,
+      "title": "Following one image: a handwritten 7",
+      "seconds": 65
+    },
+    {
+      "slide": 16,
+      "title": "How our network uses those values",
+      "seconds": 55
+    },
+    {
+      "slide": 17,
+      "title": "Why the answer is 7 in this example",
+      "seconds": 55
+    },
+    {
+      "slide": 18,
+      "title": "How practice was repeated",
+      "seconds": 80
+    },
+    {
+      "slide": 19,
+      "title": "We selected a saved version during validation",
+      "seconds": 55
+    },
+    {
+      "slide": 20,
+      "title": "What the learning curves tell us",
+      "seconds": 90
+    },
+    {
+      "slide": 21,
+      "title": "About 98 correct answers in every 100 images",
+      "seconds": 65
+    },
+    {
+      "slide": 22,
+      "title": "Where the mistakes occurred",
+      "seconds": 65
+    },
+    {
+      "slide": 23,
+      "title": "Would these examples also be hard for us?",
+      "seconds": 60
+    },
+    {
+      "slide": 24,
+      "title": "Another view of how well the scores separate classes",
+      "seconds": 45
+    },
+    {
+      "slide": 25,
+      "title": "What this project helped us understand",
+      "seconds": 60
+    }
+  ]
+}

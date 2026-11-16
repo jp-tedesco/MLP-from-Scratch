@@ -1,0 +1,21 @@
+% Editable educational diagram; not a measured model result.
+\begin{tikzpicture}[>=stealth,
+score/.style={circle,draw=navy,minimum size=9mm,fill=navy!10,font=\small}]
+\node[font=\small] at (0,2) {Pontuações};
+\node[font=\small] at (5.0,2) {Saídas da Softmax};
+\node[score] (a) at (0,1.15) {2};
+\node[score] (b) at (0,0) {1};
+\node[score] (c) at (0,-1.15) {0};
+\node[left,font=\small] at (-.5,1.15) {A};
+\node[left,font=\small] at (-.5,0) {B};
+\node[left,font=\small] at (-.5,-1.15) {C};
+\node[draw=teal,thick,rounded corners,fill=teal!8,minimum width=18mm,minimum height=30mm] (s) at (2.3,0) {Softmax};
+\foreach \n in {a,b,c} {\draw[->,navy!60] (\n) -- (s.west);}
+\node[font=\small\bfseries,text=teal] (oa) at (5.0,1.15) {A: 66,5\%};
+\node[font=\small] (ob) at (5.0,0) {B: 24,5\%};
+\node[font=\small] (oc) at (5.0,-1.15) {C: 9,0\%};
+\draw[->,teal,thick] (s.east) -- (oa.west);
+\draw[->,navy!60] (s.east) -- (ob.west);
+\draw[->,navy!60] (s.east) -- (oc.west);
+\node[font=\small,text=teal] at (2.6,-2) {Maior saída: escolhemos A.};
+\end{tikzpicture}

@@ -1,0 +1,14 @@
+% Editable educational diagram; not a measured model result.
+\begin{tikzpicture}[x=2.6cm,y=.62cm,>=stealth,
+neuron/.style={circle,draw=navy,thick,minimum size=6mm,fill=white},
+link/.style={->,draw=navy!35,line width=.45pt}]
+\foreach \i in {1,2,3} {\node[neuron,fill=navy!12] (i\i) at (0,\i) {};}
+\foreach \h in {1,2,3,4} {\node[neuron,fill=teal!16] (h\h) at (1,\h-.5) {};}
+\foreach \o in {1,2} {\node[neuron,fill=teal!40] (o\o) at (2,\o+.5) {};}
+\foreach \i in {1,2,3} {\foreach \h in {1,2,3,4} {\draw[link] (i\i) -- (h\h);}}
+\foreach \h in {1,2,3,4} {\foreach \o in {1,2} {\draw[link] (h\h) -- (o\o);}}
+\node[font=\small] at (0,-.35) {Entrada};
+\node[font=\small] at (1,-.35) {Camada escondida};
+\node[font=\small] at (2,-.35) {Saída};
+\node[font=\scriptsize,text=navy] at (1,4.5) {Círculos: neurônios. Setas: conexões com pesos.};
+\end{tikzpicture}

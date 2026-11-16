@@ -1,0 +1,14 @@
+% Editable educational diagram; not a measured model result.
+\begin{tikzpicture}[x=.85cm,y=.85cm,>=stealth]
+\draw[->,navy!70] (-2.7,0) -- (2.9,0) node[right,font=\small] {entra};
+\draw[->,navy!70] (0,-.45) -- (0,2.9) node[above,font=\small] {sai};
+\draw[teal,line width=2pt] (-2.3,0) -- (0,0) -- (2.4,2.4);
+\fill[teal] (-2,0) circle (2pt);
+\fill[teal] (2,2) circle (2pt);
+\draw[dashed,navy!35] (2,0) -- (2,2) -- (0,2);
+\node[below,font=\small] at (-2,0) {-2};
+\node[below right,font=\small] at (0,0) {0};
+\node[below,font=\small] at (2,0) {2};
+\node[left,font=\small] at (0,2) {2};
+\node[font=\small,text=navy] at (0,-1.05) {ReLU: -2 vira 0; 2 continua 2.};
+\end{tikzpicture}

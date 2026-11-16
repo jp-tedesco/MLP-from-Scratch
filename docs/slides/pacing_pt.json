@@ -1,0 +1,135 @@
+{
+  "language": "pt",
+  "slide_count": 25,
+  "narration_seconds": 1415,
+  "questions_seconds": 120,
+  "buffer_seconds": 265,
+  "maximum_seconds": 1800,
+  "slides": [
+    {
+      "slide": 1,
+      "title": "Capa",
+      "seconds": 20
+    },
+    {
+      "slide": 2,
+      "title": "Por que fizemos este projeto",
+      "seconds": 35
+    },
+    {
+      "slide": 3,
+      "title": "Prefácio",
+      "seconds": 20
+    },
+    {
+      "slide": 4,
+      "title": "Parte 1",
+      "seconds": 10
+    },
+    {
+      "slide": 5,
+      "title": "Uma rede neural combina informações em camadas",
+      "seconds": 90
+    },
+    {
+      "slide": 6,
+      "title": "As conexões definem o que pesa mais",
+      "seconds": 75
+    },
+    {
+      "slide": 7,
+      "title": "As funções de ativação dão flexibilidade às camadas",
+      "seconds": 90
+    },
+    {
+      "slide": 8,
+      "title": "A Softmax organiza os valores; escolhemos o maior",
+      "seconds": 75
+    },
+    {
+      "slide": 9,
+      "title": "O aprendizado repete três passos",
+      "seconds": 100
+    },
+    {
+      "slide": 10,
+      "title": "Parte 2",
+      "seconds": 10
+    },
+    {
+      "slide": 11,
+      "title": "A tarefa: reconhecer um dígito escrito à mão",
+      "seconds": 70
+    },
+    {
+      "slide": 12,
+      "title": "Todos os dígitos aparecem nos dados",
+      "seconds": 40
+    },
+    {
+      "slide": 13,
+      "title": "Praticar é diferente de fazer a prova final",
+      "seconds": 75
+    },
+    {
+      "slide": 14,
+      "title": "Parte 3",
+      "seconds": 10
+    },
+    {
+      "slide": 15,
+      "title": "Acompanhando uma imagem: um 7 escrito à mão",
+      "seconds": 65
+    },
+    {
+      "slide": 16,
+      "title": "Como nossa rede usa esses valores",
+      "seconds": 55
+    },
+    {
+      "slide": 17,
+      "title": "Por que a resposta é 7 neste exemplo",
+      "seconds": 55
+    },
+    {
+      "slide": 18,
+      "title": "Como a prática foi repetida",
+      "seconds": 80
+    },
+    {
+      "slide": 19,
+      "title": "Escolhemos uma versão salva durante a validação",
+      "seconds": 55
+    },
+    {
+      "slide": 20,
+      "title": "O que as curvas de aprendizado mostram",
+      "seconds": 90
+    },
+    {
+      "slide": 21,
+      "title": "Cerca de 98 acertos a cada 100 imagens",
+      "seconds": 65
+    },
+    {
+      "slide": 22,
+      "title": "Onde aconteceram os erros",
+      "seconds": 65
+    },
+    {
+      "slide": 23,
+      "title": "Esses exemplos também seriam difíceis para nós?",
+      "seconds": 60
+    },
+    {
+      "slide": 24,
+      "title": "Outra visão de como os escores separam as classes",
+      "seconds": 45
+    },
+    {
+      "slide": 25,
+      "title": "O que este projeto nos ajudou a entender",
+      "seconds": 60
+    }
+  ]
+}

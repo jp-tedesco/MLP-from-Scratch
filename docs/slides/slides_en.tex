@@ -4,6 +4,7 @@
 \usepackage[english]{babel}
 \usepackage{lmodern}
 \usepackage{amsmath,amssymb,booktabs,graphicx}
+\usepackage{tikz}
 \usetheme{Madrid}
 \definecolor{navy}{RGB}{22,50,79}
 \definecolor{teal}{RGB}{8,126,139}
@@ -20,7 +21,7 @@
 \author{}
 \date{16 November 2026}
 \begin{document}
-\begin{frame}\titlepage\note{30 seconds. Present the title. Introduce the group only when author names are displayed in the local academic version. The next slide retains the project motivation.}\end{frame}
+\begin{frame}\titlepage\note{Speaking time: 20 seconds. Present the title. Introduce the group only when author names are displayed in the local academic version. The next slide retains the project motivation.}\end{frame}
 
 
 \begin{frame}{Why we built this project}
@@ -28,7 +29,7 @@
 \item Learn what turns examples into predictions.
 \item Apply that understanding to handwritten-digit recognition.
 \end{itemize}
-\note{45 seconds. Start with the learning goal, not the accuracy score. Explain that we chose an accessible problem to observe the entire process.}
+\note{Speaking time: 35 seconds. Start with the learning goal, not the accuracy score. Explain that we chose an accessible problem to observe the entire process.}
 \end{frame}
 
 \begin{frame}{Preface}
@@ -37,64 +38,52 @@
 \item Part 2: the MNIST image dataset.
 \item Part 3: our model, training, and results.
 \end{itemize}
-\note{30 seconds. Briefly introduce the topic of each part.}\end{frame}
+\note{Speaking time: 20 seconds. Briefly introduce the topic of each part.}\end{frame}
 
 
 
 \section{Part 1: How a Neural Network Works}
 \begin{frame}{Part 1}
 \begin{center}\vspace{.35cm}{\Huge Understanding the basic idea}\par\vspace{.6cm}{\large What happens between information coming in and an answer coming out?}\end{center}
-\note{15 seconds. Announce the change of part and its purpose.}
+\note{Speaking time: 10 seconds. Announce the change of part and its purpose.}
 \end{frame}
 
-\begin{frame}{What is a neural network?}
-\begin{itemize}
-\item A model that combines information to produce a prediction.
-\item Its connections can be adjusted using examples with known answers.
-\item Learning means improving those connections, rather than writing a separate rule for every case.
+\begin{frame}{A neural network combines information in layers}
+\begin{center}\resizebox{.62\textwidth}{!}{\input{diagrams/layers_en.tex}}\end{center}\begin{itemize}
+\item Input receives information; hidden layers combine it; output provides a prediction.
+\item Each circle is a neuron; the arrows pass results to the next layer.
+\item Learning adjusts the connections using examples with known answers.
 \end{itemize}
-
-\note{Speaking time: 80 seconds. Ask what it means to learn from examples. A prediction can be a category, such as which kind of object was observed. Explain that learning is a process of adjusting numerical relationships, without suggesting human understanding.}
+\note{Speaking time: 90 seconds. Read the diagram from left to right. A layer groups neurons at one stage. Hidden simply means between input and output. The forward pass follows the arrows. This small network is illustrative, with arbitrary layer sizes. The model is inspired by biology but performs numerical calculations, not human understanding.}
 \end{frame}
 
 \begin{frame}{Connections decide what matters more}
-\begin{itemize}
-\item An artificial neuron receives information, combines it, and passes a result onward.
-\item Weights control how strongly each input contributes.
-\item A bias adds an extra adjustment to that combination.
+\begin{center}\resizebox{.70\textwidth}{!}{\input{diagrams/weights_en.tex}}\end{center}\begin{itemize}
+\item Weights control the influence of inputs; negative weights can oppose a contribution.
+\item The bias adds an adjustment to the combined result.
+\item Training changes weights and biases to improve predictions.
 \end{itemize}
-
-\note{Speaking time: 90 seconds. The neuron name is inspired by biology, but this is a numerical model. Explain influence rather than a weighted-sum formula. Learning changes the influence of connections; a larger weight does not universally mean a better model.}
+\note{Speaking time: 75 seconds. The illustrative neuron receives 2 and 1. Their weighted contributions are +1 and -1; a bias of +1 gives a combined result of 1 before activation. Explain influence without asking the audience to calculate. The signs indicate direction of contribution, not whether a weight is good or bad.}
 \end{frame}
 
-\begin{frame}{Layers build the answer in stages}
-\begin{center}\Large Information $\rightarrow$ Layers $\rightarrow$ Answer\end{center}\medskip \begin{itemize}
-\item A layer is a group of artificial neurons working at the same stage.
-\item The output of one layer becomes the input of the next.
-\item The forward pass follows this path until it produces a prediction.
-\end{itemize}
 
-\note{Speaking time: 70 seconds. Read the diagram from left to right. Hidden means between input and output. Explain that the intermediate stages learn combinations of information; do not assign an exact human-interpretable feature to each neuron.}
-\end{frame}
 
 \begin{frame}{Activation functions give layers flexibility}
-\begin{itemize}
-\item An activation function transforms a neuron's result before it moves onward.
-\item That transformation helps layers represent more complex relationships.
-\item ReLU is one such rule: negative results become zero; positive results keep their value.
-\end{itemize}
-
-\note{Speaking time: 95 seconds. Explain the purpose before the rule. Without nonlinear activations between affine layers, adding layers would still produce one affine transformation. Say this as a limitation on flexibility, without equations or derivatives. Check that the audience distinguishes a learned weight from a fixed activation rule.}
+\begin{columns}[c]\begin{column}{.48\textwidth}\centering\resizebox{.96\textwidth}{!}{\input{diagrams/relu_en.tex}}\end{column}\begin{column}{.49\textwidth}\begin{itemize}
+\item An activation transforms a neuron's result before it moves onward.
+\item ReLU turns negative values into zero and keeps positive values.
+\item This transformation helps layers represent more complex relationships.
+\end{itemize}\end{column}\end{columns}
+\note{Speaking time: 90 seconds. Read input on the horizontal axis and output on the vertical axis. Trace -2 to 0, then 2 to 2. Explain the rule before its benefit: nonlinear activations allow multiple affine layers to represent more than one affine transformation. Keep that last idea verbal; no equations or derivatives are needed. Activation rules stay fixed while connection weights are learned.}
 \end{frame}
 
-\begin{frame}{The final layer compares possible answers}
-\begin{itemize}
-\item Each possible answer receives a score.
-\item Softmax organizes those scores into values that sum to 100\%.
-\item The model chooses the answer with the highest value; it can still be wrong.
-\end{itemize}
-
-\note{Speaking time: 65 seconds. Connect this to the activation slide: ReLU transforms intermediate results, while Softmax organizes final class scores. Explain that a class is a possible answer. A large score expresses the model output, not a guarantee of correctness.}
+\begin{frame}{Softmax organizes scores; we choose the largest}
+\begin{columns}[c]\begin{column}{.55\textwidth}\centering\resizebox{.96\textwidth}{!}{\input{diagrams/softmax_en.tex}}\end{column}\begin{column}{.42\textwidth}\begin{itemize}
+\item Each answer receives a score.
+\item Softmax produces values that sum to 100\%.
+\item Choosing the largest value is a separate step; it can still be wrong.
+\end{itemize}\end{column}\end{columns}
+\note{Speaking time: 75 seconds. A, B and C are generic answer categories. The illustrative scores 2, 1, 0 yield approximately 66.5, 24.5 and 9.0 percent. These are illustrative values. Softmax normalizes scores and preserves their ordering; it does not choose a class or guarantee calibrated correctness. A maximum-search operation selects the class.}
 \end{frame}
 
 \begin{frame}{Learning repeats three steps}
@@ -104,34 +93,26 @@
 \item Adjust: an optimizer makes small changes to the weights, then the process repeats.
 \end{itemize}
 
-\note{Speaking time: 110 seconds. Explain loss as a penalty, with lower values preferred. Cross-entropy penalizes assigning very little support to the correct answer. Backpropagation supplies the information for adjustments; gradient descent performs them. No derivative calculation is needed. Ask the audience which step needs known answers before moving on.}
+\note{Speaking time: 100 seconds. Explain loss as a penalty, with lower values preferred. Cross-entropy penalizes assigning very little support to the correct answer. Backpropagation supplies the information for adjustments; gradient descent performs them. No derivative calculation is needed. Ask the audience which step needs known answers before moving on.}
 \end{frame}
 
 \section{Part 2: The Images We Used}
 \begin{frame}{Part 2}
 \begin{center}\vspace{.35cm}{\Huge Meet the images}\par\vspace{.6cm}{\large Now we need examples with answers so the network can practice.}\end{center}
-\note{15 seconds. Announce the change of part and its purpose.}
+\note{Speaking time: 10 seconds. Announce the change of part and its purpose.}
 \end{frame}
 
 \begin{frame}{The task: recognize one handwritten digit}
 \centering\includegraphics[width=\textwidth]{mnist.png}\par\raggedright \begin{itemize}
-\item MNIST contains small grayscale images labeled from 0 to 9.
-\item The label tells us the correct answer for each image.
-\item Different people write the same digit in different ways.
+\item MNIST contains grayscale images with known labels from 0 to 9.
+\item Each image has 28 by 28 pixels, arranged into 784 values.
+\item We divide brightness by 255 to use a scale from 0 to 1.
 \end{itemize}
 
-\note{Speaking time: 60 seconds. Point to a drawing and ask whether it would be easy to confuse with another digit. Describe the variation the model must handle. Attribute the dataset to LeCun, Cortes and Burges.}
+\note{Speaking time: 70 seconds. Source: MNIST by LeCun, Cortes and Burges. Labels tell us the correct answers; handwriting varies. Describe a pixel as a brightness measurement. Black becomes zero, white one, gray lies between. Flattening follows a fixed order. Part 3 will follow one real image through this preparation and the network.}
 \end{frame}
 
-\begin{frame}{The network receives brightness values}
-\begin{itemize}
-\item Each image is a 28-by-28 grid: 784 pixels.
-\item We turn that grid into a fixed sequence of 784 numbers.
-\item We rescale brightness between 0 and 1 so all images use the same scale.
-\end{itemize}
 
-\note{Speaking time: 85 seconds. A pixel is one brightness measurement. Black becomes zero, white becomes one, and gray lies between. We divide original values by 255. Reading rows in a fixed order preserves which position each value represents. No matrix notation is required.}
-\end{frame}
 
 \begin{frame}{Every digit has a place in the data}
 \centering\includegraphics[width=.9\textwidth]{classes_en.png}\par\raggedright \begin{itemize}
@@ -140,7 +121,7 @@
 \item This helps us check that a good overall result is not just about one common digit.
 \end{itemize}
 
-\note{Speaking time: 45 seconds. Read these as percentages, not counts. Explain that training, validation and test have different numbers of images but comparable class proportions. Exact counts remain in the experiment files.}
+\note{Speaking time: 40 seconds. Read these as percentages, not counts. Explain that training, validation and test have different numbers of images but comparable class proportions. Exact counts remain in the experiment files.}
 \end{frame}
 
 \begin{frame}{Practice is different from the final test}
@@ -149,13 +130,13 @@
 \item The final test does not guide which model we choose.
 \end{itemize}
 
-\note{Speaking time: 95 seconds. Use the exercise, practice-exam and final-exam analogy. Why would evaluating on the same exercises be misleading? Clarify that the official 60,000-image training pool became 50,000 training and 10,000 validation images; the official test was kept separate.}
+\note{Speaking time: 75 seconds. Use the exercise, practice-exam and final-exam analogy. Why would evaluating on the same exercises be misleading? Clarify that the official 60,000-image training pool became 50,000 training and 10,000 validation images; the official test was kept separate.}
 \end{frame}
 
 \section{Part 3: How Our Network Learned}
 \begin{frame}{Part 3}
 \begin{center}\vspace{.35cm}{\Huge Watch the learning process}\par\vspace{.6cm}{\large Connect the basic idea to the network we built and its results.}\end{center}
-\note{15 seconds. Announce the change of part and its purpose.}
+\note{Speaking time: 10 seconds. Announce the change of part and its purpose.}
 \end{frame}
 
 \begin{frame}{Following one image: a handwritten 7}
@@ -165,7 +146,7 @@
 \item For example, a pixel with value 84 becomes approximately 0.33.
 \item We arrange the 28 by 28 pixels into a fixed sequence of 784 values.
 \end{itemize}\end{column}\end{columns}
-\note{40 seconds. Use the first official test image, labeled 7. Source: MNIST by LeCun, Cortes and Burges. Pixel 202 in zero-based flattened order has raw brightness 84, divided by 255. We prepare the sequence row by row; the dense network then combines these values rather than reading a word or scanning sequentially. The label 7 is held separately and is not an input to the prediction.}\end{frame}
+\note{Speaking time: 65 seconds. Use the first official test image, labeled 7. Source: MNIST by LeCun, Cortes and Burges. Pixel 202 in zero-based flattened order has raw brightness 84, divided by 255. We prepare the sequence row by row; the dense network then combines these values rather than reading a word or scanning sequentially. The label 7 is held separately and is not an input to the prediction.}\end{frame}
 
 \begin{frame}{How our network uses those values}
 \begin{center}\Large $784\longrightarrow128\longrightarrow64\longrightarrow10$\end{center}\medskip\begin{itemize}
@@ -174,7 +155,7 @@
 \item The ten outputs assign scores to the digits 0 through 9.
 \item There is no hand-written rule saying what a 7 must look like.
 \end{itemize}
-\note{40 seconds. Connect to Part 1: weights change influence, the bias adds an adjustment, and ReLU turns negative intermediate results into zero. Each dense neuron uses all values from the previous layer. Do not claim that individual neurons detect specific strokes: we have not analyzed their representations. He initialization is used in hidden layers and Xavier at the output; keep these names for questions.}\end{frame}
+\note{Speaking time: 55 seconds. Connect to Part 1: weights change influence, the bias adds an adjustment, and ReLU turns negative intermediate results into zero. Each dense neuron uses all values from the previous layer. Do not claim that individual neurons detect specific strokes: we have not analyzed their representations. He initialization is used in hidden layers and Xavier at the output; keep these names for questions.}\end{frame}
 
 \begin{frame}{Why the answer is 7 in this example}
 \centering\includegraphics[height=.42\textheight]{example_scores_en.png}\par\raggedright\begin{itemize}
@@ -182,7 +163,7 @@
 \item The largest value belongs to 7, so the network chooses 7.
 \item This is a real prediction from our saved model; high scores can still be wrong.
 \end{itemize}
-\note{40 seconds. Values come from the existing best checkpoint, not a hypothetical distribution. The score for digit 7 is approximately 99.998 percent; the other bars are nonzero but tiny on this scale. Compare the answer with the held-out label only after prediction. This single image does not represent overall accuracy. Inference keeps weights fixed; training compares predictions with known labels and adjusts weights in batches. The next slide explains that repetition.}\end{frame}
+\note{Speaking time: 55 seconds. Values come from the existing best checkpoint, not a hypothetical distribution. The score for digit 7 is approximately 99.998 percent; the other bars are nonzero but tiny on this scale. Compare the answer with the held-out label only after prediction. This single image does not represent overall accuracy. Inference keeps weights fixed; training compares predictions with known labels and adjusts weights in batches. The next slide explains that repetition.}\end{frame}
 
 \begin{frame}{How practice was repeated}
 \begin{itemize}
@@ -191,7 +172,7 @@
 \item The model completed 20 epochs, with a different image order each time.
 \end{itemize}
 
-\note{Speaking time: 100 seconds. Connect each group to the measure, trace and adjust cycle. The update method is mini-batch SGD, with learning rate 0.1. Explain the name only after the process: it updates from small groups instead of waiting for every image. Initial errors are expected because weights start without training.}
+\note{Speaking time: 80 seconds. Connect each group to the measure, trace and adjust cycle. The update method is mini-batch SGD, with learning rate 0.1. Explain the name only after the process: it updates from small groups instead of waiting for every image. Initial errors are expected because weights start without training.}
 \end{frame}
 
 \begin{frame}{We selected a saved version during validation}
@@ -201,7 +182,7 @@
 \item That version came from epoch 13 and was then evaluated on the test.
 \end{itemize}
 
-\note{Speaking time: 65 seconds. Explain a saved version as a snapshot of the learned connections. All 20 epochs ran; using epoch 13 does not mean early stopping. Ask why the last version need not be best on new data.}
+\note{Speaking time: 55 seconds. Explain a saved version as a snapshot of the learned connections. All 20 epochs ran; using epoch 13 does not mean early stopping. Ask why the last version need not be best on new data.}
 \end{frame}
 
 \begin{frame}{What the learning curves tell us}
@@ -211,7 +192,7 @@
 \item Training results and validation results must be read together.
 \end{itemize}
 
-\note{Speaking time: 100 seconds. Identify the axes and colors before any interpretation. Point to one temporary spike and then the later gap. The gap suggests that success on practice examples does not fully transfer to other images. This is an intuitive introduction to overfitting, not proof of a specific cause for every fluctuation.}
+\note{Speaking time: 90 seconds. Identify the axes and colors before any interpretation. Point to one temporary spike and then the later gap. The gap suggests that success on practice examples does not fully transfer to other images. This is an intuitive introduction to overfitting, not proof of a specific cause for every fluctuation.}
 \end{frame}
 
 \begin{frame}{About 98 correct answers in every 100 images}
@@ -220,7 +201,7 @@
 \item These results belong to this experiment and this test set.
 \end{itemize}
 
-\note{Speaking time: 70 seconds. Relate 9,790 out of 10,000 to the percentage. Avoid implying that every set of one hundred images has exactly 98 correct predictions. Other recorded metrics are available if someone asks, but the main point is the count of successes and remaining errors.}
+\note{Speaking time: 65 seconds. Relate 9,790 out of 10,000 to the percentage. Avoid implying that every set of one hundred images has exactly 98 correct predictions. Other recorded metrics are available if someone asks, but the main point is the count of successes and remaining errors.}
 \end{frame}
 
 \begin{frame}{Where the mistakes occurred}
@@ -230,7 +211,7 @@
 \item The most frequent directed mistake was 5 mistaken for 3, in 14 images.
 \end{itemize}
 
-\note{Speaking time: 75 seconds. Walk through a correct cell, then row five and column three. The matrix tells a more useful story than a single overall percentage: it identifies which answers were confused. There is no need to read every number.}
+\note{Speaking time: 65 seconds. Walk through a correct cell, then row five and column three. The matrix tells a more useful story than a single overall percentage: it identifies which answers were confused. There is no need to read every number.}
 \end{frame}
 
 \begin{frame}{Would these examples also be hard for us?}
@@ -240,7 +221,7 @@
 \item Even a very high output score can accompany a wrong answer.
 \end{itemize}
 
-\note{Speaking time: 70 seconds. Pause for an audience response before interpreting. Ask which drawing is hardest to read. Ambiguity is not an explanation for every model error. Scores belong to the model, so confidence cannot replace checking actual correctness.}
+\note{Speaking time: 60 seconds. Pause for an audience response before interpreting. Ask which drawing is hardest to read. Ambiguity is not an explanation for every model error. Scores belong to the model, so confidence cannot replace checking actual correctness.}
 \end{frame}
 
 \begin{frame}{Another view of how well the scores separate classes}
@@ -250,7 +231,7 @@
 \item This is a ranking measure, not the percentage of correct final answers.
 \end{itemize}
 
-\note{Speaking time: 65 seconds. Keep this as a secondary result. For one digit, varying the accepted score trades finding more real examples against accepting more wrong ones. A random ranking has AUC 0.5 and a perfect ranking 1. The recorded 210 errors still exist even though AUC is high.}
+\note{Speaking time: 45 seconds. Keep this as a secondary result. For one digit, varying the accepted score trades finding more real examples against accepting more wrong ones. A random ranking has AUC 0.5 and a perfect ranking 1. The recorded 210 errors still exist even though AUC is high.}
 \end{frame}
 
 \begin{frame}{What this project helped us understand}
@@ -260,7 +241,7 @@
 \item A useful result still has limits: this is one run, not a guarantee for every photograph or handwriting style.
 \end{itemize}
 
-\note{Speaking time: 90 seconds. Return to the first-slide motivation. We connected concepts to observed predictions and errors. There are 24 implementation tests, but testing the calculations does not guarantee performance in every setting. Further work could repeat training and evaluate new writing conditions.}
+\note{Speaking time: 60 seconds. Return to the first-slide motivation. We connected concepts to observed predictions and errors. There are 24 implementation tests, but testing the calculations does not guarantee performance in every setting. Further work could repeat training and evaluate new writing conditions.}
 \end{frame}
 
 
