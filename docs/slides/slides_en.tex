@@ -158,15 +158,31 @@
 \note{15 seconds. Announce the change of part and its purpose.}
 \end{frame}
 
-\begin{frame}{The network we built}
-\begin{center}\Large $784\longrightarrow128\longrightarrow64\longrightarrow10$\end{center}\medskip \begin{itemize}
-\item 784 inputs: one brightness value for each pixel.
-\item Two intermediate layers combine that information in stages.
-\item Ten outputs compare the possible digits, using Softmax.
-\end{itemize}
+\begin{frame}{Following one image: a handwritten 7}
+\begin{columns}[c]\begin{column}{.30\textwidth}\centering\includegraphics[width=.86\textwidth]{example_digit_7.png}\par\smallskip{\small Real MNIST test image}\end{column}\begin{column}{.67\textwidth}\begin{itemize}
+\item We see a 7; the network receives brightness values.
+\item Black becomes 0, white becomes 1, and gray lies in between.
+\item For example, a pixel with value 84 becomes approximately 0.33.
+\item We arrange the 28 by 28 pixels into a fixed sequence of 784 values.
+\end{itemize}\end{column}\end{columns}
+\note{40 seconds. Use the first official test image, labeled 7. Source: MNIST by LeCun, Cortes and Burges. Pixel 202 in zero-based flattened order has raw brightness 84, divided by 255. We prepare the sequence row by row; the dense network then combines these values rather than reading a word or scanning sequentially. The label 7 is held separately and is not an input to the prediction.}\end{frame}
 
-\note{Speaking time: 75 seconds. The intermediate layers have 128 and 64 neurons and use ReLU. Initial weights are random, with He scaling in hidden layers and Xavier in the output; mention those names only if asked. We built the calculations ourselves to understand the learning process.}
-\end{frame}
+\begin{frame}{How our network uses those values}
+\begin{center}\Large $784\longrightarrow128\longrightarrow64\longrightarrow10$\end{center}\medskip\begin{itemize}
+\item Each neuron combines incoming values using learned weights and a bias.
+\item The 128- and 64-neuron layers create new combinations, using ReLU.
+\item The ten outputs assign scores to the digits 0 through 9.
+\item There is no hand-written rule saying what a 7 must look like.
+\end{itemize}
+\note{40 seconds. Connect to Part 1: weights change influence, the bias adds an adjustment, and ReLU turns negative intermediate results into zero. Each dense neuron uses all values from the previous layer. Do not claim that individual neurons detect specific strokes: we have not analyzed their representations. He initialization is used in hidden layers and Xavier at the output; keep these names for questions.}\end{frame}
+
+\begin{frame}{Why the answer is 7 in this example}
+\centering\includegraphics[height=.42\textheight]{example_scores_en.png}\par\raggedright\begin{itemize}
+\item Softmax turns the ten scores into values that sum to 100\%.
+\item The largest value belongs to 7, so the network chooses 7.
+\item This is a real prediction from our saved model; high scores can still be wrong.
+\end{itemize}
+\note{40 seconds. Values come from the existing best checkpoint, not a hypothetical distribution. The score for digit 7 is approximately 99.998 percent; the other bars are nonzero but tiny on this scale. Compare the answer with the held-out label only after prediction. This single image does not represent overall accuracy. Inference keeps weights fixed; training compares predictions with known labels and adjusts weights in batches. The next slide explains that repetition.}\end{frame}
 
 \begin{frame}{How practice was repeated}
 \begin{itemize}

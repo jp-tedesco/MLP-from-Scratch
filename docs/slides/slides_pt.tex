@@ -158,15 +158,31 @@
 \note{15 segundos. Anuncie a mudança de parte e seu objetivo.}
 \end{frame}
 
-\begin{frame}{A rede que construímos}
-\begin{center}\Large $784\longrightarrow128\longrightarrow64\longrightarrow10$\end{center}\medskip \begin{itemize}
-\item 784 entradas: um valor de brilho para cada pixel.
-\item Duas camadas intermediárias combinam as informações em etapas.
-\item Dez saídas comparam os possíveis dígitos, usando Softmax.
-\end{itemize}
+\begin{frame}{Acompanhando uma imagem: um 7 escrito à mão}
+\begin{columns}[c]\begin{column}{.30\textwidth}\centering\includegraphics[width=.86\textwidth]{example_digit_7.png}\par\smallskip{\small Imagem real do teste MNIST}\end{column}\begin{column}{.67\textwidth}\begin{itemize}
+\item Nós vemos um 7; a rede recebe valores de brilho.
+\item Preto vira 0, branco vira 1 e cinza fica entre os dois.
+\item Por exemplo, um pixel com valor 84 passa a valer cerca de 0,33.
+\item Organizamos os pixels de 28 por 28 em uma sequência fixa de 784 valores.
+\end{itemize}\end{column}\end{columns}
+\note{40 segundos. Use a primeira imagem do teste oficial, rotulada como 7. Fonte: MNIST de LeCun, Cortes e Burges. O pixel 202 na sequência contada a partir de zero tem brilho original 84, dividido por 255. Preparamos a sequência linha por linha; a rede densa depois combina esses valores, sem ler uma palavra nem varrer a imagem sequencialmente. O rótulo 7 fica separado e não entra na previsão.}\end{frame}
 
-\note{Tempo de fala: 75 segundos. As camadas intermediárias têm 128 e 64 neurônios e usam ReLU. Os pesos começam aleatórios, com escala de He nas camadas escondidas e Xavier na saída; mencione esses nomes apenas se houver perguntas. Construímos os cálculos para entender o aprendizado.}
-\end{frame}
+\begin{frame}{Como nossa rede usa esses valores}
+\begin{center}\Large $784\longrightarrow128\longrightarrow64\longrightarrow10$\end{center}\medskip\begin{itemize}
+\item Cada neurônio combina os valores recebidos usando pesos aprendidos e um viés.
+\item As camadas de 128 e 64 neurônios criam novas combinações, usando ReLU.
+\item As dez saídas atribuem pontuações aos dígitos de 0 a 9.
+\item Não escrevemos uma regra dizendo qual deve ser o formato de um 7.
+\end{itemize}
+\note{40 segundos. Conecte à Parte 1: pesos mudam a influência, o viés acrescenta um ajuste e a ReLU transforma resultados intermediários negativos em zero. Cada neurônio denso usa todos os valores da camada anterior. Não atribua traços específicos a neurônios individuais: não analisamos suas representações. Usamos inicialização de He nas camadas escondidas e Xavier na saída; reserve esses nomes para perguntas.}\end{frame}
+
+\begin{frame}{Por que a resposta é 7 neste exemplo}
+\centering\includegraphics[height=.42\textheight]{example_scores_pt.png}\par\raggedright\begin{itemize}
+\item A Softmax transforma as dez pontuações em valores que somam 100\%.
+\item O maior valor é o do 7; por isso, a rede escolhe 7.
+\item Esta é uma previsão real do modelo salvo; valores altos ainda podem acompanhar erros.
+\end{itemize}
+\note{40 segundos. Os valores vêm do melhor checkpoint existente, não de uma distribuição hipotética. A saída para o dígito 7 é aproximadamente 99,998 por cento; as outras barras são positivas, mas muito pequenas nesta escala. Compare a resposta com o rótulo separado apenas após a previsão. Uma imagem não representa a acurácia geral. Na previsão os pesos ficam fixos; no treinamento comparamos previsões e rótulos conhecidos e ajustamos os pesos em lotes. O próximo slide explica essa repetição.}\end{frame}
 
 \begin{frame}{Como a prática foi repetida}
 \begin{itemize}

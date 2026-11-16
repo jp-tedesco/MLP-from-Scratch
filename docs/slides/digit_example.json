@@ -1,0 +1,25 @@
+{
+  "dataset": "MNIST official test split",
+  "test_index_zero_based": 0,
+  "true_label": 7,
+  "predicted_label": 7,
+  "checkpoint": "results/baseline/best_model.npz",
+  "checkpoint_sha256": "6f1bdd538dde0196afb3828915144721ea5a4b6606c9c8a8d72ad2453b5bfe4d",
+  "softmax_scores": [
+    1.6774488742488103e-10,
+    3.891755184781687e-08,
+    3.7781302353323554e-07,
+    1.527472704765387e-05,
+    1.1277696658484881e-11,
+    2.2699996049535542e-10,
+    6.2425373030527975e-12,
+    0.9999834299087524,
+    6.302579014239029e-10,
+    8.110167755148723e-07
+  ],
+  "normalized_pixel_example": {
+    "zero_based_flat_index": 202,
+    "original_value": 84,
+    "normalized_value": 0.3294117748737335
+  }
+}
