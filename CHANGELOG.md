@@ -2,6 +2,9 @@
 
 ## Presentation update - 2026-11-16
 
+- We rebuilt the presentation narrative around understanding connections, activations, predictions, and learning, with the project motivation on the first slide and explicit transition slides for the three parts.
+- We removed project code excerpts and filenames from all decks. Academic programming concepts are explained through their roles in the workflow, while the main and academic talks retain a 30-minute pacing plan.
+
 - We simplified all three presentation parts for first-year statistics students, replacing advanced notation with examples and plain-language explanations while retaining the 30-minute pacing guide.
 - Local academic files now live in the ignored `docs/slides/academic-local/` subdirectory; public sources and PDFs remain author-free.
 

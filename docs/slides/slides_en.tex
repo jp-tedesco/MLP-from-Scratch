@@ -20,236 +20,224 @@
 \author{}
 \date{16 November 2026}
 \begin{document}
-\begin{frame}\titlepage\note{30 seconds. Explain that the talk has three parts: the basic idea, the dataset, and what we built. No prior machine learning background is needed.}\end{frame}
-\section{Part 1: Understanding Neural Networks}
-\begin{frame}{Learning from examples}
+\begin{frame}{Why we built this project}
+{\Large\inserttitle}\par\medskip\begin{block}{Our motivation}We wanted to understand how neural networks learn by building the calculations ourselves and connecting classroom concepts to a visible result.\end{block}\begin{itemize}
+\item Learn what turns examples into predictions.
+\item Apply that understanding to handwritten-digit recognition.
+\end{itemize}
+\medskip{\small\insertauthor\par\insertdate}
+\note{45 seconds. Start with the learning goal, not the accuracy score. Explain that we chose an accessible problem to observe the entire process. Introduce the team only in the academic version.}
+\end{frame}
+
+\section{Part 1: How a Neural Network Works}
+\begin{frame}{Part 1}
+\begin{center}\vspace{.35cm}{\Huge Understanding the basic idea}\par\vspace{.6cm}{\large What happens between information coming in and an answer coming out?}\end{center}
+\note{15 seconds. Announce the change of part and its purpose.}
+\end{frame}
+
+\begin{frame}{What is a neural network?}
 \begin{itemize}
-\item A neural network is a mathematical model that finds patterns in data.
-\item It receives information and produces a prediction.
-\item In supervised learning, examples include the answer we want it to learn.
+\item A model that combines information to produce a prediction.
+\item Its connections can be adjusted using examples with known answers.
+\item Learning means improving those connections, rather than writing a separate rule for every case.
 \end{itemize}
 
-\note{Suggested speaking time: 75 seconds. Use a general example: classify fruit using measurements such as color and size. Ask which measurements might help distinguish an apple from a pear. Explain that people supply the examples, while the model adjusts its numerical settings.}
+\note{Speaking time: 80 seconds. Ask what it means to learn from examples. A prediction can be a category, such as which kind of object was observed. Explain that learning is a process of adjusting numerical relationships, without suggesting human understanding.}
 \end{frame}
 
-\begin{frame}{Why call it a neuron?}
+\begin{frame}{Connections decide what matters more}
 \begin{itemize}
-\item The name is inspired by how biological neurons receive and pass on signals.
-\item An artificial neuron receives numbers, combines them, and passes on a result.
-\item It is a simple analogy: this model does not reproduce how a brain works.
+\item An artificial neuron receives information, combines it, and passes a result onward.
+\item Weights control how strongly each input contributes.
+\item A bias adds an extra adjustment to that combination.
 \end{itemize}
 
-\note{Suggested speaking time: 60 seconds. Describe three actions: receive, combine, pass on. Avoid anatomical detail or claims that the network thinks like a person.}
+\note{Speaking time: 90 seconds. The neuron name is inspired by biology, but this is a numerical model. Explain influence rather than a weighted-sum formula. Learning changes the influence of connections; a larger weight does not universally mean a better model.}
 \end{frame}
 
-\begin{frame}{Weights: giving different influence to inputs}
-\begin{exampleblock}{Illustrative weighted score}\[2\times0.2+1\times0.6+0.1=1.1\]\end{exampleblock}\begin{itemize}
-\item A weight controls how much an input contributes to the result.
-\item A bias is an extra adjustment added to that combination.
-\item The model changes these values during learning.
+\begin{frame}{Layers build the answer in stages}
+\begin{center}\Large Information $\rightarrow$ Layers $\rightarrow$ Answer\end{center}\medskip \begin{itemize}
+\item A layer is a group of artificial neurons working at the same stage.
+\item The output of one layer becomes the input of the next.
+\item The forward pass follows this path until it produces a prediction.
 \end{itemize}
 
-\note{Suggested speaking time: 75 seconds. Relate weights to a weighted score, but explain that weights need not add to one and can be negative. Walk through the illustrative arithmetic. It is not a probability or a real fitted model.}
+\note{Speaking time: 70 seconds. Read the diagram from left to right. Hidden means between input and output. Explain that the intermediate stages learn combinations of information; do not assign an exact human-interpretable feature to each neuron.}
 \end{frame}
 
-\begin{frame}{Layers: combining information in stages}
-\begin{center}\Large Inputs $\rightarrow$ Layers $\rightarrow$ Prediction\end{center}\medskip \begin{itemize}
-\item Several artificial neurons form a layer.
-\item Each layer uses the results of the previous layer.
-\item This sequence of calculations is called the forward pass.
-\end{itemize}
-
-\note{Suggested speaking time: 80 seconds. Use the diagram as a verbal route. A hidden layer is simply a stage between the input and output, not something mysterious or conscious.}
-\end{frame}
-
-\begin{frame}{ReLU: a simple rule inside a layer}
-\begin{center}\Large $-3\mapsto0\qquad0\mapsto0\qquad4\mapsto4$\end{center}\medskip \begin{itemize}
-\item An activation function transforms a neuron's numerical result.
-\item ReLU keeps positive values and replaces negative values with zero.
-\item Using such rules lets a network represent more complex patterns.
-\end{itemize}
-
-\note{Suggested speaking time: 65 seconds. Read each example aloud and ask what ReLU would do to zero. No derivative or matrix explanation is needed. The point is that a network applies simple operations repeatedly.}
-\end{frame}
-
-\begin{frame}{Softmax: comparing possible answers}
-\begin{exampleblock}{Example output}\centering A: 65\%\qquad B: 25\%\qquad C: 10\%\end{exampleblock}\begin{itemize}
-\item The final layer produces a score for each possible class.
-\item Softmax converts those scores into values that sum to 100\%.
-\item The predicted class is the one with the largest value.
-\end{itemize}
-
-\note{Suggested speaking time: 80 seconds. Use three generic classes A, B and C, not digit examples yet. Ask which class wins. Emphasize that these are model scores: a high score can still be wrong.}
-\end{frame}
-
-\begin{frame}{Measuring how wrong a prediction is}
+\begin{frame}{Activation functions give layers flexibility}
 \begin{itemize}
-\item We compare the prediction with the known answer.
-\item The loss is a number that describes the mismatch; lower is better.
-\item Cross-entropy gives a larger penalty when the correct class receives a very low score.
+\item An activation function transforms a neuron's result before it moves onward.
+\item That transformation helps layers represent more complex relationships.
+\item ReLU is one such rule: negative results become zero; positive results keep their value.
 \end{itemize}
 
-\note{Suggested speaking time: 70 seconds. Contrast accuracy and loss using two correct predictions that give the correct class 90 percent and 60 percent. Both count as correct, but their losses differ. No logarithms are needed.}
+\note{Speaking time: 95 seconds. Explain the purpose before the rule. Without nonlinear activations between affine layers, adding layers would still produce one affine transformation. Say this as a limitation on flexibility, without equations or derivatives. Check that the audience distinguishes a learned weight from a fixed activation rule.}
 \end{frame}
 
-\begin{frame}{Using mistakes to improve the model}
+\begin{frame}{The final layer compares possible answers}
 \begin{itemize}
-\item Backpropagation calculates how changes to each connection would affect the loss.
-\item Gradient descent uses that information to make small adjustments.
-\item The learning rate controls the size of those adjustments.
+\item Each possible answer receives a score.
+\item Softmax organizes those scores into values that sum to 100\%.
+\item The model chooses the answer with the highest value; it can still be wrong.
 \end{itemize}
 
-\note{Suggested speaking time: 90 seconds. Use the analogy of adjusting a recipe after tasting it: observe the result, identify which changes may help, then make a small adjustment. Clarify that the computer uses calculations, not understanding or taste. Very large adjustments can make the result worse.}
+\note{Speaking time: 65 seconds. Connect this to the activation slide: ReLU transforms intermediate results, while Softmax organizes final class scores. Explain that a class is a possible answer. A large score expresses the model output, not a guarantee of correctness.}
 \end{frame}
 
-\begin{frame}{The learning cycle}
+\begin{frame}{Learning repeats three steps}
 \begin{itemize}
-\item 1. Show examples and calculate predictions.
-\item 2. Measure the loss and calculate useful adjustments.
-\item 3. Change the weights slightly and repeat with more examples.
+\item Measure: compare the prediction with the known answer using a loss.
+\item Trace: backpropagation calculates how changes to connections would affect that loss.
+\item Adjust: an optimizer makes small changes to the weights, then the process repeats.
 \end{itemize}
 
-\note{Suggested speaking time: 80 seconds. Ask the audience to explain the cycle in their own words. Emphasize that the aim is to work on new examples, not only on the examples used for practice. Now introduce the dataset.}
+\note{Speaking time: 110 seconds. Explain loss as a penalty, with lower values preferred. Cross-entropy penalizes assigning very little support to the correct answer. Backpropagation supplies the information for adjustments; gradient descent performs them. No derivative calculation is needed. Ask the audience which step needs known answers before moving on.}
 \end{frame}
 
-\section{Part 2: The MNIST Dataset}
-\begin{frame}{Our task: recognize a handwritten digit}
+\section{Part 2: The Images We Used}
+\begin{frame}{Part 2}
+\begin{center}\vspace{.35cm}{\Huge Meet the images}\par\vspace{.6cm}{\large Now we need examples with answers so the network can practice.}\end{center}
+\note{15 seconds. Announce the change of part and its purpose.}
+\end{frame}
+
+\begin{frame}{The task: recognize one handwritten digit}
 \centering\includegraphics[width=\textwidth]{mnist.png}\par\raggedright \begin{itemize}
-\item MNIST is a collection of small handwritten-digit images.
-\item Each image has a label: the correct digit, from 0 to 9.
-\item We use the images and labels to teach and evaluate the model.
+\item MNIST contains small grayscale images labeled from 0 to 9.
+\item The label tells us the correct answer for each image.
+\item Different people write the same digit in different ways.
 \end{itemize}
 
-\note{Suggested speaking time: 50 seconds. Point to two drawings that look different despite representing the same digit. Explain that variation in handwriting makes the task interesting. Attribute the dataset to LeCun, Cortes and Burges.}
+\note{Speaking time: 60 seconds. Point to a drawing and ask whether it would be easy to confuse with another digit. Describe the variation the model must handle. Attribute the dataset to LeCun, Cortes and Burges.}
 \end{frame}
 
-\begin{frame}{How an image becomes numbers}
-\begin{center}\Large $28\times28=784$\end{center}\begin{itemize}
-\item Each image has 28 rows and 28 columns: 784 pixels.
-\item A pixel is a brightness measurement, not a complete drawing.
-\item We read the pixels in a fixed order and divide by 255 to obtain values between 0 and 1.
+\begin{frame}{The network receives brightness values}
+\begin{itemize}
+\item Each image is a 28-by-28 grid: 784 pixels.
+\item We turn that grid into a fixed sequence of 784 numbers.
+\item We rescale brightness between 0 and 1 so all images use the same scale.
 \end{itemize}
 
-\note{Suggested speaking time: 60 seconds. Explain black as zero, white as one, and gray as an intermediate value. Flattening changes the arrangement of values, not their content. The order must stay consistent.}
+\note{Speaking time: 85 seconds. A pixel is one brightness measurement. Black becomes zero, white becomes one, and gray lies between. We divide original values by 255. Reading rows in a fixed order preserves which position each value represents. No matrix notation is required.}
 \end{frame}
 
-\begin{frame}{Do we have examples of every digit?}
-\centering\includegraphics[width=.91\textwidth]{classes_en.png}\par\raggedright \begin{itemize}
+\begin{frame}{Every digit has a place in the data}
+\centering\includegraphics[width=.9\textwidth]{classes_en.png}\par\raggedright \begin{itemize}
 \item Each digit represents roughly one tenth of the images.
-\item The groups have slightly different sizes; they are not perfectly equal.
-\item Keeping similar proportions helps us compare the data groups.
+\item The proportions are similar, but not exactly equal.
+\item This helps us check that a good overall result is not just about one common digit.
 \end{itemize}
 
-\note{Suggested speaking time: 60 seconds. Read the chart as percentages, not counts. Ask whether any class dominates. Explain that a class is just a possible answer: here, one of the ten digits.}
+\note{Speaking time: 45 seconds. Read these as percentages, not counts. Explain that training, validation and test have different numbers of images but comparable class proportions. Exact counts remain in the experiment files.}
 \end{frame}
 
-\begin{frame}{Practice, choose, then evaluate}
-\begin{center}\begin{tabular}{lrl}\toprule Group & Images & Role\\\midrule Training & 50,000 & Practice and adjust weights\\ Validation & 10,000 & Choose a model during development\\ Test & 10,000 & Evaluate after that choice\\\bottomrule\end{tabular}\end{center}\begin{itemize}
-\item We separate data so that practice examples do not become the final test.
-\item The official test images are kept separate throughout model selection.
+\begin{frame}{Practice is different from the final test}
+\begin{center}\begin{tabular}{lrl}\toprule Group & Images & Purpose\\\midrule Training & 50,000 & Practice and adjust\\ Validation & 10,000 & Choose during development\\ Test & 10,000 & Evaluate after the choice\\\bottomrule\end{tabular}\end{center}\begin{itemize}
+\item We reserve different images for different roles.
+\item The final test does not guide which model we choose.
 \end{itemize}
 
-\note{Suggested speaking time: 70 seconds. Compare training with exercises, validation with a practice exam, and test with a final exam. The analogy explains the different roles, not an identical educational process. We split the original 60,000 training images into 50,000 and 10,000.}
+\note{Speaking time: 95 seconds. Use the exercise, practice-exam and final-exam analogy. Why would evaluating on the same exercises be misleading? Clarify that the official 60,000-image training pool became 50,000 training and 10,000 validation images; the official test was kept separate.}
 \end{frame}
 
-\section{Part 3: What We Built and Learned}
-\begin{frame}{Our network at a glance}
-\begin{center}\Large $784\longrightarrow128\longrightarrow64\longrightarrow10$\end{center}\begin{itemize}
-\item 784 input values: one number for each pixel.
-\item Two intermediate layers, with 128 and 64 neurons, combine the information.
-\item Ten outputs: one score for each possible digit.
+\section{Part 3: How Our Network Learned}
+\begin{frame}{Part 3}
+\begin{center}\vspace{.35cm}{\Huge Watch the learning process}\par\vspace{.6cm}{\large Connect the basic idea to the network we built and its results.}\end{center}
+\note{15 seconds. Announce the change of part and its purpose.}
+\end{frame}
+
+\begin{frame}{The network we built}
+\begin{center}\Large $784\longrightarrow128\longrightarrow64\longrightarrow10$\end{center}\medskip \begin{itemize}
+\item 784 inputs: one brightness value for each pixel.
+\item Two intermediate layers combine that information in stages.
+\item Ten outputs compare the possible digits, using Softmax.
 \end{itemize}
 
-\note{Suggested speaking time: 75 seconds. Read the diagram left to right. ReLU is used in the intermediate layers and Softmax produces final scores. Initial weights are random, using He scaling in hidden layers and Xavier in the output; there is no need to derive either formula for this audience.}
+\note{Speaking time: 75 seconds. The intermediate layers have 128 and 64 neurons and use ReLU. Initial weights are random, with He scaling in hidden layers and Xavier in the output; mention those names only if asked. We built the calculations ourselves to understand the learning process.}
 \end{frame}
 
-\begin{frame}{Why we wrote the calculations ourselves}
+\begin{frame}{How practice was repeated}
 \begin{itemize}
-\item We wanted to understand each step, rather than only run a ready-made training command.
-\item Python organizes the program; NumPy performs calculations on groups of numbers.
-\item We separated data preparation, the network, training, and evaluation into modules.
+\item We showed 64 images at a time, then made small weight adjustments.
+\item A complete pass through the training images is called an epoch.
+\item The model completed 20 epochs, with a different image order each time.
 \end{itemize}
 
-\note{Suggested speaking time: 45 seconds. Explain a module as a file with a clear job. If useful, point to mnist.py for data, network.py for predictions and trainer.py for practice. Avoid listing every method.}
+\note{Speaking time: 100 seconds. Connect each group to the measure, trace and adjust cycle. The update method is mini-batch SGD, with learning rate 0.1. Explain the name only after the process: it updates from small groups instead of waiting for every image. Initial errors are expected because weights start without training.}
 \end{frame}
 
-\begin{frame}{Learning a little at a time}
+\begin{frame}{We selected a saved version during validation}
 \begin{itemize}
-\item The model processes groups of 64 images and then adjusts its weights.
-\item This small-group update method is called mini-batch SGD.
-\item One epoch is a complete pass through the training images; we ran 20 epochs.
+\item After each epoch, we checked performance on separate validation images.
+\item We kept the version with the lowest validation loss.
+\item That version came from epoch 13 and was then evaluated on the test.
 \end{itemize}
 
-\note{Suggested speaking time: 90 seconds. Use a practice analogy: review a small group of exercises, make corrections, then continue. Explain the learning rate as the size of each adjustment; this run used 0.1. No gradient notation is needed.}
+\note{Speaking time: 65 seconds. Explain a saved version as a snapshot of the learned connections. All 20 epochs ran; using epoch 13 does not mean early stopping. Ask why the last version need not be best on new data.}
 \end{frame}
 
-\begin{frame}{How we chose the model}
-\begin{itemize}
-\item After each epoch, we measured results on training and validation data.
-\item We saved the model with the lowest validation loss.
-\item The selected model came from epoch 13; the final test was evaluated after selection.
-\end{itemize}
-
-\note{Suggested speaking time: 60 seconds. Explain a checkpoint as a saved version of the weights. Training still completed all 20 epochs, but the saved version used for testing came from epoch 13. Selection used validation, not test.}
-\end{frame}
-
-\begin{frame}{Did the model improve during practice?}
+\begin{frame}{What the learning curves tell us}
 \centering\includegraphics[width=.94\textwidth]{curves_en.png}\par\raggedright \begin{itemize}
-\item On the left, lower loss is better; on the right, higher accuracy is better.
-\item The model improves, but results fluctuate along the way.
-\item Doing better on practice examples does not always mean doing better on new examples.
+\item Loss on the left: lower is better. Accuracy on the right: higher is better.
+\item Improvement is not perfectly smooth.
+\item Training results and validation results must be read together.
 \end{itemize}
 
-\note{Suggested speaking time: 80 seconds. Read the axes before discussing trends. Point to one curve at a time. Ask why we should look at validation as well as training. Use the gap to introduce overfitting as learning the practice data too specifically.}
+\note{Speaking time: 100 seconds. Identify the axes and colors before any interpretation. Point to one temporary spike and then the later gap. The gap suggests that success on practice examples does not fully transfer to other images. This is an intuitive introduction to overfitting, not proof of a specific cause for every fluctuation.}
 \end{frame}
 
-\begin{frame}{Our main result}
-\begin{center}\begin{tabular}{lr}\toprule Official test result & Value\\\midrule Images evaluated & 10,000\\ Correct predictions & 9,790\\ Incorrect predictions & 210\\ Accuracy & 97.90\%\\ Macro F1 & 97.88\%\\\bottomrule\end{tabular}\end{center}\begin{itemize}
-\item Accuracy is the proportion of correct predictions.
-\item About 98 out of every 100 test images were classified correctly.
+\begin{frame}{About 98 correct answers in every 100 images}
+\begin{center}\begin{tabular}{lr}\toprule Official test & Result\\\midrule Images evaluated & 10,000\\ Correct answers & 9,790\\ Mistakes & 210\\ Accuracy & 97.90\%\\\bottomrule\end{tabular}\end{center}\begin{itemize}
+\item Accuracy is the fraction of predictions that match the known answer.
+\item These results belong to this experiment and this test set.
 \end{itemize}
 
-\note{Suggested speaking time: 65 seconds. Explain 9,790 divided by 10,000 before using the percentage. Macro F1 summarizes performance across digits while balancing precision and recall; keep this as a secondary indicator, not a formula exercise.}
+\note{Speaking time: 70 seconds. Relate 9,790 out of 10,000 to the percentage. Avoid implying that every set of one hundred images has exactly 98 correct predictions. Other recorded metrics are available if someone asks, but the main point is the count of successes and remaining errors.}
 \end{frame}
 
-\begin{frame}{Which digits were confused?}
-\centering\includegraphics[height=.54\textheight]{confusion_en.png}\par\raggedright \begin{itemize}
-\item Rows show the correct digit; columns show the predicted digit.
-\item Counts on the main diagonal are correct answers.
-\item The most common directed mistake was 5 predicted as 3: 14 cases.
+\begin{frame}{Where the mistakes occurred}
+\centering\includegraphics[height=.53\textheight]{confusion_en.png}\par\raggedright \begin{itemize}
+\item Rows identify the correct digit; columns show the chosen digit.
+\item The diagonal contains correct answers.
+\item The most frequent directed mistake was 5 mistaken for 3, in 14 images.
 \end{itemize}
 
-\note{Suggested speaking time: 55 seconds. Show one correct cell and one incorrect cell. A confusion matrix breaks down the overall accuracy, showing where errors occur. Do not read every number.}
+\note{Speaking time: 75 seconds. Walk through a correct cell, then row five and column three. The matrix tells a more useful story than a single overall percentage: it identifies which answers were confused. There is no need to read every number.}
 \end{frame}
 
-\begin{frame}{Another check: separating one digit from the others}
-\centering\includegraphics[height=.49\textheight]{roc_en.png}\par\raggedright \begin{itemize}
-\item ROC shows the trade-off between detecting a digit and incorrectly accepting other digits.
-\item AUC summarizes this separation: 0.5 is chance ranking and 1 is perfect ranking.
-\item Our average AUC was about 0.9996; this is not a 99.96\% accuracy rate.
+\begin{frame}{Would these examples also be hard for us?}
+\centering\includegraphics[width=.87\textwidth,height=.49\textheight,keepaspectratio]{errors_en.png}\par\raggedright \begin{itemize}
+\item These are the first ten test mistakes, not a selection of the easiest images.
+\item Some handwriting is ambiguous; some mistakes reveal model limitations.
+\item Even a very high output score can accompany a wrong answer.
 \end{itemize}
 
-\note{Suggested speaking time: 65 seconds. Use digit 7 as an example and explain the axes as percentages of true sevens found and other digits accepted by mistake as sevens. We vary a score threshold. Focus on the intuition; averaging details and numerical integration are unnecessary.}
+\note{Speaking time: 70 seconds. Pause for an audience response before interpreting. Ask which drawing is hardest to read. Ambiguity is not an explanation for every model error. Scores belong to the model, so confidence cannot replace checking actual correctness.}
 \end{frame}
 
-\begin{frame}{The model can still make mistakes}
-\centering\includegraphics[width=.86\textwidth,height=.49\textheight,keepaspectratio]{errors_en.png}\par\raggedright \begin{itemize}
-\item These are the first ten mistakes in the test data.
-\item Some handwriting is ambiguous; other errors are limitations of the model.
-\item A high score does not guarantee a correct answer.
+\begin{frame}{Another view of how well the scores separate classes}
+\centering\includegraphics[height=.48\textheight]{roc_en.png}\par\raggedright \begin{itemize}
+\item ROC checks how a score separates one digit from all the others.
+\item AUC summarizes that separation; our mean value was about 0.9996.
+\item This is a ranking measure, not the percentage of correct final answers.
 \end{itemize}
 
-\note{Suggested speaking time: 45 seconds. Ask the audience which example is hardest to read. Explain the displayed score as support assigned by this model to its chosen class, not certainty about the answer.}
+\note{Speaking time: 65 seconds. Keep this as a secondary result. For one digit, varying the accepted score trades finding more real examples against accepting more wrong ones. A random ranking has AUC 0.5 and a perfect ranking 1. The recorded 210 errors still exist even though AUC is high.}
 \end{frame}
 
-\begin{frame}{What we learned and what remains to explore}
+\begin{frame}{What this project helped us understand}
 \begin{itemize}
-\item A network learns by repeating simple calculations and small adjustments.
-\item Our recorded experiment achieved 97.90\% accuracy on the official test.
-\item One successful run does not guarantee the same performance on every dataset or photograph.
+\item Learning changes how connections combine information, using errors as feedback.
+\item Separate data makes evaluation more informative.
+\item A useful result still has limits: this is one run, not a guarantee for every photograph or handwriting style.
 \end{itemize}
 
-\note{Suggested speaking time: 85 seconds. Mention that the implementation has 24 tests covering calculations and saved models. Future work would compare repeated runs and new handwriting conditions. Ask the audience to describe the learning cycle and reserve about three minutes for questions in the main talk.}
+\note{Speaking time: 90 seconds. Return to the first-slide motivation. We connected concepts to observed predictions and errors. There are 24 implementation tests, but testing the calculations does not guarantee performance in every setting. Further work could repeat training and evaluate new writing conditions.}
+\end{frame}
+
+\begin{frame}{Questions and discussion}
+\begin{center}\Large What changes during learning?\par\vspace{.5cm}Why evaluate on different examples?\end{center}
+\note{205 seconds in the main presentation; 85 in the academic variant. Use these prompts only if the audience has no questions. Let people explain in everyday language, then connect their answers to connections, errors and separate test data.}
 \end{frame}
 
 \end{document}

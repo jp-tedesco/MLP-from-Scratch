@@ -20,236 +20,224 @@
 \author{}
 \date{16 de novembro de 2026}
 \begin{document}
-\begin{frame}\titlepage\note{30 segundos. Explique as três partes: a ideia básica, os dados e o que construímos. Não é necessário conhecer machine learning.}\end{frame}
-\section{Parte 1: Entendendo redes neurais}
-\begin{frame}{Aprender com exemplos}
+\begin{frame}{Por que fizemos este projeto}
+{\Large\inserttitle}\par\medskip\begin{block}{Nossa motivação}Queríamos entender como redes neurais aprendem, construindo os cálculos do zero e ligando conceitos da faculdade a um resultado que pudéssemos observar.\end{block}\begin{itemize}
+\item Aprender o que transforma exemplos em previsões.
+\item Aplicar esse entendimento ao reconhecimento de dígitos escritos à mão.
+\end{itemize}
+\medskip{\small\insertauthor\par\insertdate}
+\note{45 segundos. Comece pelo objetivo de aprender, e não pela taxa de acerto. Escolhemos um problema acessível para observar o processo completo. Apresente a equipe apenas na versão acadêmica.}
+\end{frame}
+
+\section{Parte 1: Como uma rede neural funciona}
+\begin{frame}{Parte 1}
+\begin{center}\vspace{.35cm}{\Huge Entender a ideia básica}\par\vspace{.6cm}{\large O que acontece entre receber informações e dar uma resposta?}\end{center}
+\note{15 segundos. Anuncie a mudança de parte e seu objetivo.}
+\end{frame}
+
+\begin{frame}{O que é uma rede neural?}
 \begin{itemize}
-\item Uma rede neural é um modelo matemático que encontra padrões nos dados.
-\item Ela recebe informações e produz uma previsão.
-\item No aprendizado supervisionado, os exemplos vêm com a resposta que queremos que ela aprenda.
+\item Um modelo que combina informações para produzir uma previsão.
+\item Suas conexões podem ser ajustadas usando exemplos com respostas conhecidas.
+\item Aprender significa melhorar essas conexões, em vez de escrever uma regra para cada caso.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 75 segundos. Use um exemplo geral: classificar frutas com medidas como cor e tamanho. Pergunte quais características ajudariam a diferenciar uma maçã de uma pera. Explique que as pessoas fornecem exemplos e o modelo ajusta números.}
+\note{Tempo de fala: 80 segundos. Pergunte o que significa aprender com exemplos. Uma previsão pode ser uma categoria, como o tipo de objeto observado. Explique que aprender aqui é ajustar relações numéricas, sem sugerir compreensão humana.}
 \end{frame}
 
-\begin{frame}{Por que chamar de neurônio?}
+\begin{frame}{As conexões definem o que pesa mais}
 \begin{itemize}
-\item O nome vem da inspiração em neurônios biológicos, que recebem e transmitem sinais.
-\item Um neurônio artificial recebe números, combina esses valores e passa um resultado adiante.
-\item É uma analogia simples: o modelo não reproduz o funcionamento de um cérebro.
+\item Um neurônio artificial recebe informações, combina os valores e transmite um resultado.
+\item Os pesos controlam a influência de cada entrada.
+\item O viés acrescenta um ajuste a essa combinação.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 60 segundos. Descreva três ações: receber, combinar e transmitir. Evite detalhes de anatomia e a ideia de que a rede pensa como uma pessoa.}
+\note{Tempo de fala: 90 segundos. O nome neurônio se inspira na biologia, mas este é um modelo numérico. Explique influência, sem apresentar a fórmula da soma ponderada. O aprendizado muda a influência das conexões; um peso maior não significa sempre um modelo melhor.}
 \end{frame}
 
-\begin{frame}{Pesos: dar influências diferentes às entradas}
-\begin{exampleblock}{Pontuação ponderada ilustrativa}\[2\times0.2+1\times0.6+0.1=1.1\]\end{exampleblock}\begin{itemize}
-\item Um peso controla quanto uma entrada contribui para o resultado.
-\item O viés é um ajuste extra somado a essa combinação.
-\item O modelo modifica esses valores durante o aprendizado.
+\begin{frame}{As camadas constroem a resposta em etapas}
+\begin{center}\Large Informações $\rightarrow$ Camadas $\rightarrow$ Resposta\end{center}\medskip \begin{itemize}
+\item Uma camada reúne neurônios artificiais na mesma etapa.
+\item O resultado de uma camada serve de entrada para a seguinte.
+\item A propagação direta percorre esse caminho até produzir uma previsão.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 75 segundos. Relacione os pesos a uma pontuação ponderada, mas explique que eles não precisam somar um e podem ser negativos. Faça a conta ilustrativa. Ela não é uma probabilidade nem um modelo ajustado em dados reais.}
+\note{Tempo de fala: 70 segundos. Leia o esquema da esquerda para a direita. Escondida significa entre a entrada e a saída. Explique que as etapas intermediárias aprendem combinações de informações, sem atribuir uma característica humana exata a cada neurônio.}
 \end{frame}
 
-\begin{frame}{Camadas: combinar informações em etapas}
-\begin{center}\Large Entradas $\rightarrow$ Camadas $\rightarrow$ Previsão\end{center}\medskip \begin{itemize}
-\item Vários neurônios artificiais formam uma camada.
-\item Cada camada usa os resultados produzidos pela anterior.
-\item Essa sequência de cálculos é chamada de propagação direta.
-\end{itemize}
-
-\note{Tempo sugerido de fala: 80 segundos. Use o esquema como um caminho de leitura. Uma camada escondida é apenas uma etapa entre a entrada e a saída, sem nada misterioso ou consciente.}
-\end{frame}
-
-\begin{frame}{ReLU: uma regra simples dentro da camada}
-\begin{center}\Large $-3\mapsto0\qquad0\mapsto0\qquad4\mapsto4$\end{center}\medskip \begin{itemize}
-\item Uma função de ativação transforma o resultado numérico de um neurônio.
-\item A ReLU mantém os valores positivos e troca os negativos por zero.
-\item Regras desse tipo permitem que a rede represente padrões mais complexos.
-\end{itemize}
-
-\note{Tempo sugerido de fala: 65 segundos. Leia os exemplos e pergunte o que a ReLU faria com zero. Não é necessário explicar derivadas ou matrizes. A ideia é mostrar que a rede repete operações simples.}
-\end{frame}
-
-\begin{frame}{Softmax: comparar respostas possíveis}
-\begin{exampleblock}{Exemplo de saída}\centering A: 65\%\qquad B: 25\%\qquad C: 10\%\end{exampleblock}\begin{itemize}
-\item A última camada produz uma pontuação para cada classe possível.
-\item A Softmax transforma essas pontuações em valores que somam 100\%.
-\item A previsão é a classe com o maior valor.
-\end{itemize}
-
-\note{Tempo sugerido de fala: 80 segundos. Use três classes genéricas A, B e C, sem introduzir dígitos ainda. Pergunte qual classe vence. Reforce que são escores do modelo: um valor alto ainda pode acompanhar um erro.}
-\end{frame}
-
-\begin{frame}{Medir o quanto uma previsão errou}
+\begin{frame}{As funções de ativação dão flexibilidade às camadas}
 \begin{itemize}
-\item Comparamos a previsão com a resposta conhecida.
-\item A perda é um número que descreve essa diferença; quanto menor, melhor.
-\item A entropia cruzada penaliza mais quando a classe correta recebe uma pontuação muito baixa.
+\item Uma função de ativação transforma o resultado do neurônio antes de ele seguir adiante.
+\item Essa transformação ajuda as camadas a representar relações mais complexas.
+\item A ReLU é uma dessas regras: resultados negativos viram zero; os positivos mantêm seu valor.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 70 segundos. Compare acurácia e perda com duas previsões corretas que dão 90 por cento e 60 por cento à classe correta. Ambas contam como acerto, mas têm perdas diferentes. Não é necessário apresentar logaritmos.}
+\note{Tempo de fala: 95 segundos. Explique o objetivo antes da regra. Sem ativações não lineares entre camadas afins, acrescentar camadas ainda produziria uma única transformação afim. Traduza isso como uma limitação de flexibilidade, sem equações ou derivadas. Confira se o público distingue um peso aprendido de uma regra de ativação fixa.}
 \end{frame}
 
-\begin{frame}{Usar os erros para melhorar o modelo}
+\begin{frame}{A última camada compara as respostas possíveis}
 \begin{itemize}
-\item A retropropagação calcula como mudanças em cada conexão afetariam a perda.
-\item A descida do gradiente usa essa informação para fazer pequenos ajustes.
-\item A taxa de aprendizado controla o tamanho desses ajustes.
+\item Cada resposta possível recebe uma pontuação.
+\item A Softmax organiza essas pontuações em valores que somam 100\%.
+\item O modelo escolhe a resposta com o maior valor; ainda assim, pode errar.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 90 segundos. Use a analogia de ajustar uma receita depois de prová-la: observar o resultado, identificar mudanças que podem ajudar e fazer um pequeno ajuste. Esclareça que o computador usa cálculos, sem compreender ou sentir gosto. Ajustes muito grandes podem piorar o resultado.}
+\note{Tempo de fala: 65 segundos. Conecte ao slide anterior: a ReLU transforma resultados intermediários, enquanto a Softmax organiza os escores finais das classes. Classe significa uma resposta possível. Um valor alto é uma saída do modelo, não uma garantia de acerto.}
 \end{frame}
 
-\begin{frame}{O ciclo de aprendizado}
+\begin{frame}{O aprendizado repete três passos}
 \begin{itemize}
-\item 1. Mostrar exemplos e calcular previsões.
-\item 2. Medir a perda e calcular ajustes que podem ajudar.
-\item 3. Alterar um pouco os pesos e repetir com mais exemplos.
+\item Medir: comparar a previsão com a resposta conhecida por meio de uma perda.
+\item Rastrear: a retropropagação calcula como mudanças nas conexões afetariam essa perda.
+\item Ajustar: um otimizador altera um pouco os pesos e o processo se repete.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 80 segundos. Peça ao público que explique o ciclo com suas palavras. O objetivo é funcionar em novos exemplos, e não apenas nos usados para praticar. Só depois introduza o dataset.}
+\note{Tempo de fala: 110 segundos. Explique a perda como uma penalidade: menor é melhor. A entropia cruzada penaliza atribuir pouco apoio à resposta correta. A retropropagação fornece informações para o ajuste; a descida do gradiente realiza o ajuste. Não é necessário calcular derivadas. Pergunte qual etapa precisa conhecer as respostas antes de avançar.}
 \end{frame}
 
-\section{Parte 2: Os dados do MNIST}
-\begin{frame}{Nossa tarefa: reconhecer um dígito escrito à mão}
+\section{Parte 2: As imagens que utilizamos}
+\begin{frame}{Parte 2}
+\begin{center}\vspace{.35cm}{\Huge Conhecer as imagens}\par\vspace{.6cm}{\large Agora precisamos de exemplos com respostas para a rede praticar.}\end{center}
+\note{15 segundos. Anuncie a mudança de parte e seu objetivo.}
+\end{frame}
+
+\begin{frame}{A tarefa: reconhecer um dígito escrito à mão}
 \centering\includegraphics[width=\textwidth]{mnist.png}\par\raggedright \begin{itemize}
-\item MNIST é uma coleção de pequenas imagens de dígitos escritos à mão.
-\item Cada imagem tem um rótulo: o dígito correto, de 0 a 9.
-\item Usamos as imagens e os rótulos para ensinar e avaliar o modelo.
+\item O MNIST contém pequenas imagens em tons de cinza, rotuladas de 0 a 9.
+\item O rótulo informa a resposta correta de cada imagem.
+\item Pessoas diferentes escrevem o mesmo dígito de formas diferentes.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 50 segundos. Mostre dois desenhos diferentes que representam o mesmo dígito. Explique que a variação da escrita torna a tarefa interessante. Atribua o dataset a LeCun, Cortes e Burges.}
+\note{Tempo de fala: 60 segundos. Mostre um desenho e pergunte se seria fácil confundi-lo com outro dígito. Descreva a variação com que o modelo precisa lidar. Atribua o dataset a LeCun, Cortes e Burges.}
 \end{frame}
 
-\begin{frame}{Como uma imagem vira números}
-\begin{center}\Large $28\times28=784$\end{center}\begin{itemize}
-\item Cada imagem tem 28 linhas e 28 colunas: 784 pixels.
-\item Um pixel é uma medida de brilho, não um desenho completo.
-\item Lemos os pixels em uma ordem fixa e dividimos por 255 para obter valores entre 0 e 1.
+\begin{frame}{A rede recebe valores de brilho}
+\begin{itemize}
+\item Cada imagem é uma grade de 28 por 28: são 784 pixels.
+\item Transformamos essa grade em uma sequência fixa de 784 números.
+\item Colocamos o brilho entre 0 e 1 para que todas as imagens usem a mesma escala.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 60 segundos. Explique preto como zero, branco como um e cinza como um valor intermediário. Achatar a imagem muda a organização dos valores, não o conteúdo. A ordem precisa ser sempre a mesma.}
+\note{Tempo de fala: 85 segundos. Um pixel é uma medida de brilho. Preto vira zero, branco vira um e cinza fica entre os dois. Dividimos os valores originais por 255. Ler as linhas em ordem fixa preserva a posição representada por cada valor. Não é necessária notação de matrizes.}
 \end{frame}
 
-\begin{frame}{Temos exemplos de todos os dígitos?}
-\centering\includegraphics[width=.91\textwidth]{classes_pt.png}\par\raggedright \begin{itemize}
+\begin{frame}{Todos os dígitos aparecem nos dados}
+\centering\includegraphics[width=.9\textwidth]{classes_pt.png}\par\raggedright \begin{itemize}
 \item Cada dígito representa aproximadamente um décimo das imagens.
-\item Os grupos têm tamanhos um pouco diferentes; não são perfeitamente iguais.
-\item Manter proporções semelhantes ajuda a comparar os conjuntos de dados.
+\item As proporções são semelhantes, mas não exatamente iguais.
+\item Isso ajuda a verificar se um bom resultado geral não depende apenas de um dígito muito comum.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 60 segundos. Leia o gráfico como porcentagens, não contagens. Pergunte se alguma classe domina. Explique que uma classe é apenas uma resposta possível: aqui, um dos dez dígitos.}
+\note{Tempo de fala: 45 segundos. Leia como porcentagens, não contagens. Treino, validação e teste têm quantidades diferentes de imagens, mas proporções comparáveis de classes. As contagens exatas continuam nos arquivos do experimento.}
 \end{frame}
 
-\begin{frame}{Praticar, escolher e depois avaliar}
-\begin{center}\begin{tabular}{lrl}\toprule Grupo & Imagens & Função\\\midrule Treino & 50.000 & Praticar e ajustar os pesos\\ Validação & 10.000 & Escolher um modelo no desenvolvimento\\ Teste & 10.000 & Avaliar depois dessa escolha\\\bottomrule\end{tabular}\end{center}\begin{itemize}
-\item Separamos os dados para que os exemplos de prática não virem a prova final.
-\item As imagens oficiais de teste ficam separadas durante a escolha do modelo.
+\begin{frame}{Praticar é diferente de fazer a prova final}
+\begin{center}\begin{tabular}{lrl}\toprule Grupo & Imagens & Objetivo\\\midrule Treino & 50.000 & Praticar e ajustar\\ Validação & 10.000 & Escolher durante o desenvolvimento\\ Teste & 10.000 & Avaliar depois da escolha\\\bottomrule\end{tabular}\end{center}\begin{itemize}
+\item Reservamos imagens diferentes para funções diferentes.
+\item O teste final não orienta a escolha do modelo.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 70 segundos. Compare treino com exercícios, validação com um simulado e teste com uma prova final. A analogia explica as funções, sem equivaler completamente à educação. Dividimos as 60.000 imagens originais de treino em 50.000 e 10.000.}
+\note{Tempo de fala: 95 segundos. Use a analogia de exercícios, simulado e prova final. Por que avaliar nos mesmos exercícios seria enganoso? Explique que as 60.000 imagens oficiais de treino foram divididas em 50.000 para treino e 10.000 para validação; o teste oficial ficou separado.}
 \end{frame}
 
-\section{Parte 3: O que construímos e aprendemos}
-\begin{frame}{Nossa rede em uma visão geral}
-\begin{center}\Large $784\longrightarrow128\longrightarrow64\longrightarrow10$\end{center}\begin{itemize}
-\item 784 valores de entrada: um número para cada pixel.
-\item Duas camadas intermediárias, com 128 e 64 neurônios, combinam as informações.
-\item Dez saídas: uma pontuação para cada dígito possível.
+\section{Parte 3: Como nossa rede aprendeu}
+\begin{frame}{Parte 3}
+\begin{center}\vspace{.35cm}{\Huge Observar o aprendizado}\par\vspace{.6cm}{\large Ligar a ideia básica à rede que construímos e aos seus resultados.}\end{center}
+\note{15 segundos. Anuncie a mudança de parte e seu objetivo.}
+\end{frame}
+
+\begin{frame}{A rede que construímos}
+\begin{center}\Large $784\longrightarrow128\longrightarrow64\longrightarrow10$\end{center}\medskip \begin{itemize}
+\item 784 entradas: um valor de brilho para cada pixel.
+\item Duas camadas intermediárias combinam as informações em etapas.
+\item Dez saídas comparam os possíveis dígitos, usando Softmax.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 75 segundos. Leia o esquema da esquerda para a direita. Usamos ReLU nas camadas intermediárias e Softmax para os escores finais. Os pesos começam aleatórios, com escala de He nas camadas escondidas e Xavier na saída; não é necessário deduzir essas fórmulas.}
+\note{Tempo de fala: 75 segundos. As camadas intermediárias têm 128 e 64 neurônios e usam ReLU. Os pesos começam aleatórios, com escala de He nas camadas escondidas e Xavier na saída; mencione esses nomes apenas se houver perguntas. Construímos os cálculos para entender o aprendizado.}
 \end{frame}
 
-\begin{frame}{Por que escrevemos os cálculos do zero}
+\begin{frame}{Como a prática foi repetida}
 \begin{itemize}
-\item Queríamos entender cada etapa, além de executar um comando de treino pronto.
-\item Python organiza o programa; NumPy faz cálculos com conjuntos de números.
-\item Separamos preparação dos dados, rede, treinamento e avaliação em módulos.
+\item Mostramos 64 imagens por vez e depois fizemos pequenos ajustes nos pesos.
+\item Uma passagem completa pelas imagens de treino é chamada de época.
+\item O modelo completou 20 épocas, com uma ordem diferente de imagens a cada vez.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 45 segundos. Explique módulo como um arquivo com uma tarefa clara. Se ajudar, cite mnist.py para dados, network.py para previsões e trainer.py para o treino. Evite listar todos os métodos.}
+\note{Tempo de fala: 100 segundos. Conecte cada grupo ao ciclo de medir, rastrear e ajustar. O método é SGD com mini-lotes, com taxa de aprendizado 0,1. Explique o nome depois do processo: ele atualiza a partir de pequenos grupos, sem esperar todas as imagens. Erros no começo são esperados, pois os pesos ainda não foram treinados.}
 \end{frame}
 
-\begin{frame}{Aprender um pouco de cada vez}
+\begin{frame}{Escolhemos uma versão salva durante a validação}
 \begin{itemize}
-\item O modelo processa grupos de 64 imagens e depois ajusta os pesos.
-\item Esse método de atualização em pequenos grupos é chamado de SGD com mini-lotes.
-\item Uma época é uma passagem completa pelas imagens de treino; executamos 20 épocas.
+\item Depois de cada época, verificamos o desempenho em imagens separadas de validação.
+\item Guardamos a versão com a menor perda na validação.
+\item Essa versão veio da época 13 e depois foi avaliada no teste.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 90 segundos. Use a analogia de revisar um pequeno grupo de exercícios, fazer correções e continuar. Explique a taxa como o tamanho de cada ajuste; nesta execução usamos 0,1. Não é necessário usar a notação de gradiente.}
+\note{Tempo de fala: 65 segundos. Explique a versão salva como um retrato das conexões aprendidas. As 20 épocas foram executadas; usar a época 13 não significa parada antecipada. Pergunte por que a última versão pode não ser a melhor em dados novos.}
 \end{frame}
 
-\begin{frame}{Como escolhemos o modelo}
-\begin{itemize}
-\item Depois de cada época, medimos os resultados no treino e na validação.
-\item Salvamos o modelo com a menor perda na validação.
-\item O modelo escolhido veio da época 13; o teste final foi avaliado após a seleção.
-\end{itemize}
-
-\note{Tempo sugerido de fala: 60 segundos. Explique checkpoint como uma versão salva dos pesos. O treino completou as 20 épocas, mas usamos a versão da época 13 no teste. A escolha foi feita com validação, não com teste.}
-\end{frame}
-
-\begin{frame}{O modelo melhorou durante a prática?}
+\begin{frame}{O que as curvas de aprendizado mostram}
 \centering\includegraphics[width=.94\textwidth]{curves_pt.png}\par\raggedright \begin{itemize}
-\item À esquerda, menor perda é melhor; à direita, maior acurácia é melhor.
-\item O modelo melhora, mas os resultados oscilam ao longo do caminho.
-\item Melhorar nos exemplos de prática nem sempre significa melhorar em novos exemplos.
+\item Perda à esquerda: menor é melhor. Acurácia à direita: maior é melhor.
+\item A melhora não acontece de forma perfeitamente regular.
+\item Os resultados do treino e da validação precisam ser lidos juntos.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 80 segundos. Leia os eixos antes das tendências. Mostre uma curva de cada vez. Pergunte por que observar a validação além do treino. Use a diferença para explicar sobreajuste como aprender os dados de prática de forma específica demais.}
+\note{Tempo de fala: 100 segundos. Identifique eixos e cores antes de interpretar. Mostre um pico temporário e depois a diferença entre as curvas. Ela sugere que o sucesso nos exemplos de prática não se transfere completamente a outras imagens. É uma introdução intuitiva ao sobreajuste, não uma prova da causa de cada oscilação.}
 \end{frame}
 
-\begin{frame}{Nosso principal resultado}
-\begin{center}\begin{tabular}{lr}\toprule Resultado no teste oficial & Valor\\\midrule Imagens avaliadas & 10.000\\ Previsões corretas & 9.790\\ Previsões incorretas & 210\\ Acurácia & 97,90\%\\ F1 macro & 97,88\%\\\bottomrule\end{tabular}\end{center}\begin{itemize}
-\item Acurácia é a proporção de previsões corretas.
-\item Aproximadamente 98 de cada 100 imagens de teste foram classificadas corretamente.
+\begin{frame}{Cerca de 98 acertos a cada 100 imagens}
+\begin{center}\begin{tabular}{lr}\toprule Teste oficial & Resultado\\\midrule Imagens avaliadas & 10.000\\ Acertos & 9.790\\ Erros & 210\\ Acurácia & 97,90\%\\\bottomrule\end{tabular}\end{center}\begin{itemize}
+\item Acurácia é a fração de previsões que coincidem com a resposta conhecida.
+\item Esses resultados pertencem a este experimento e a este conjunto de teste.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 65 segundos. Explique 9.790 dividido por 10.000 antes de falar na porcentagem. O F1 macro resume o desempenho entre dígitos equilibrando precisão e capacidade de encontrar cada classe; mantenha-o como indicador secundário, sem exercícios de fórmula.}
+\note{Tempo de fala: 70 segundos. Relacione 9.790 de 10.000 à porcentagem. Não sugira que qualquer grupo de cem imagens terá exatamente 98 acertos. Há outras métricas registradas se alguém perguntar; o ponto central é a quantidade de acertos e os erros que ainda existem.}
 \end{frame}
 
-\begin{frame}{Quais dígitos foram confundidos?}
-\centering\includegraphics[height=.54\textheight]{confusion_pt.png}\par\raggedright \begin{itemize}
-\item As linhas mostram o dígito correto; as colunas mostram o previsto.
-\item Os valores na diagonal principal são os acertos.
-\item O erro direcionado mais comum foi 5 previsto como 3: 14 casos.
+\begin{frame}{Onde aconteceram os erros}
+\centering\includegraphics[height=.53\textheight]{confusion_pt.png}\par\raggedright \begin{itemize}
+\item As linhas identificam o dígito correto; as colunas mostram o escolhido.
+\item Na diagonal estão os acertos.
+\item A confusão direcionada mais frequente foi 5 como 3, em 14 imagens.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 55 segundos. Mostre uma célula de acerto e uma de erro. A matriz de confusão detalha a acurácia, mostrando onde os erros acontecem. Não leia todos os números.}
+\note{Tempo de fala: 75 segundos. Leia uma célula de acerto e depois a linha cinco e a coluna três. A matriz conta algo além da porcentagem geral: quais respostas foram confundidas. Não é necessário ler todos os números.}
 \end{frame}
 
-\begin{frame}{Outra verificação: separar um dígito dos demais}
-\centering\includegraphics[height=.49\textheight]{roc_pt.png}\par\raggedright \begin{itemize}
-\item A ROC mostra a troca entre detectar um dígito e aceitar incorretamente outros dígitos.
-\item A AUC resume essa separação: 0,5 é um ranking ao acaso e 1 é um ranking perfeito.
-\item Nossa AUC média foi cerca de 0,9996; isso não significa uma acurácia de 99,96\%.
+\begin{frame}{Esses exemplos também seriam difíceis para nós?}
+\centering\includegraphics[width=.87\textwidth,height=.49\textheight,keepaspectratio]{errors_pt.png}\par\raggedright \begin{itemize}
+\item Estes são os primeiros dez erros no teste, sem escolher as imagens mais fáceis.
+\item Algumas escritas são ambíguas; alguns erros mostram limitações do modelo.
+\item Mesmo uma pontuação muito alta pode acompanhar uma resposta errada.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 65 segundos. Use o dígito 7 e explique os eixos como porcentagens de setes encontrados e de outros dígitos aceitos por engano como sete. Variamos um limiar sobre o escore. Foque na intuição, sem detalhar médias nem integração numérica.}
+\note{Tempo de fala: 70 segundos. Dê tempo para o público responder antes de interpretar. Pergunte qual desenho é mais difícil de ler. A ambiguidade não explica todo erro do modelo. Os escores são saídas do modelo, portanto confiança não substitui verificar o acerto.}
 \end{frame}
 
-\begin{frame}{O modelo ainda pode errar}
-\centering\includegraphics[width=.86\textwidth,height=.49\textheight,keepaspectratio]{errors_pt.png}\par\raggedright \begin{itemize}
-\item Estes são os primeiros dez erros no conjunto de teste.
-\item Algumas escritas são ambíguas; outros erros são limitações do modelo.
-\item Uma pontuação alta não garante uma resposta correta.
+\begin{frame}{Outra visão de como os escores separam as classes}
+\centering\includegraphics[height=.48\textheight]{roc_pt.png}\par\raggedright \begin{itemize}
+\item A ROC verifica como um escore separa um dígito de todos os outros.
+\item A AUC resume essa separação; nossa média foi cerca de 0,9996.
+\item É uma medida de ordenação, não a porcentagem de respostas finais corretas.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 45 segundos. Pergunte ao público qual exemplo é mais difícil de ler. Explique o valor mostrado como apoio atribuído pelo modelo à classe escolhida, e não como certeza da resposta.}
+\note{Tempo de fala: 65 segundos. Mantenha como resultado secundário. Para um dígito, variar o escore aceito troca encontrar mais exemplos reais por aceitar mais exemplos errados. Uma ordenação ao acaso tem AUC 0,5; uma perfeita, 1. Os 210 erros continuam existindo apesar da AUC alta.}
 \end{frame}
 
-\begin{frame}{O que aprendemos e o que ainda falta explorar}
+\begin{frame}{O que este projeto nos ajudou a entender}
 \begin{itemize}
-\item Uma rede aprende repetindo cálculos simples e pequenos ajustes.
-\item Nosso experimento registrado alcançou 97,90\% de acurácia no teste oficial.
-\item Uma execução bem-sucedida não garante o mesmo desempenho em qualquer dado ou fotografia.
+\item Aprender muda como as conexões combinam informações, usando os erros como retorno.
+\item Separar os dados torna a avaliação mais informativa.
+\item Um resultado útil ainda tem limites: é uma execução, não uma garantia para qualquer fotografia ou escrita.
 \end{itemize}
 
-\note{Tempo sugerido de fala: 85 segundos. Mencione os 24 testes que verificam cálculos e modelos salvos. Próximos passos seriam comparar várias execuções e novas condições de escrita. Peça ao público que descreva o ciclo de aprendizado e reserve cerca de três minutos para perguntas na versão principal.}
+\note{Tempo de fala: 90 segundos. Retome a motivação do primeiro slide. Conectamos conceitos a previsões e erros observáveis. Há 24 testes da implementação, mas verificar os cálculos não garante desempenho em qualquer situação. Próximos passos seriam repetir o treinamento e avaliar outras condições de escrita.}
+\end{frame}
+
+\begin{frame}{Perguntas e conversa}
+\begin{center}\Large O que muda durante o aprendizado?\par\vspace{.5cm}Por que avaliar em exemplos diferentes?\end{center}
+\note{205 segundos na versão principal; 85 na acadêmica. Use essas perguntas apenas se o público não trouxer dúvidas. Deixe as pessoas explicarem com suas palavras e conecte as respostas às conexões, aos erros e ao teste separado.}
 \end{frame}
 
 \end{document}
