@@ -10,3 +10,15 @@ results/*
 .pytest_cache/
 *.egg-info/
 .mplconfig/
+build/
+dist/
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+*.fls
+*.fdb_latexmk
+docs/presentations/*.pdf
