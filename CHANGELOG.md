@@ -2,6 +2,9 @@
 
 ## Presentation update - 2026-11-16
 
+- We simplified all three presentation parts for first-year statistics students, replacing advanced notation with examples and plain-language explanations while retaining the 30-minute pacing guide.
+- Local academic files now live in the ignored `docs/slides/academic-local/` subdirectory; public sources and PDFs remain author-free.
+
 - We moved the canonical presentations to `docs/slides/` and rebuilt the English and Portuguese main sources/PDFs as 24-slide talks with a 30-minute pacing guide.
 - Part 1 now covers general theory only; Part 2 introduces MNIST and measured class proportions; Part 3 connects the theory to our implementation and results.
 - Public decks contain no group-member names. Separate 27-slide academic variants are local-only and excluded by `.gitignore`.

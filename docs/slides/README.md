@@ -18,9 +18,9 @@ We publish two equivalent main presentations, each with **24 slides** and no aut
 | Discussion | Audience questions | 3:10 |
 | **Total** | | **30:00** |
 
-The sources contain hidden `\note{...}` speaker prompts with approximate durations. We explain equations and examples verbally rather than reading every bullet. Rehearsal determines the final pace; the plan reserves time for questions rather than assuming exactly one minute per slide.
+The intended audience is first-year statistics students and people without a machine learning background. We use short definitions, simple arithmetic, familiar analogies, and questions instead of derivative calculations or dense matrix notation. Terms are explained when introduced. The sources contain hidden `\note{...}` speaker prompts with examples and approximate durations; open the `.tex` file to rehearse them. Rehearsal determines the final pace. We fill the 30-minute slot with explanation and interaction, not additional technical detail.
 
-Part 1 introduces artificial networks, the biological analogy, perceptrons, weights and biases, ReLU, forward propagation, Softmax, cross-entropy, gradient descent, and backpropagation. It contains no MNIST-specific or project-specific implementation discussion. Part 2 introduces the dataset. Only Part 3 connects the theory to our package and recorded experiment.
+Part 1 explains learning from examples, the neuron analogy, weights and biases, layers, ReLU, Softmax, prediction errors, and small learning adjustments. Backpropagation and gradient descent are introduced by their roles, without derivatives. It contains no MNIST-specific or project-specific implementation discussion. Part 2 explains images, pixels, class proportions, and the roles of training/validation/test data in plain language. Part 3 focuses on what we built and how to interpret the learning curves, accuracy, confusion matrix, and ROC/AUC, with implementation details reserved for speaker notes or questions.
 
 Class proportions are computed from the actual seed-42 split. Exact counts are recorded in [class_counts.json](class_counts.json). Charts and metrics use the original selected checkpoint; no model was retrained to produce this update. Recorded results and limitations remain in [the experiment record](../experiments.md).
 
@@ -46,9 +46,9 @@ We use Beamer (Madrid theme, 16:9), babel, lmodern, amsmath, amssymb, booktabs, 
 
 ## Local academic variants
 
-Separate academic variants are stored only under `.local/slides-academic/`, which is excluded by `.gitignore`. They are **not part of the repository**. They contain 27 slides: the same 24-slide main content, plus author information on the title page and a three-slide programming subsection immediately before Part 2.
+Separate academic variants are stored only under `docs/slides/academic-local/`, which is excluded by `.gitignore`. They sit beside the public slides locally but are **not part of the repository**. They contain 27 slides: the same 24-slide main content, plus author information on the title page and a three-slide programming subsection immediately before Part 2. Public dates remain 16 November 2026; local academic dates remain 17 November 2026.
 
-That subsection maps conditionals, `for`/`while` loops, and `def`/return values to our existing code. It distinguishes best-checkpoint selection from early stopping, which we do not implement. Its three 40-second explanations add two minutes; reducing discussion to approximately 1:10 keeps the academic talk near 30 minutes. Apart from the author field and inserted subsection, the sources are identical to the main versions.
+That subsection explains conditionals, repetition, and functions using short code excerpts and plain-language descriptions. It maps `if`/`elif`/`else`, `for`/`while`, and `def`/return values to our existing modules. Its three 40-second explanations add two minutes; reducing discussion to approximately 1:10 keeps the academic talk near 30 minutes. Apart from the author field, local presentation date, and inserted subsection, the sources are identical to the main versions.
 
 Before publishing, we check that public sources, extracted PDF text, and PDF metadata contain no group-member names. We also check page counts, referenced images, compilation, and rendered layouts. Keep local academic files and any bundles containing them out of commits.
 

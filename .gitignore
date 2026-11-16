@@ -26,3 +26,4 @@ docs/slides/*.pdf
 !docs/slides/slides_en.pdf
 !docs/slides/slides_pt.pdf
 /.local/slides-academic/
+/docs/slides/academic-local/

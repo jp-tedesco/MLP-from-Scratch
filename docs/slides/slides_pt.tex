@@ -20,205 +20,236 @@
 \author{}
 \date{16 de novembro de 2026}
 \begin{document}
-\begin{frame}\titlepage\note{30 segundos. Apresente as três partes e o plano de 30 minutos.}\end{frame}
-\section{Parte 1: Fundamentos de redes neurais}
-\begin{frame}{Redes neurais artificiais}
-\[f_{\theta}:\mathbb{R}^{d}\longrightarrow\mathbb{R}^{C}\]\begin{itemize}
-\item Uma rede compõe transformações parametrizadas para levar atributos a saídas.
-\item Pesos e vieses são aprendidos com exemplos; arquitetura e taxa são hiperparâmetros.
-\item O aprendizado supervisionado usa pares rotulados para minimizar uma função objetivo.
-\end{itemize}
-
-\note{75 segundos. Defina entradas, saídas, parâmetros e supervisão sem exemplos de um dataset específico.}
-\end{frame}
-
-\begin{frame}{Neurônios biológicos e artificiais}
-\begin{tabular}{p{.43\textwidth}p{.48\textwidth}}\toprule Neurônio biológico & Neurônio artificial\\\midrule Dendritos recebem sinais & Entradas contêm atributos numéricos\\[6pt] Sinapses influenciam a transmissão & Pesos multiplicam cada entrada\\[6pt] Dinâmica celular produz atividade elétrica & Uma ativação transforma uma soma ponderada\\\bottomrule\end{tabular}\par\vspace{10pt}Essa é uma analogia, não uma simulação fiel do cérebro.\note{Ritmo: 60 segundos. Explique a analogia e seus limites; neurônios artificiais são modelos numéricos.}
-\end{frame}
-
-\begin{frame}{Perceptrons, pesos e vieses}
-\[z=\sum_{j=1}^{d}w_jx_j+b,\qquad \widehat y=\mathbf1_{z\geq0}\]\begin{itemize}
-\item Um perceptron usa um limiar sobre uma combinação afim para decisões binárias.
-\item Pesos controlam contribuição e sinal; o viés desloca a fronteira de decisão.
-\item Uma fronteira afim é limitada a padrões linearmente separáveis; camadas não lineares ampliam a expressividade.
-\end{itemize}
-\[Z^{(\ell)}=A^{(\ell-1)}W^{(\ell)}+b^{(\ell)}\]
-\note{75 segundos. Diferencie o perceptron clássico com limiar das redes multicamadas diferenciáveis.}
-\end{frame}
-
-\begin{frame}{Não linearidade e ReLU}
-\[A^{(\ell)}=\phi(Z^{(\ell)}),\qquad\operatorname{ReLU}(z)=\max(0,z)\]\[\operatorname{ReLU}^{\prime}(z)=\mathbf1_{z>0}\quad\text{(na origem: adota-se 0)}\]\begin{itemize}
-\item Valores positivos passam; valores negativos viram zero.
-\item Compor camadas afins sem ativações não lineares ainda produz uma transformação afim.
-\item Ativações escondidas permitem aprender fronteiras de decisão não lineares.
-\end{itemize}
-
-\note{80 segundos. Compare duas camadas afins com uma composição que contém ReLU.}
-\end{frame}
-
-\begin{frame}{Propagação direta e Softmax}
-\[A^{(0)}=X,\quad A^{(\ell)}=\phi(A^{(\ell-1)}W^{(\ell)}+b^{(\ell)})\]\[p_{ic}=\frac{e^{z_{ic}-m_i}}{\sum_k e^{z_{ik}-m_i}},\quad m_i=\max_k z_{ik},\quad\widehat y_i=\arg\max_c p_{ic}\]\begin{itemize}
-\item A propagação direta aplica camadas em ordem para obter logits e escores por classe.
-\item Subtrair o máximo preserva a Softmax e estabiliza a exponenciação.
-\item Escores normalizados não são necessariamente probabilidades calibradas de acerto.
-\end{itemize}
-
-\note{65 segundos. Defina logits e explique argmax separadamente da normalização dos escores.}
-\end{frame}
-
-\begin{frame}{Funções de perda e entropia cruzada}
-\[L(\theta)=\frac1B\sum_{i=1}^{B}\ell(f_{\theta}(x_i),y_i),\qquad\ell_i=-\sum_{c=1}^{C}Y_{ic}\log p_{ic}\]\begin{itemize}
-\item Uma perda atribui uma penalidade numérica à previsão em relação ao alvo.
-\item Para um alvo one-hot, a entropia cruzada é menos o log do escore da classe correta.
-\item A acurácia conta decisões corretas; a perda também reflete os escores atribuídos.
-\end{itemize}
-\[\ell_i=\log\sum_k e^{z_{ik}-m_i}-(z_{i,y_i}-m_i)\]
-\note{80 segundos. Explique a penalidade de uma resposta errada e confiante e introduza log-sum-exp.}
-\end{frame}
-
-\begin{frame}{Descida do gradiente}
-\[\theta_{t+1}=\theta_t-\eta\nabla_{\theta}L(\theta_t),\quad\eta>0\]\begin{itemize}
-\item O gradiente aponta para o maior aumento local; sua subtração fornece uma direção local de descida.
-\item A taxa controla o tamanho do passo; passos grandes podem ultrapassar regiões favoráveis.
-\item O método com lote completo usa todos os exemplos; SGD com mini-lotes estima o gradiente em um subconjunto.
-\end{itemize}
-
-\note{70 segundos. Descreva uma etapa local sem prometer perda monotônica ou ótimo global.}
-\end{frame}
-
-\begin{frame}{Retropropagação e regra da cadeia}
-\[\frac{\partial L}{\partial w}=\frac{\partial L}{\partial a}\frac{\partial a}{\partial z}\frac{\partial z}{\partial w}\]\[\frac{\partial L}{\partial Z_{\mathrm{out}}}=\frac{P-Y}{B}\quad\text{(Softmax + entropia cruzada)}\]\begin{itemize}
-\item A retropropagação calcula derivadas de forma eficiente pela composição das camadas.
-\item Ela calcula gradientes; o otimizador usa esses gradientes para atualizar parâmetros.
-\item Valores intermediários da propagação direta são reutilizados nas derivadas locais.
-\end{itemize}
-
-\note{90 segundos. Explique os três fatores e diferencie retropropagação de otimização.}
-\end{frame}
-
-\begin{frame}{Gradientes de uma camada densa}
-\[Z=AW+b,\qquad dW=A^{\top}dZ,\qquad db=\sum_i dZ_i\]\[dA=dZ\,W^{\top},\qquad dZ_{\mathrm{ReLU}}=dA\odot\mathbf1_{Z>0}\]\begin{itemize}
-\item Com exemplos nas linhas, W tem forma (atributos de entrada, atributos de saída).
-\item Gradientes têm as formas dos parâmetros; a média pelo lote é aplicada uma vez.
-\item Isso completa o ciclo geral: propagação direta, perda, retropropagação e atualização.
-\end{itemize}
-
-\note{80 segundos. Confira as dimensões e resuma a teoria antes de introduzir um dataset.}
-\end{frame}
-
-\section{Parte 2: Visão geral do dataset}
-\begin{frame}{Dígitos manuscritos do MNIST}
-\centering\includegraphics[width=\textwidth]{mnist.png}\par\raggedright\begin{itemize}
-\item Dez classes: dígitos de 0 a 9, em imagens em tons de cinza com rótulos conhecidos.
-\item As partições originais contêm 60.000 imagens de treino e 10.000 de teste.
-\item Verificamos os arquivos baixados e interpretamos o formato IDX.
-\end{itemize}
-\scriptsize Dataset: LeCun, Cortes e Burges. As imagens são exemplos reais do teste.\note{Ritmo: 50 segundos. Introduza o dataset apenas agora; identifique classes e entrada em tons de cinza.}
-\end{frame}
-
-\begin{frame}{Achatamento e normalização}
-\[28\times28=784,\qquad x_j=\frac{\mathrm{pixel}_j}{255}\in[0,1]\]\begin{itemize}
-\item Convertemos os pixels para float32 e lemos as linhas em ordem fixa.
-\item As entradas têm formato (N, 784); os rótulos inteiros têm formato (N,).
-\item A MLP recebe valores em posições fixas, sem uma operação própria de vizinhança espacial.
-\end{itemize}
-\note{Ritmo: 60 segundos. Explique a ordem de leitura por linhas e a divisão fixa por 255.}
-\end{frame}
-
-\begin{frame}{Distribuição das classes}
-\centering\includegraphics[width=.93\textwidth]{classes_pt.png}\par\raggedright \begin{itemize}
-\item As dez classes estão presentes; as proporções são próximas, mas não idênticas à distribuição uniforme.
-\item A validação preserva as proporções das classes do treino original.
-\end{itemize}
-
-\note{60 segundos. Explique que são porcentagens: os tamanhos dos conjuntos diferem. Contagens exatas em class_counts.json.}
-\end{frame}
-
-\begin{frame}{Treino, validação e teste}
-\begin{center}\begin{tabular}{lrl}\toprule Partição & Imagens & Finalidade\\\midrule Treino & 50.000 & Atualizar pesos\\ Validação & 10.000 & Selecionar configurações e modelo\\ Teste oficial & 10.000 & Avaliar após a seleção\\\bottomrule\end{tabular}\end{center}\begin{itemize}
-\item Dividimos apenas o treino original, com estratificação e seed 42.
-\item Usamos apenas normalização: sem correção de inclinação nem aumento de dados nesta execução.
-\end{itemize}
-\note{Ritmo: 70 segundos. Descreva a estratificação, a seed 42 e por que o teste oficial não orienta a seleção.}
-\end{frame}
-
-\section{Parte 3: Implementação, treino e resultados}
-\begin{frame}{Nossa arquitetura}
-\[784\;\longrightarrow\;128\;\longrightarrow\;64\;\longrightarrow\;10\]\begin{itemize}
-\item Duas camadas densas escondidas com ReLU; a saída linear retorna dez logits.
-\item 109.386 parâmetros treináveis, incluindo vieses.
-\item Os pesos da saída usam Xavier; os pesos escondidos usam He.
-\end{itemize}
-\[(784\cdot128+128)+(128\cdot64+64)+(64\cdot10+10)=109386\]\[\sigma_{\mathrm{hidden}}=\sqrt{2/n_{\mathrm{in}}},\quad\sigma_{\mathrm{out}}=\sqrt{2/(n_{\mathrm{in}}+n_{\mathrm{out}})},\quad b=0\]\note{Ritmo: 75 segundos. Conecte as equações gerais a 784, 128, 64 e 10; defina a variância de He e Xavier na saída.}
-\end{frame}
-
-\begin{frame}{Como organizamos a implementação}
-\begin{tabular}{p{.35\textwidth}p{.58\textwidth}}\toprule Módulo & Responsabilidade\\\midrule \texttt{data/mnist.py} & Baixar, verificar, normalizar e dividir\\\texttt{layers.py, activations.py} & Operações vetorizadas de propagação direta e retropropagação\\\texttt{network.py, losses.py} & Compor a MLP e calcular entropia cruzada estável\\\texttt{optimizers.py, trainer.py} & Atualizar parâmetros e coordenar o treino\\\texttt{metrics.py, reporting.py} & Medir e visualizar previsões\\\bottomrule\end{tabular}\par\medskip Pacote: \texttt{src/mnist\_mlp/}. NumPy calcula os gradientes; não usamos frameworks de deep learning.
-\note{45 segundos. Mostre a separação de responsabilidades sem listar todo o código.}
-\end{frame}
-
-\begin{frame}{SGD com mini-lotes}
-\[\theta_{t+1}=\theta_t-\eta\nabla_{\theta}L_{\mathrm{batch}}\]\begin{itemize}
-\item Usamos taxa de aprendizado 0,1 e lotes de 64, incluindo o último lote menor.
-\item Embaralhamos a ordem do treino a cada época.
-\item Uma época é uma passagem completa pelos exemplos de treino.
-\item Executamos 20 épocas; a seed 42 controla inicialização, divisão e embaralhamento.
-\end{itemize}
-\note{Ritmo: 90 segundos. Conecte a regra à taxa 0,1, aos lotes de 64 e ao último lote menor.}
-\end{frame}
-
-\begin{frame}{Nosso ciclo de treinamento}
+\begin{frame}\titlepage\note{30 segundos. Explique as três partes: a ideia básica, os dados e o que construímos. Não é necessário conhecer machine learning.}\end{frame}
+\section{Parte 1: Entendendo redes neurais}
+\begin{frame}{Aprender com exemplos}
 \begin{itemize}
-\item Para cada lote: propagação direta, perda, retropropagação e atualização SGD.
-\item No fim da época: recalculamos métricas de treino e validação ponderadas por amostra.
-\item Salvamos o modelo com a menor perda de validação.
-\item Congelamos a seleção antes de medir o desempenho no teste oficial.
+\item Uma rede neural é um modelo matemático que encontra padrões nos dados.
+\item Ela recebe informações e produz uma previsão.
+\item No aprendizado supervisionado, os exemplos vêm com a resposta que queremos que ela aprenda.
 \end{itemize}
-\small\texttt{data/mnist.py} $\to$ \texttt{network.py} $\to$ \texttt{trainer.py} $\to$ \texttt{evaluate.py}\note{Ritmo: 60 segundos. Selecionamos o melhor checkpoint, sem parada antecipada: todas as 20 épocas são executadas.}
+
+\note{Tempo sugerido de fala: 75 segundos. Use um exemplo geral: classificar frutas com medidas como cor e tamanho. Pergunte quais características ajudariam a diferenciar uma maçã de uma pera. Explique que as pessoas fornecem exemplos e o modelo ajusta números.}
 \end{frame}
 
-\begin{frame}{Perda e acurácia ao longo do treino}
-\centering\includegraphics[width=.94\textwidth]{curves_pt.png}\par\raggedright\begin{itemize}
-\item A menor perda de validação ocorreu na época 13: 0,083610; acurácia de 97,73\%.
-\item Melhorias posteriores no treino não reduziram consistentemente a perda de validação.
-\end{itemize}
-\note{Ritmo: 80 segundos. Explique os picos temporários e a diferença entre treino e validação; a época 13 vence pela perda de validação.}
-\end{frame}
-
-\begin{frame}{Avaliação final do modelo selecionado}
-\begin{center}\begin{tabular}{lr}\toprule Métrica de teste & Resultado medido\\\midrule Acurácia & 97,90\%\\ Acertos / erros & 9.790 / 210\\ Entropia cruzada & 0,072777\\ Precisão / revocação macro & 97,90\% / 97,87\%\\ F1 macro / ponderado & 97,88\% / 97,90\%\\ ROC AUC macro / micro & 0,999621 / 0,999617\\\bottomrule\end{tabular}\end{center}Uma execução, uma seed, 10.000 imagens oficiais de teste.\par\scriptsize\texttt{results/baseline/extended\_metrics.json}\note{Ritmo: 65 segundos. Leia acurácia e F1 e diferencie métricas de decisão da AUC de ranking.}
-\end{frame}
-
-\begin{frame}{Matriz de confusão}
-\begin{columns}[c]\column{.53\textwidth}\centering\includegraphics[width=\linewidth,height=.65\textheight,keepaspectratio]{confusion_pt.png}\column{.45\textwidth}\begin{itemize}
-\item Linhas são dígitos reais; colunas são previsões.
-\item Erro direcionado mais frequente: 5 previsto como 3, com 14 casos.
-\item O dígito 8 teve o menor F1: 97,03\%.
-\end{itemize}
-\end{columns}\note{Ritmo: 55 segundos. Leia uma linha e destaque os 14 casos de cinco previsto como três.}
-\end{frame}
-
-\begin{frame}{Curvas ROC e AUC um contra os demais}
-\begin{columns}[c]\column{.53\textwidth}\centering\includegraphics[width=\linewidth,height=.65\textheight,keepaspectratio]{roc_pt.png}\column{.45\textwidth}\begin{itemize}
-\item Para cada dígito, variamos um limiar sobre seu escore contra os demais.
-\item Macro calcula a média das dez AUCs; micro reúne os pares imagem/classe.
-\item AUC alta de ranking não equivale à acurácia multiclasse nem à calibração.
-\end{itemize}
-\end{columns}\note{Ritmo: 65 segundos. Defina os limiares um contra os demais; AUC próxima de um não significa acurácia multiclasse perfeita.}
-\end{frame}
-
-\begin{frame}{Erros reais e previsões confiantes}
-\centering\includegraphics[width=.92\textwidth,height=.61\textheight,keepaspectratio]{errors_pt.png}\par\raggedright Primeiros dez erros na ordem do teste, sem seleção manual. Os valores são escores Softmax da classe prevista.\note{Ritmo: 45 segundos. Explique a seleção determinística dos primeiros dez erros e os escores não calibrados.}
-\end{frame}
-
-\begin{frame}{Verificação e limitações}
+\begin{frame}{Por que chamar de neurônio?}
 \begin{itemize}
-\item 24 testes cobrem gradientes por diferenças finitas, perda estável, empates na ROC, salvamento e treino.
-\item O intervalo de Wilson de 95\% para acurácia é 97,60--98,16\%, sob hipótese binomial, para o modelo fixo.
-\item Uma seed não estabelece a variação entre execuções; as saídas Softmax não foram calibradas.
-\item Compararíamos seeds, ajustes da taxa e regularização nos dados de validação.
+\item O nome vem da inspiração em neurônios biológicos, que recebem e transmitem sinais.
+\item Um neurônio artificial recebe números, combina esses valores e passa um resultado adiante.
+\item É uma analogia simples: o modelo não reproduz o funcionamento de um cérebro.
 \end{itemize}
-\note{Ritmo: 85 segundos. Conclua com gradientes verificados, incerteza de uma seed e futuros experimentos de validação. Reserve cerca de três minutos para discussão na versão principal.}
+
+\note{Tempo sugerido de fala: 60 segundos. Descreva três ações: receber, combinar e transmitir. Evite detalhes de anatomia e a ideia de que a rede pensa como uma pessoa.}
+\end{frame}
+
+\begin{frame}{Pesos: dar influências diferentes às entradas}
+\begin{exampleblock}{Pontuação ponderada ilustrativa}\[2\times0.2+1\times0.6+0.1=1.1\]\end{exampleblock}\begin{itemize}
+\item Um peso controla quanto uma entrada contribui para o resultado.
+\item O viés é um ajuste extra somado a essa combinação.
+\item O modelo modifica esses valores durante o aprendizado.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 75 segundos. Relacione os pesos a uma pontuação ponderada, mas explique que eles não precisam somar um e podem ser negativos. Faça a conta ilustrativa. Ela não é uma probabilidade nem um modelo ajustado em dados reais.}
+\end{frame}
+
+\begin{frame}{Camadas: combinar informações em etapas}
+\begin{center}\Large Entradas $\rightarrow$ Camadas $\rightarrow$ Previsão\end{center}\medskip \begin{itemize}
+\item Vários neurônios artificiais formam uma camada.
+\item Cada camada usa os resultados produzidos pela anterior.
+\item Essa sequência de cálculos é chamada de propagação direta.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 80 segundos. Use o esquema como um caminho de leitura. Uma camada escondida é apenas uma etapa entre a entrada e a saída, sem nada misterioso ou consciente.}
+\end{frame}
+
+\begin{frame}{ReLU: uma regra simples dentro da camada}
+\begin{center}\Large $-3\mapsto0\qquad0\mapsto0\qquad4\mapsto4$\end{center}\medskip \begin{itemize}
+\item Uma função de ativação transforma o resultado numérico de um neurônio.
+\item A ReLU mantém os valores positivos e troca os negativos por zero.
+\item Regras desse tipo permitem que a rede represente padrões mais complexos.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 65 segundos. Leia os exemplos e pergunte o que a ReLU faria com zero. Não é necessário explicar derivadas ou matrizes. A ideia é mostrar que a rede repete operações simples.}
+\end{frame}
+
+\begin{frame}{Softmax: comparar respostas possíveis}
+\begin{exampleblock}{Exemplo de saída}\centering A: 65\%\qquad B: 25\%\qquad C: 10\%\end{exampleblock}\begin{itemize}
+\item A última camada produz uma pontuação para cada classe possível.
+\item A Softmax transforma essas pontuações em valores que somam 100\%.
+\item A previsão é a classe com o maior valor.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 80 segundos. Use três classes genéricas A, B e C, sem introduzir dígitos ainda. Pergunte qual classe vence. Reforce que são escores do modelo: um valor alto ainda pode acompanhar um erro.}
+\end{frame}
+
+\begin{frame}{Medir o quanto uma previsão errou}
+\begin{itemize}
+\item Comparamos a previsão com a resposta conhecida.
+\item A perda é um número que descreve essa diferença; quanto menor, melhor.
+\item A entropia cruzada penaliza mais quando a classe correta recebe uma pontuação muito baixa.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 70 segundos. Compare acurácia e perda com duas previsões corretas que dão 90 por cento e 60 por cento à classe correta. Ambas contam como acerto, mas têm perdas diferentes. Não é necessário apresentar logaritmos.}
+\end{frame}
+
+\begin{frame}{Usar os erros para melhorar o modelo}
+\begin{itemize}
+\item A retropropagação calcula como mudanças em cada conexão afetariam a perda.
+\item A descida do gradiente usa essa informação para fazer pequenos ajustes.
+\item A taxa de aprendizado controla o tamanho desses ajustes.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 90 segundos. Use a analogia de ajustar uma receita depois de prová-la: observar o resultado, identificar mudanças que podem ajudar e fazer um pequeno ajuste. Esclareça que o computador usa cálculos, sem compreender ou sentir gosto. Ajustes muito grandes podem piorar o resultado.}
+\end{frame}
+
+\begin{frame}{O ciclo de aprendizado}
+\begin{itemize}
+\item 1. Mostrar exemplos e calcular previsões.
+\item 2. Medir a perda e calcular ajustes que podem ajudar.
+\item 3. Alterar um pouco os pesos e repetir com mais exemplos.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 80 segundos. Peça ao público que explique o ciclo com suas palavras. O objetivo é funcionar em novos exemplos, e não apenas nos usados para praticar. Só depois introduza o dataset.}
+\end{frame}
+
+\section{Parte 2: Os dados do MNIST}
+\begin{frame}{Nossa tarefa: reconhecer um dígito escrito à mão}
+\centering\includegraphics[width=\textwidth]{mnist.png}\par\raggedright \begin{itemize}
+\item MNIST é uma coleção de pequenas imagens de dígitos escritos à mão.
+\item Cada imagem tem um rótulo: o dígito correto, de 0 a 9.
+\item Usamos as imagens e os rótulos para ensinar e avaliar o modelo.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 50 segundos. Mostre dois desenhos diferentes que representam o mesmo dígito. Explique que a variação da escrita torna a tarefa interessante. Atribua o dataset a LeCun, Cortes e Burges.}
+\end{frame}
+
+\begin{frame}{Como uma imagem vira números}
+\begin{center}\Large $28\times28=784$\end{center}\begin{itemize}
+\item Cada imagem tem 28 linhas e 28 colunas: 784 pixels.
+\item Um pixel é uma medida de brilho, não um desenho completo.
+\item Lemos os pixels em uma ordem fixa e dividimos por 255 para obter valores entre 0 e 1.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 60 segundos. Explique preto como zero, branco como um e cinza como um valor intermediário. Achatar a imagem muda a organização dos valores, não o conteúdo. A ordem precisa ser sempre a mesma.}
+\end{frame}
+
+\begin{frame}{Temos exemplos de todos os dígitos?}
+\centering\includegraphics[width=.91\textwidth]{classes_pt.png}\par\raggedright \begin{itemize}
+\item Cada dígito representa aproximadamente um décimo das imagens.
+\item Os grupos têm tamanhos um pouco diferentes; não são perfeitamente iguais.
+\item Manter proporções semelhantes ajuda a comparar os conjuntos de dados.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 60 segundos. Leia o gráfico como porcentagens, não contagens. Pergunte se alguma classe domina. Explique que uma classe é apenas uma resposta possível: aqui, um dos dez dígitos.}
+\end{frame}
+
+\begin{frame}{Praticar, escolher e depois avaliar}
+\begin{center}\begin{tabular}{lrl}\toprule Grupo & Imagens & Função\\\midrule Treino & 50.000 & Praticar e ajustar os pesos\\ Validação & 10.000 & Escolher um modelo no desenvolvimento\\ Teste & 10.000 & Avaliar depois dessa escolha\\\bottomrule\end{tabular}\end{center}\begin{itemize}
+\item Separamos os dados para que os exemplos de prática não virem a prova final.
+\item As imagens oficiais de teste ficam separadas durante a escolha do modelo.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 70 segundos. Compare treino com exercícios, validação com um simulado e teste com uma prova final. A analogia explica as funções, sem equivaler completamente à educação. Dividimos as 60.000 imagens originais de treino em 50.000 e 10.000.}
+\end{frame}
+
+\section{Parte 3: O que construímos e aprendemos}
+\begin{frame}{Nossa rede em uma visão geral}
+\begin{center}\Large $784\longrightarrow128\longrightarrow64\longrightarrow10$\end{center}\begin{itemize}
+\item 784 valores de entrada: um número para cada pixel.
+\item Duas camadas intermediárias, com 128 e 64 neurônios, combinam as informações.
+\item Dez saídas: uma pontuação para cada dígito possível.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 75 segundos. Leia o esquema da esquerda para a direita. Usamos ReLU nas camadas intermediárias e Softmax para os escores finais. Os pesos começam aleatórios, com escala de He nas camadas escondidas e Xavier na saída; não é necessário deduzir essas fórmulas.}
+\end{frame}
+
+\begin{frame}{Por que escrevemos os cálculos do zero}
+\begin{itemize}
+\item Queríamos entender cada etapa, além de executar um comando de treino pronto.
+\item Python organiza o programa; NumPy faz cálculos com conjuntos de números.
+\item Separamos preparação dos dados, rede, treinamento e avaliação em módulos.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 45 segundos. Explique módulo como um arquivo com uma tarefa clara. Se ajudar, cite mnist.py para dados, network.py para previsões e trainer.py para o treino. Evite listar todos os métodos.}
+\end{frame}
+
+\begin{frame}{Aprender um pouco de cada vez}
+\begin{itemize}
+\item O modelo processa grupos de 64 imagens e depois ajusta os pesos.
+\item Esse método de atualização em pequenos grupos é chamado de SGD com mini-lotes.
+\item Uma época é uma passagem completa pelas imagens de treino; executamos 20 épocas.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 90 segundos. Use a analogia de revisar um pequeno grupo de exercícios, fazer correções e continuar. Explique a taxa como o tamanho de cada ajuste; nesta execução usamos 0,1. Não é necessário usar a notação de gradiente.}
+\end{frame}
+
+\begin{frame}{Como escolhemos o modelo}
+\begin{itemize}
+\item Depois de cada época, medimos os resultados no treino e na validação.
+\item Salvamos o modelo com a menor perda na validação.
+\item O modelo escolhido veio da época 13; o teste final foi avaliado após a seleção.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 60 segundos. Explique checkpoint como uma versão salva dos pesos. O treino completou as 20 épocas, mas usamos a versão da época 13 no teste. A escolha foi feita com validação, não com teste.}
+\end{frame}
+
+\begin{frame}{O modelo melhorou durante a prática?}
+\centering\includegraphics[width=.94\textwidth]{curves_pt.png}\par\raggedright \begin{itemize}
+\item À esquerda, menor perda é melhor; à direita, maior acurácia é melhor.
+\item O modelo melhora, mas os resultados oscilam ao longo do caminho.
+\item Melhorar nos exemplos de prática nem sempre significa melhorar em novos exemplos.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 80 segundos. Leia os eixos antes das tendências. Mostre uma curva de cada vez. Pergunte por que observar a validação além do treino. Use a diferença para explicar sobreajuste como aprender os dados de prática de forma específica demais.}
+\end{frame}
+
+\begin{frame}{Nosso principal resultado}
+\begin{center}\begin{tabular}{lr}\toprule Resultado no teste oficial & Valor\\\midrule Imagens avaliadas & 10.000\\ Previsões corretas & 9.790\\ Previsões incorretas & 210\\ Acurácia & 97,90\%\\ F1 macro & 97,88\%\\\bottomrule\end{tabular}\end{center}\begin{itemize}
+\item Acurácia é a proporção de previsões corretas.
+\item Aproximadamente 98 de cada 100 imagens de teste foram classificadas corretamente.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 65 segundos. Explique 9.790 dividido por 10.000 antes de falar na porcentagem. O F1 macro resume o desempenho entre dígitos equilibrando precisão e capacidade de encontrar cada classe; mantenha-o como indicador secundário, sem exercícios de fórmula.}
+\end{frame}
+
+\begin{frame}{Quais dígitos foram confundidos?}
+\centering\includegraphics[height=.54\textheight]{confusion_pt.png}\par\raggedright \begin{itemize}
+\item As linhas mostram o dígito correto; as colunas mostram o previsto.
+\item Os valores na diagonal principal são os acertos.
+\item O erro direcionado mais comum foi 5 previsto como 3: 14 casos.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 55 segundos. Mostre uma célula de acerto e uma de erro. A matriz de confusão detalha a acurácia, mostrando onde os erros acontecem. Não leia todos os números.}
+\end{frame}
+
+\begin{frame}{Outra verificação: separar um dígito dos demais}
+\centering\includegraphics[height=.49\textheight]{roc_pt.png}\par\raggedright \begin{itemize}
+\item A ROC mostra a troca entre detectar um dígito e aceitar incorretamente outros dígitos.
+\item A AUC resume essa separação: 0,5 é um ranking ao acaso e 1 é um ranking perfeito.
+\item Nossa AUC média foi cerca de 0,9996; isso não significa uma acurácia de 99,96\%.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 65 segundos. Use o dígito 7 e explique os eixos como porcentagens de setes encontrados e de outros dígitos aceitos por engano como sete. Variamos um limiar sobre o escore. Foque na intuição, sem detalhar médias nem integração numérica.}
+\end{frame}
+
+\begin{frame}{O modelo ainda pode errar}
+\centering\includegraphics[width=.86\textwidth,height=.49\textheight,keepaspectratio]{errors_pt.png}\par\raggedright \begin{itemize}
+\item Estes são os primeiros dez erros no conjunto de teste.
+\item Algumas escritas são ambíguas; outros erros são limitações do modelo.
+\item Uma pontuação alta não garante uma resposta correta.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 45 segundos. Pergunte ao público qual exemplo é mais difícil de ler. Explique o valor mostrado como apoio atribuído pelo modelo à classe escolhida, e não como certeza da resposta.}
+\end{frame}
+
+\begin{frame}{O que aprendemos e o que ainda falta explorar}
+\begin{itemize}
+\item Uma rede aprende repetindo cálculos simples e pequenos ajustes.
+\item Nosso experimento registrado alcançou 97,90\% de acurácia no teste oficial.
+\item Uma execução bem-sucedida não garante o mesmo desempenho em qualquer dado ou fotografia.
+\end{itemize}
+
+\note{Tempo sugerido de fala: 85 segundos. Mencione os 24 testes que verificam cálculos e modelos salvos. Próximos passos seriam comparar várias execuções e novas condições de escrita. Peça ao público que descreva o ciclo de aprendizado e reserve cerca de três minutos para perguntas na versão principal.}
 \end{frame}
 
 \end{document}

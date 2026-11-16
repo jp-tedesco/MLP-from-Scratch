@@ -248,7 +248,7 @@ CONTRIBUTING.md       # Development and review conventions
 
 ## Presentations and collaboration
 
-We provide [complete English and Portuguese LaTeX presentations](docs/slides/README.md), each with 24 slides in exactly three parts: general neural network theory, dataset overview, and our implementation/training/results. Both public versions omit author names, include localized figures, and target a 30-minute talk. A local-only academic variant adds a programming-fundamentals subsection and title-page authors; it is ignored by Git. The sources and compiled PDFs are published together, with rebuild instructions alongside them.
+We provide [complete English and Portuguese LaTeX presentations](docs/slides/README.md), each with 24 slides in exactly three parts: general neural network theory, dataset overview, and our implementation/training/results. Both public versions omit author names, include localized figures, and target a 30-minute talk. The explanations are designed for first-year statistics students, with examples and speaker prompts rather than advanced derivations. Local academic variants in `docs/slides/academic-local/` add a programming-fundamentals subsection and title-page authors; this subdirectory is ignored by Git. The sources and compiled PDFs are published together, with rebuild instructions alongside them.
 
 Ready-to-present PDFs are published alongside the editable LaTeX sources:
 
