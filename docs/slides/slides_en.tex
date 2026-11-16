@@ -1,0 +1,224 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,booktabs,graphicx}
+\usetheme{Madrid}
+\definecolor{navy}{RGB}{22,50,79}
+\definecolor{teal}{RGB}{8,126,139}
+\setbeamercolor{structure}{fg=navy}
+\setbeamercolor{frametitle}{bg=navy,fg=white}
+\setbeamercolor{block title}{bg=teal,fg=white}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{itemize items}[circle]
+\graphicspath{{assets/}}
+\setbeameroption{hide notes}
+\title{MNIST MLP from Scratch}
+\subtitle{Learning neural network foundations with Python and NumPy}
+\author{}
+\date{16 November 2026}
+\begin{document}
+\begin{frame}\titlepage\note{30 seconds. Introduce the three parts and the 30-minute plan.}\end{frame}
+\section{Part 1: Neural Network Fundamentals}
+\begin{frame}{Artificial neural networks}
+\[f_{\theta}:\mathbb{R}^{d}\longrightarrow\mathbb{R}^{C}\]\begin{itemize}
+\item A network composes parameterized transformations to map features to outputs.
+\item Weights and biases are learned from examples; architecture and learning rate are hyperparameters.
+\item Supervised learning uses labeled pairs to minimize an objective.
+\end{itemize}
+
+\note{75 seconds. Define inputs, outputs, parameters and supervision without a dataset-specific example.}
+\end{frame}
+
+\begin{frame}{Biological and artificial neurons}
+\begin{tabular}{p{.43\textwidth}p{.48\textwidth}}\toprule Biological neuron & Artificial neuron\\\midrule Dendrites receive signals & Inputs contain numerical features\\[6pt] Synapses influence transmission & Weights scale each input\\[6pt] Cell dynamics produce electrical activity & An activation transforms a weighted sum\\\bottomrule\end{tabular}\par\vspace{10pt}This is an intuition, not a faithful simulation of a brain.\note{Pacing: 60 seconds. Explain the analogy and its limits; artificial neurons are numerical models.}
+\end{frame}
+
+\begin{frame}{Perceptrons, weights and biases}
+\[z=\sum_{j=1}^{d}w_jx_j+b,\qquad \widehat y=\mathbf1_{z\geq0}\]\begin{itemize}
+\item A perceptron uses a threshold on an affine combination for binary decisions.
+\item Weights control contribution and sign; the bias shifts the decision boundary.
+\item One affine boundary is limited to linearly separable patterns; multiple nonlinear layers increase expressiveness.
+\end{itemize}
+\[Z^{(\ell)}=A^{(\ell-1)}W^{(\ell)}+b^{(\ell)}\]
+\note{75 seconds. Distinguish the classical threshold perceptron from differentiable multilayer networks.}
+\end{frame}
+
+\begin{frame}{Nonlinearity and ReLU}
+\[A^{(\ell)}=\phi(Z^{(\ell)}),\qquad\operatorname{ReLU}(z)=\max(0,z)\]\[\operatorname{ReLU}^{\prime}(z)=\mathbf1_{z>0}\quad\text{(at zero: choose 0)}\]\begin{itemize}
+\item Positive values pass through; negative values become zero.
+\item Composing affine layers without nonlinear activations is still an affine map.
+\item Hidden activations make it possible to learn nonlinear decision boundaries.
+\end{itemize}
+
+\note{80 seconds. Contrast two affine layers with a composition containing ReLU.}
+\end{frame}
+
+\begin{frame}{Forward propagation and Softmax}
+\[A^{(0)}=X,\quad A^{(\ell)}=\phi(A^{(\ell-1)}W^{(\ell)}+b^{(\ell)})\]\[p_{ic}=\frac{e^{z_{ic}-m_i}}{\sum_k e^{z_{ik}-m_i}},\quad m_i=\max_k z_{ik},\quad\widehat y_i=\arg\max_c p_{ic}\]\begin{itemize}
+\item The forward pass applies layers in order to obtain logits and class scores.
+\item Subtracting the maximum preserves Softmax values while stabilizing exponentiation.
+\item Normalized scores need not be calibrated probabilities of correctness.
+\end{itemize}
+
+\note{65 seconds. Define logits and explain argmax separately from score normalization.}
+\end{frame}
+
+\begin{frame}{Loss functions and cross-entropy}
+\[L(\theta)=\frac1B\sum_{i=1}^{B}\ell(f_{\theta}(x_i),y_i),\qquad\ell_i=-\sum_{c=1}^{C}Y_{ic}\log p_{ic}\]\begin{itemize}
+\item A loss assigns a numerical penalty to a prediction relative to its target.
+\item For a one-hot target, cross-entropy is minus the log score of the correct class.
+\item Accuracy counts correct decisions; loss also reflects the assigned scores.
+\end{itemize}
+\[\ell_i=\log\sum_k e^{z_{ik}-m_i}-(z_{i,y_i}-m_i)\]
+\note{80 seconds. Explain why a confident incorrect answer receives a large penalty and introduce log-sum-exp.}
+\end{frame}
+
+\begin{frame}{Gradient descent}
+\[\theta_{t+1}=\theta_t-\eta\nabla_{\theta}L(\theta_t),\quad\eta>0\]\begin{itemize}
+\item The gradient points toward the steepest local increase; subtraction gives a local descent direction.
+\item The learning rate controls step size; too-large steps can overshoot.
+\item Full-batch uses all examples; mini-batch SGD estimates the gradient from a subset.
+\end{itemize}
+
+\note{70 seconds. Describe a local optimization step without promising monotonic loss or a global optimum.}
+\end{frame}
+
+\begin{frame}{Backpropagation and the chain rule}
+\[\frac{\partial L}{\partial w}=\frac{\partial L}{\partial a}\frac{\partial a}{\partial z}\frac{\partial z}{\partial w}\]\[\frac{\partial L}{\partial Z_{\mathrm{out}}}=\frac{P-Y}{B}\quad\text{(Softmax + cross-entropy)}\]\begin{itemize}
+\item Backpropagation computes derivatives efficiently through the layer composition.
+\item It computes gradients; the optimizer then uses them to update parameters.
+\item Forward intermediates are reused to evaluate the local derivatives.
+\end{itemize}
+
+\note{90 seconds. Walk through the three factors and distinguish backpropagation from optimization.}
+\end{frame}
+
+\begin{frame}{Dense-layer gradients}
+\[Z=AW+b,\qquad dW=A^{\top}dZ,\qquad db=\sum_i dZ_i\]\[dA=dZ\,W^{\top},\qquad dZ_{\mathrm{ReLU}}=dA\odot\mathbf1_{Z>0}\]\begin{itemize}
+\item With examples in rows, W has shape (input features, output features).
+\item Gradients match parameter shapes; the batch average is applied once.
+\item This completes the general learning cycle: forward, loss, backward, update.
+\end{itemize}
+
+\note{80 seconds. Check matrix dimensions and summarize the theory before introducing a dataset.}
+\end{frame}
+
+\section{Part 2: Dataset Overview}
+\begin{frame}{MNIST handwritten digits}
+\centering\includegraphics[width=\textwidth]{mnist.png}\par\raggedright\begin{itemize}
+\item Ten classes: digits 0 through 9, with grayscale images and known labels.
+\item The original partitions contain 60,000 training and 10,000 test images.
+\item We verify downloaded archives and decode the IDX format ourselves.
+\end{itemize}
+\scriptsize Dataset: LeCun, Cortes and Burges. Images are actual test examples.\note{Pacing: 50 seconds. Introduce the dataset only now; identify classes and grayscale input.}
+\end{frame}
+
+\begin{frame}{Flattening and normalization}
+\[28\times28=784,\qquad x_j=\frac{\mathrm{pixel}_j}{255}\in[0,1]\]\begin{itemize}
+\item We convert pixels to float32 and read rows in a fixed order.
+\item Inputs have shape (N, 784); integer labels have shape (N,).
+\item The MLP sees values at fixed positions, without a built-in spatial neighborhood operation.
+\end{itemize}
+\note{Pacing: 60 seconds. Explain the row-by-row order and the fixed division by 255.}
+\end{frame}
+
+\begin{frame}{Class distribution}
+\centering\includegraphics[width=.93\textwidth]{classes_en.png}\par\raggedright \begin{itemize}
+\item All ten classes are present; proportions are close to, but not exactly, uniform.
+\item The validation split preserves the class proportions of the original training pool.
+\end{itemize}
+
+\note{60 seconds. Explain relative percentages: dataset sizes differ. Exact counts are in class_counts.json.}
+\end{frame}
+
+\begin{frame}{Training, validation and test}
+\begin{center}\begin{tabular}{lrl}\toprule Partition & Images & Purpose\\\midrule Training & 50,000 & Update weights\\ Validation & 10,000 & Select settings and checkpoint\\ Official test & 10,000 & Evaluate after selection\\\bottomrule\end{tabular}\end{center}\begin{itemize}
+\item We split only the original training pool, using stratification and seed 42.
+\item We use normalization only: no deskewing or augmentation in this run.
+\end{itemize}
+\note{Pacing: 70 seconds. Describe stratification, seed 42, and why the official test does not guide selection.}
+\end{frame}
+
+\section{Part 3: Implementation, Training and Results}
+\begin{frame}{Our architecture}
+\[784\;\longrightarrow\;128\;\longrightarrow\;64\;\longrightarrow\;10\]\begin{itemize}
+\item Two dense hidden layers with ReLU; a linear output layer returns ten logits.
+\item 109,386 trainable parameters, including biases.
+\item The output weights use Xavier initialization; hidden weights use He.
+\end{itemize}
+\[(784\cdot128+128)+(128\cdot64+64)+(64\cdot10+10)=109386\]\[\sigma_{\mathrm{hidden}}=\sqrt{2/n_{\mathrm{in}}},\quad\sigma_{\mathrm{out}}=\sqrt{2/(n_{\mathrm{in}}+n_{\mathrm{out}})},\quad b=0\]\note{Pacing: 75 seconds. Connect the general layer equations to 784, 128, 64 and 10; define He variance and Xavier at the output.}
+\end{frame}
+
+\begin{frame}{How we organized the implementation}
+\begin{tabular}{p{.35\textwidth}p{.58\textwidth}}\toprule Module & Responsibility\\\midrule \texttt{data/mnist.py} & Download, verify, normalize and split\\\texttt{layers.py, activations.py} & Vectorized forward and backward operations\\\texttt{network.py, losses.py} & Compose the MLP and compute stable cross-entropy\\\texttt{optimizers.py, trainer.py} & Update parameters and coordinate training\\\texttt{metrics.py, reporting.py} & Measure and visualize predictions\\\bottomrule\end{tabular}\par\medskip Package: \texttt{src/mnist\_mlp/}. NumPy computes gradients; no deep learning framework is used.
+\note{45 seconds. Show responsibility boundaries, without turning this into a source listing.}
+\end{frame}
+
+\begin{frame}{Mini-batch SGD}
+\[\theta_{t+1}=\theta_t-\eta\nabla_{\theta}L_{\mathrm{batch}}\]\begin{itemize}
+\item We use learning rate 0.1 and batch size 64, including the final partial batch.
+\item We shuffle the training order every epoch.
+\item An epoch is one complete pass over the training examples.
+\item We run 20 epochs; seed 42 controls initialization, splitting and shuffling.
+\end{itemize}
+\note{Pacing: 90 seconds. Connect the update rule to eta 0.1, 64-image batches and the final shorter batch.}
+\end{frame}
+
+\begin{frame}{Our training workflow}
+\begin{itemize}
+\item For each batch: forward, loss, backward, SGD update.
+\item At epoch end: recompute sample-weighted training and validation metrics.
+\item We save the checkpoint with minimum validation loss.
+\item We freeze selection before measuring official test performance.
+\end{itemize}
+\small\texttt{data/mnist.py} $\to$ \texttt{network.py} $\to$ \texttt{trainer.py} $\to$ \texttt{evaluate.py}\note{Pacing: 60 seconds. We select the best checkpoint, not early stopping: all 20 epochs run.}
+\end{frame}
+
+\begin{frame}{Loss and accuracy during training}
+\centering\includegraphics[width=.94\textwidth]{curves_en.png}\par\raggedright\begin{itemize}
+\item Validation loss was lowest at epoch 13: 0.083610; accuracy was 97.73\%.
+\item Later training improvements did not consistently improve validation loss.
+\end{itemize}
+\note{Pacing: 80 seconds. Explain the temporary spikes and the training/validation gap; epoch 13 wins by validation loss.}
+\end{frame}
+
+\begin{frame}{Final evaluation of the selected checkpoint}
+\begin{center}\begin{tabular}{lr}\toprule Test metric & Measured result\\\midrule Accuracy & 97.90\%\\ Correct / incorrect & 9,790 / 210\\ Cross-entropy & 0.072777\\ Macro precision / recall & 97.90\% / 97.87\%\\ Macro / weighted F1 & 97.88\% / 97.90\%\\ Macro / micro ROC AUC & 0.999621 / 0.999617\\\bottomrule\end{tabular}\end{center}One run, one seed, 10,000 official test images.\par\scriptsize\texttt{results/baseline/extended\_metrics.json}\note{Pacing: 65 seconds. Read accuracy and F1, then distinguish decision metrics from ranking AUC.}
+\end{frame}
+
+\begin{frame}{Confusion matrix}
+\begin{columns}[c]\column{.53\textwidth}\centering\includegraphics[width=\linewidth,height=.65\textheight,keepaspectratio]{confusion_en.png}\column{.45\textwidth}\begin{itemize}
+\item Rows are true digits; columns are predicted digits.
+\item The largest directed error: 5 predicted as 3, with 14 cases.
+\item Digit 8 had the lowest F1: 97.03\%.
+\end{itemize}
+\end{columns}\note{Pacing: 55 seconds. Read one row and point out the 14 cases of five predicted as three.}
+\end{frame}
+
+\begin{frame}{ROC curves and one-vs-rest AUC}
+\begin{columns}[c]\column{.53\textwidth}\centering\includegraphics[width=\linewidth,height=.65\textheight,keepaspectratio]{roc_en.png}\column{.45\textwidth}\begin{itemize}
+\item For each digit, vary a threshold on its score against all other digits.
+\item Macro averages ten AUCs; micro pools image/class pairs.
+\item High ranking AUC is not the same as multiclass accuracy or calibration.
+\end{itemize}
+\end{columns}\note{Pacing: 65 seconds. Define one-vs-rest thresholds; AUC close to one does not imply perfect multiclass accuracy.}
+\end{frame}
+
+\begin{frame}{Real mistakes and confident wrong answers}
+\centering\includegraphics[width=.92\textwidth,height=.61\textheight,keepaspectratio]{errors_en.png}\par\raggedright First ten mistakes in test order, not a hand-picked selection. Values are the predicted-class Softmax scores.\note{Pacing: 45 seconds. Explain the deterministic first-ten-error selection and uncalibrated scores.}
+\end{frame}
+
+\begin{frame}{Verification and limitations}
+\begin{itemize}
+\item 24 tests cover finite-difference gradients, stable loss, tied ROC scores, serialization and training.
+\item The fixed-model Wilson 95\% accuracy interval is 97.60--98.16\%, under a binomial assumption.
+\item One seed does not establish variation across runs; Softmax outputs are not calibrated.
+\item We would compare seeds, learning-rate schedules and regularization on validation data.
+\end{itemize}
+\note{Pacing: 85 seconds. Conclude with verified gradients, one-seed uncertainty and future validation experiments. Reserve about three minutes for discussion in the main deck.}
+\end{frame}
+
+\end{document}
