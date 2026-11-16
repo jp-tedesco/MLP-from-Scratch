@@ -22,3 +22,5 @@ dist/
 *.fls
 *.fdb_latexmk
 docs/presentations/*.pdf
+!docs/presentations/slides_en.pdf
+!docs/presentations/slides_pt.pdf

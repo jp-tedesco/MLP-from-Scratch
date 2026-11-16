@@ -4,6 +4,8 @@ We provide two complete, standalone Beamer sources with equivalent coverage:
 
 - `slides_en.tex`: English, 27 frames.
 - `slides_pt.tex`: Brazilian Portuguese, 27 frames.
+- [slides_en.pdf](slides_en.pdf): English presentation, ready for viewing and sharing.
+- [slides_pt.pdf](slides_pt.pdf): Portuguese presentation, ready for viewing and sharing.
 - `assets/`: real MNIST examples and localized plots of the recorded checkpoint.
 
 Both presentations contain exactly three main sections:
@@ -27,8 +29,17 @@ pdflatex -interaction=nonstopmode -halt-on-error slides_pt.tex
 
 Two passes populate the section overview. The outputs are `slides_en.pdf` and `slides_pt.pdf`. Alternatively, upload this entire directory (including `assets/`) as an Overleaf ZIP project, select one `.tex` file as the main document, use pdfLaTeX, and compile. Switch the main document for the other version. Never upload just the `.tex` files without their images.
 
+We also support Tectonic, which automatically fetches the required TeX packages and reruns the engine as needed. From this directory:
+
+```bash
+tectonic slides_en.tex
+tectonic slides_pt.tex
+```
+
+Only the two presentation PDFs are versioned. Auxiliary TeX build files remain ignored. When editing a source or figure, regenerate its PDF before publishing the change.
+
 We recommend **PDF for email and presentation** because equations and layout remain stable without requiring fonts or LaTeX on the recipient's computer. Use a PDF viewer's full-screen mode. If editable office slides are required, rebuild the content in PowerPoint or Marp and review the equations and layout; PDF-to-PowerPoint conversion may flatten content into images or alter formatting.
 
-Build status (2026-11-16): both `slides_en.tex` and `slides_pt.tex` compiled successfully with the desktop editor's integrated compiler after correcting command separators. Each source contains 27 frames in three sections, and all image references were checked. Successful compilation does not constitute a complete visual review of every slide. A separate terminal TeX installation is not required for the editor's built-in preview; the commands above remain available for external builds.
+Build status (2026-11-16): both sources compiled successfully with the desktop editor's integrated compiler. The published PDFs were exported directly from the same sources using Tectonic 0.17.0. Each PDF contains 27 pages; text extraction and rendered contact sheets were checked for both languages. The PDFs are available above for immediate presentation. A terminal TeX installation is not required for the editor's built-in preview; the commands above document external rebuilds.
 
 Beamer usage reference: [Overleaf documentation](https://www.overleaf.com/learn/latex/Beamer).

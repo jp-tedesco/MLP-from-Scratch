@@ -248,7 +248,16 @@ CONTRIBUTING.md       # Development and review conventions
 
 ## Presentations and collaboration
 
-We provide [complete English and Portuguese LaTeX presentations](docs/presentations/README.md), each with 27 slides in exactly three parts: neural network fundamentals, dataset overview, and learning process/results. Both versions include localized figures. We recommend compiling to PDF for email and full-screen presentation; compilation instructions and the local build limitation are documented alongside the sources.
+We provide [complete English and Portuguese LaTeX presentations](docs/presentations/README.md), each with 27 slides in exactly three parts: neural network fundamentals, dataset overview, and learning process/results. Both versions include localized figures. The sources and compiled PDFs are published together, with rebuild instructions alongside them.
+
+Ready-to-present PDFs are published alongside the editable LaTeX sources:
+
+| Language | Presentation PDF | Editable source |
+|---|---|---|
+| English | [Download slides](docs/presentations/slides_en.pdf) | [LaTeX](docs/presentations/slides_en.tex) |
+| Portuguese | [Download slides](docs/presentations/slides_pt.pdf) | [LaTeX](docs/presentations/slides_pt.tex) |
+
+We recommend these PDFs for presentation and email because the equations and layout remain consistent without requiring a TeX installation on the recipient's computer.
 
 We use professional collaborative language and focused commits. The [development history](docs/commit_workflow.md) records the original milestones and the current update without rewriting earlier commits.
 
