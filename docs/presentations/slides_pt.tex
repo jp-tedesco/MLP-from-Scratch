@@ -44,7 +44,7 @@
 \end{frame}
 
 \begin{frame}{Neurônios biológicos e artificiais}
-\begin{tabular}{p{.43\textwidth}p{.48\textwidth}}\toprule Neurônio biológico & Neurônio artificial\\\midrule Dendritos recebem sinais & Entradas contêm atributos numéricos\\[6pt] Sinapses influenciam a transmissão & Pesos multiplicam cada entrada\\[6pt] Dinâmica celular produz atividade elétrica & Uma ativação transforma uma soma ponderada\\\bottomrule\end{tabular}\vspace{10pt}Essa é uma analogia, não uma simulação fiel do cérebro.\end{frame}
+\begin{tabular}{p{.43\textwidth}p{.48\textwidth}}\toprule Neurônio biológico & Neurônio artificial\\\midrule Dendritos recebem sinais & Entradas contêm atributos numéricos\\[6pt] Sinapses influenciam a transmissão & Pesos multiplicam cada entrada\\[6pt] Dinâmica celular produz atividade elétrica & Uma ativação transforma uma soma ponderada\\\bottomrule\end{tabular}\par\vspace{10pt}Essa é uma analogia, não uma simulação fiel do cérebro.\end{frame}
 
 \begin{frame}{Pesos e vieses}
 \[z=\sum_{j=1}^{d}w_jx_j+b,\qquad a=\phi(z)\]\begin{itemize}
@@ -183,7 +183,7 @@
 \end{columns}\end{frame}
 
 \begin{frame}{Erros reais e previsões confiantes}
-\centering\includegraphics[width=.92\textwidth,height=.61\textheight,keepaspectratio]{errors_pt.png}\par\raggedrightPrimeiros dez erros na ordem do teste, sem seleção manual. Os valores são escores Softmax da classe prevista.\end{frame}
+\centering\includegraphics[width=.92\textwidth,height=.61\textheight,keepaspectratio]{errors_pt.png}\par\raggedright Primeiros dez erros na ordem do teste, sem seleção manual. Os valores são escores Softmax da classe prevista.\end{frame}
 
 \begin{frame}{Verificação e limitações}
 \begin{itemize}
@@ -200,6 +200,6 @@
 \item O resultado é uma evidência reprodutível desta execução, não uma garantia universal de desempenho.
 \item Após observar erros do teste, mudanças guiadas por eles precisam de nova evidência reservada.
 \end{itemize}
-\small\url{https://github.com/jp-tedesco/MLP-from-Scratch}\par\texttt{docs/experiments.md}\quad\texttt{results/baseline/}\par\medskipReferência do dataset: LeCun, Cortes e Burges; espelho CVDF do MNIST. Todos os gráficos usam nosso modelo registrado.\end{frame}
+\small\url{https://github.com/jp-tedesco/MLP-from-Scratch}\par\texttt{docs/experiments.md}\quad\texttt{results/baseline/}\par\medskip Referência do dataset: LeCun, Cortes e Burges; espelho CVDF do MNIST. Todos os gráficos usam nosso modelo registrado.\end{frame}
 
 \end{document}
