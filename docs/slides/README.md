@@ -1,6 +1,6 @@
 # Thirty-minute project presentations
 
-We publish two equivalent main presentations, each with **26 slides** and no author or group-member names:
+We publish two equivalent main presentations, each with **25 slides** and no author or group-member names:
 
 | Language | Ready-to-present PDF | Complete editable source |
 |---|---|---|
@@ -17,7 +17,7 @@ We publish two equivalent main presentations, each with **26 slides** and no aut
 | 4-10 | Part 1: concepts that explain the learning process | 8:45 |
 | 11-15 | Part 2: images, brightness values, proportions, and data split | 5:00 |
 | 16-25 | Part 3: training, interpretation of results, and limitations | 12:05 |
-| 26 | Closing and audience conversation | 2:25 |
+| After slide 25 | Audience conversation, without a separate closing slide | 2:25 |
 | **Total** | | **30:00** |
 
 The intended audience is first-year statistics students and people without a machine learning background. After the title page, the motivation slide explains our purpose: learning the foundations by building the calculations ourselves and connecting them to an observable result. Slides 4, 11, and 16 explicitly introduce each part, with a subtitle explaining its purpose. We organize the content as a story about information, connections, predictions, and improvement. There are no code excerpts, project filenames, derivative calculations, or matrix derivations in any deck. The sources contain hidden `\note{...}` speaker prompts with approximate durations and explanations; open the `.tex` file to rehearse them. Rehearsal determines the final pace. We use audience questions and discussion to make the 30-minute talk engaging rather than adding more technical material.
@@ -48,7 +48,7 @@ We use Beamer (Madrid theme, 16:9), babel, lmodern, amsmath, amssymb, booktabs, 
 
 ## Local academic variants
 
-Separate academic variants are stored only under `docs/slides/academic-local/`, which is excluded by `.gitignore`. They sit beside the public slides locally but are **not part of the repository**. They contain 29 slides: the same 26-slide main content, plus author information on the title page and a three-slide programming subsection immediately before Part 2. Public dates remain 16 November 2026; local academic dates remain 17 November 2026.
+Separate academic variants are stored only under `docs/slides/academic-local/`, which is excluded by `.gitignore`. They sit beside the public slides locally but are **not part of the repository**. They contain 28 slides: the same 25-slide main content, plus author information on the title page and a three-slide programming subsection immediately before Part 2. Public dates remain 16 November 2026; local academic dates remain 17 November 2026.
 
 That subsection uses workflow responsibilities, not code or software/module names. Functions organize preparation, prediction, training, and evaluation; loops repeat work across images, layers, and epochs; conditionals check data and decide when a model should be saved. Its three 40-second explanations add two minutes; reducing final discussion to approximately 0:25 keeps the academic talk near 30 minutes. Apart from the author field, local presentation date, and inserted subsection, the sources are identical to the main versions.
 
