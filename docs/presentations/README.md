@@ -29,6 +29,6 @@ Two passes populate the section overview. The outputs are `slides_en.pdf` and `s
 
 We recommend **PDF for email and presentation** because equations and layout remain stable without requiring fonts or LaTeX on the recipient's computer. Use a PDF viewer's full-screen mode. If editable office slides are required, rebuild the content in PowerPoint or Marp and review the equations and layout; PDF-to-PowerPoint conversion may flatten content into images or alter formatting.
 
-Build status: source structure and asset references were checked locally, but no LaTeX engine was available. We therefore do not claim successful compilation or visual verification of compiled slides. Compile with the commands above or Overleaf before presenting.
+Build status (2026-11-16): `slides_en.tex` compiled successfully with the desktop editor's integrated compiler after correcting command separators. This confirms compilation of the English source, not a complete visual review of every slide. The Portuguese source has not yet been compiled in this check. A separate terminal TeX installation is not required for the editor's built-in preview; the commands above remain available for external builds.
 
 Beamer usage reference: [Overleaf documentation](https://www.overleaf.com/learn/latex/Beamer).

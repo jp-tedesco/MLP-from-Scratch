@@ -44,7 +44,7 @@
 \end{frame}
 
 \begin{frame}{Biological and artificial neurons}
-\begin{tabular}{p{.43\textwidth}p{.48\textwidth}}\toprule Biological neuron & Artificial neuron\\\midrule Dendrites receive signals & Inputs contain numerical features\\[6pt] Synapses influence transmission & Weights scale each input\\[6pt] Cell dynamics produce electrical activity & An activation transforms a weighted sum\\\bottomrule\end{tabular}\vspace{10pt}This is an intuition, not a faithful simulation of a brain.\end{frame}
+\begin{tabular}{p{.43\textwidth}p{.48\textwidth}}\toprule Biological neuron & Artificial neuron\\\midrule Dendrites receive signals & Inputs contain numerical features\\[6pt] Synapses influence transmission & Weights scale each input\\[6pt] Cell dynamics produce electrical activity & An activation transforms a weighted sum\\\bottomrule\end{tabular}\par\vspace{10pt}This is an intuition, not a faithful simulation of a brain.\end{frame}
 
 \begin{frame}{Weights and biases}
 \[z=\sum_{j=1}^{d}w_jx_j+b,\qquad a=\phi(z)\]\begin{itemize}
@@ -183,7 +183,7 @@
 \end{columns}\end{frame}
 
 \begin{frame}{Real mistakes and confident wrong answers}
-\centering\includegraphics[width=.92\textwidth,height=.61\textheight,keepaspectratio]{errors_en.png}\par\raggedrightFirst ten mistakes in test order, not a hand-picked selection. Values are the predicted-class Softmax scores.\end{frame}
+\centering\includegraphics[width=.92\textwidth,height=.61\textheight,keepaspectratio]{errors_en.png}\par\raggedright First ten mistakes in test order, not a hand-picked selection. Values are the predicted-class Softmax scores.\end{frame}
 
 \begin{frame}{Verification and limitations}
 \begin{itemize}
@@ -200,6 +200,6 @@
 \item Our result is reproducible evidence for this run, not a universal performance guarantee.
 \item After inspecting test errors, future test-guided changes need fresh held-out evidence.
 \end{itemize}
-\small\url{https://github.com/jp-tedesco/MLP-from-Scratch}\par\texttt{docs/experiments.md}\quad\texttt{results/baseline/}\par\medskipDataset reference: LeCun, Cortes and Burges; CVDF MNIST mirror. All plots use our recorded checkpoint.\end{frame}
+\small\url{https://github.com/jp-tedesco/MLP-from-Scratch}\par\texttt{docs/experiments.md}\quad\texttt{results/baseline/}\par\medskip Dataset reference: LeCun, Cortes and Burges; CVDF MNIST mirror. All plots use our recorded checkpoint.\end{frame}
 
 \end{document}
