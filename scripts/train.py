@@ -7,24 +7,22 @@ import json
 import logging
 import platform
 from pathlib import Path
-import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
 
 import numpy as np
 
-from src.data.mnist import load_mnist
-from src.mlp.network import MLP
-from src.mlp.optimizers import SGD
-from src.mlp.trainer import Trainer
+from mnist_mlp.data.mnist import load_mnist
+from mnist_mlp.network import MLP
+from mnist_mlp.optimizers import SGD
+from mnist_mlp.trainer import Trainer
 
 
 def parse_args() -> argparse.Namespace:
     """Parse training settings; paths are relative to the current directory."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-dir", type=Path, default=ROOT / "data")
-    parser.add_argument("--output-dir", type=Path, default=ROOT / "results" / "baseline")
+    parser.add_argument("--output-dir", type=Path, default=ROOT / "results" / "my-run")
     parser.add_argument("--hidden-sizes", type=int, nargs="*", default=[128, 64])
     parser.add_argument("--epochs", type=int, default=20)
     parser.add_argument("--batch-size", type=int, default=64)

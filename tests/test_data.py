@@ -8,7 +8,7 @@ import unittest
 
 import numpy as np
 
-from src.data.mnist import _read_idx, _split_indices
+from mnist_mlp.data.mnist import _read_idx, _split_indices
 
 
 class IDXTests(unittest.TestCase):

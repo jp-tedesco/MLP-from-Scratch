@@ -3,7 +3,7 @@ import unittest
 
 import numpy as np
 
-from src.mlp.metrics import binary_roc_curve, classification_report
+from mnist_mlp.metrics import binary_roc_curve, classification_report
 
 
 class ROCTests(unittest.TestCase):

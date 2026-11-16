@@ -5,11 +5,11 @@ import unittest
 
 import numpy as np
 
-from src.mlp.losses import CrossEntropyLoss
-from src.mlp.metrics import accuracy
-from src.mlp.network import MLP
-from src.mlp.optimizers import SGD
-from src.mlp.trainer import Trainer, evaluate
+from mnist_mlp.losses import CrossEntropyLoss
+from mnist_mlp.metrics import accuracy
+from mnist_mlp.network import MLP
+from mnist_mlp.optimizers import SGD
+from mnist_mlp.trainer import Trainer, evaluate
 
 
 class TrainerTests(unittest.TestCase):

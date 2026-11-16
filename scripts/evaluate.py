@@ -5,18 +5,16 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
-import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
 
 import numpy as np
 
-from src.data.mnist import load_test_data
-from src.mlp.network import MLP
-from src.mlp.metrics import classification_report
-from src.mlp.reporting import save_diagnostic_figures
-from src.mlp.trainer import evaluate
+from mnist_mlp.data.mnist import load_test_data
+from mnist_mlp.network import MLP
+from mnist_mlp.metrics import classification_report
+from mnist_mlp.reporting import save_diagnostic_figures
+from mnist_mlp.trainer import evaluate
 
 
 def main() -> None:

@@ -6,11 +6,11 @@ import unittest
 
 import numpy as np
 
-from src.mlp.activations import softmax
-from src.mlp.losses import CrossEntropyLoss
-from src.mlp.metrics import accuracy
-from src.mlp.network import MLP
-from src.mlp.optimizers import SGD
+from mnist_mlp.activations import softmax
+from mnist_mlp.losses import CrossEntropyLoss
+from mnist_mlp.metrics import accuracy
+from mnist_mlp.network import MLP
+from mnist_mlp.optimizers import SGD
 
 
 class NumericalTests(unittest.TestCase):
