@@ -2,6 +2,8 @@
 
 ## Presentation update - 2026-11-18
 
+- We expanded the local academic Part 1 code walkthrough to explain forward prediction, loss, reverse-layer backpropagation, optimizer updates, and the full prediction method. Three existing slides are reused; the 28-slide count and 25:35 narration budget are preserved by shortening repeated Part 3 explanations.
+
 - We added a vector repository QR code and clickable link to each title page.
 - Existing implementation slides now include short commented excerpts from the actual NumPy code, with source provenance. The local academic maximum-selection example also shows its implementation.
 - Slide counts remain 25 public and 28 academic. Revised narration budgets reserve two minutes for questions and at least 2:25 of margin within the 30-minute slot; dates and author visibility are unchanged.
