@@ -34,30 +34,27 @@ aboveskip=4pt,belowskip=4pt,breaklines=false,tabsize=4}
 \begin{column}{.27\textwidth}\centering\colorbox{white}{\qrcode[height=2.6cm]{https://github.com/jp-tedesco/MLP-from-Scratch}}\par\medskip{\small Explore o repositório}\par\smallskip\href{https://github.com/jp-tedesco/MLP-from-Scratch}{\small GitHub: MLP-from-Scratch}\end{column}\end{columns}
 \note{Tempo de fala: 30 segundos. Apresente o título e convide o público a ler o QR Code do repositório. O destino é https://github.com/jp-tedesco/MLP-from-Scratch. Apresente os integrantes apenas quando a capa acadêmica local exibir os nomes. As pessoas podem explorar o repositório enquanto acompanham a fala; não espere todos terminarem a navegação.}\end{frame}
 
-
 \begin{frame}{Por que fizemos este projeto}
 {\Large\inserttitle}\par\medskip\begin{block}{Nossa motivação}Queríamos entender como redes neurais aprendem, construindo os cálculos do zero e ligando conceitos da faculdade a um resultado que pudéssemos observar.\end{block}\begin{itemize}
 \item Aprender o que transforma exemplos em previsões.
 \item Aplicar esse entendimento ao reconhecimento de dígitos escritos à mão.
 \end{itemize}
-\note{Tempo de fala: 35 segundos. Comece pelo objetivo de aprender, e não pela taxa de acerto. Escolhemos um problema acessível para observar o processo completo.}
+\note{Tempo de fala: 25 segundos. Comece pelo objetivo de aprender, e não pela taxa de acerto. Escolhemos um problema acessível para observar o processo completo.}
 \end{frame}
 
 \begin{frame}{Prefácio}
 \begin{itemize}
-\item Parte 1: fundamentos das redes neurais.
+\item Parte 1: redes neurais e o código por trás dos conceitos.
 \item Parte 2: o conjunto de imagens MNIST.
-\item Parte 3: nosso modelo, treinamento e resultados.
+\item Parte 3: preparação dos dados e divisão treino/validação/teste.
+\item Parte 4: implementação, treinamento e resultados.
 \end{itemize}
-\note{Tempo de fala: 20 segundos. Apresente brevemente o tema de cada parte.}\end{frame}
+\note{Tempo de fala: 20 segundos. Cite o tema de cada parte. A preparação dos dados terá uma parte própria antes do resumo da implementação.}\end{frame}
 
-
-
-\section{Parte 1: Como uma rede neural funciona}
+\section{Parte 1: Redes neurais e seu código}
 \begin{frame}{Parte 1}
-\begin{center}\vspace{.35cm}{\Huge Entender a ideia básica}\par\vspace{.6cm}{\large O que acontece entre receber informações e dar uma resposta?}\end{center}
-\note{Tempo de fala: 10 segundos. Anuncie a mudança de parte e seu objetivo.}
-\end{frame}
+\begin{center}\vspace{.35cm}{\Huge Entender a rede}\par\vspace{.6cm}{\large Ligar neurônios, camadas e ativações a trechos curtos de código.}\end{center}
+\note{Tempo de fala: 10 segundos. Anuncie a nova parte e seu objetivo.}\end{frame}
 
 \begin{frame}{Uma rede neural combina informações em camadas}
 \begin{center}\resizebox{.62\textwidth}{!}{\input{diagrams/layers_pt.tex}}\end{center}\begin{itemize}
@@ -65,37 +62,29 @@ aboveskip=4pt,belowskip=4pt,breaklines=false,tabsize=4}
 \item Cada círculo é um neurônio; as setas passam resultados para a próxima camada.
 \item Aprender é ajustar as conexões usando exemplos com respostas conhecidas.
 \end{itemize}
-\note{Tempo de fala: 75 segundos. Leia o diagrama da esquerda para a direita. Uma camada reúne neurônios na mesma etapa. Escondida significa entre entrada e saída. A propagação direta segue as setas. Esta rede pequena é ilustrativa, com quantidades arbitrárias de neurônios. O modelo se inspira na biologia, mas faz cálculos numéricos, sem compreensão humana.}
+\note{Tempo de fala: 65 segundos. Leia o diagrama da esquerda para a direita. Uma camada reúne neurônios na mesma etapa. Escondida significa entre entrada e saída. A propagação direta segue as setas. Esta rede pequena é ilustrativa, com quantidades arbitrárias de neurônios. O modelo se inspira na biologia, mas faz cálculos numéricos, sem compreensão humana.}
 \end{frame}
 
 \begin{frame}{As conexões definem o que pesa mais}
-\begin{center}\resizebox{.70\textwidth}{!}{\input{diagrams/weights_pt.tex}}\end{center}\begin{itemize}
-\item Os pesos controlam a influência das entradas; pesos negativos podem contrariar uma contribuição.
-\item O viés acrescenta um ajuste ao resultado combinado.
-\item O treinamento altera pesos e vieses para melhorar as previsões.
-\end{itemize}
-\note{Tempo de fala: 65 segundos. O neurônio ilustrativo recebe 2 e 1. As contribuições com os pesos são +1 e -1; o viés +1 produz resultado combinado 1 antes da ativação. Explique influência sem pedir cálculos ao público. Os sinais indicam o sentido da contribuição, não se um peso é bom ou ruim.}
-\end{frame}
+\begin{center}\resizebox{.55\textwidth}{!}{\input{diagrams/weights_pt.tex}}\end{center}\begin{itemize}
+\item Os pesos controlam a influência das entradas; o viés acrescenta um ajuste.
+\item O mesmo cálculo é feito para vários neurônios de uma vez.
+\end{itemize}\projectcode{Dense.forward}{snippets/dense.py}
+\note{Tempo de fala: 70 segundos. Relacione as setas com self.weight.value e a seta do viés com self.bias.value. A operação @ combina os valores de entrada com os pesos, e o sinal de mais acrescenta o viés. É a parte afim, antes da ativação. O neurônio ilustrativo combina 2 vezes 0,5 e 1 vezes -1 e depois soma o viés 1. Não peça cálculos de matrizes ao público.}\end{frame}
 
+\begin{frame}{ReLU: da regra de ativação ao código}
+\begin{columns}[c]\begin{column}{.43\textwidth}\centering\resizebox{.86\textwidth}{!}{\input{diagrams/relu_pt.tex}}\end{column}\begin{column}{.54\textwidth}\begin{itemize}
+\item Uma ativação transforma o resultado do neurônio antes da próxima camada.
+\item A ReLU mantém valores positivos e transforma os negativos em zero.
+\end{itemize}\end{column}\end{columns}\projectcode{ReLU.forward}{snippets/relu_forward.py}
+\note{Tempo de fala: 85 segundos. Aponte -2 virando zero e 2 permanecendo 2. np.maximum compara cada valor com zero e mantém o maior, implementando diretamente o gráfico. A ativação não linear dá flexibilidade às camadas; a regra fica fixa enquanto os pesos são aprendidos. O restante do método completo guarda informações para a retropropagação. Foque a regra de uma linha.}\end{frame}
 
-
-\begin{frame}{As funções de ativação dão flexibilidade às camadas}
-\begin{columns}[c]\begin{column}{.48\textwidth}\centering\resizebox{.96\textwidth}{!}{\input{diagrams/relu_pt.tex}}\end{column}\begin{column}{.49\textwidth}\begin{itemize}
-\item Uma ativação transforma o resultado do neurônio antes de ele seguir adiante.
-\item A ReLU transforma valores negativos em zero e mantém os positivos.
-\item Essa transformação ajuda as camadas a representar relações mais complexas.
-\end{itemize}\end{column}\end{columns}
-\note{Tempo de fala: 75 segundos. Leia o valor que entra no eixo horizontal e o que sai no vertical. Acompanhe -2 até 0, depois 2 até 2. Explique a regra antes do benefício: ativações não lineares permitem que várias camadas afins representem mais do que uma única transformação afim. Mantenha a ideia verbal, sem equações nem derivadas. A regra da ativação fica fixa enquanto os pesos das conexões são aprendidos.}
-\end{frame}
-
-\begin{frame}{A Softmax organiza os valores; escolhemos o maior}
-\begin{columns}[c]\begin{column}{.55\textwidth}\centering\resizebox{.96\textwidth}{!}{\input{diagrams/softmax_pt.tex}}\end{column}\begin{column}{.42\textwidth}\begin{itemize}
-\item Cada resposta recebe uma pontuação.
-\item A Softmax produz valores que somam 100\%.
-\item Escolher o maior valor é uma etapa separada; a resposta ainda pode estar errada.
-\end{itemize}\end{column}\end{columns}
-\note{Tempo de fala: 65 segundos. A, B e C são categorias genéricas de resposta. As pontuações ilustrativas 2, 1 e 0 produzem aproximadamente 66,5, 24,5 e 9,0 por cento. São valores ilustrativos. A Softmax normaliza os valores e preserva sua ordem; não escolhe uma classe nem garante probabilidades calibradas. Uma operação de busca do máximo seleciona a classe.}
-\end{frame}
+\begin{frame}{Softmax: transformar pontuações em saídas comparáveis}
+\begin{columns}[c]\begin{column}{.43\textwidth}\centering\resizebox{.94\textwidth}{!}{\input{diagrams/softmax_pt.tex}}\end{column}\begin{column}{.54\textwidth}\begin{itemize}
+\item Os valores de saída somam 100\%; a maior pontuação continua sendo a maior.
+\item Organizar as pontuações é diferente de escolher uma resposta.
+\end{itemize}\end{column}\end{columns}\projectcode{softmax}{snippets/softmax.py}
+\note{Tempo de fala: 85 segundos. Esta é a normalização das pontuações de saída, não o pré-processamento dos pixels. A normalização dos pixels será explicada apenas na Parte 3. Subtrair a maior pontuação mantém estável o cálculo exponencial. A exponenciação produz valores positivos; dividir pela soma faz a linha somar um. Explique finalidades, sem derivação. A, B e C são categorias ilustrativas, não resultados medidos. O método de previsão escolhe a maior saída separadamente.}\end{frame}
 
 \begin{frame}{O aprendizado repete três passos}
 \begin{itemize}
@@ -104,26 +93,21 @@ aboveskip=4pt,belowskip=4pt,breaklines=false,tabsize=4}
 \item Ajustar: um otimizador altera um pouco os pesos e o processo se repete.
 \end{itemize}
 
-\note{Tempo de fala: 85 segundos. Explique a perda como uma penalidade: menor é melhor. A entropia cruzada penaliza atribuir pouco apoio à resposta correta. A retropropagação fornece informações para o ajuste; a descida do gradiente realiza o ajuste. Não é necessário calcular derivadas. Pergunte qual etapa precisa conhecer as respostas antes de avançar.}
+\note{Tempo de fala: 70 segundos. Explique a perda como uma penalidade: menor é melhor. A entropia cruzada penaliza atribuir pouco apoio à resposta correta. A retropropagação fornece informações para o ajuste; a descida do gradiente realiza o ajuste. Não é necessário calcular derivadas. Pergunte qual etapa precisa conhecer as respostas antes de avançar.}
 \end{frame}
 
-\section{Parte 2: As imagens que utilizamos}
+\section{Parte 2: O conjunto MNIST}
 \begin{frame}{Parte 2}
-\begin{center}\vspace{.35cm}{\Huge Conhecer as imagens}\par\vspace{.6cm}{\large Agora precisamos de exemplos com respostas para a rede praticar.}\end{center}
-\note{Tempo de fala: 10 segundos. Anuncie a mudança de parte e seu objetivo.}
-\end{frame}
+\begin{center}\vspace{.35cm}{\Huge Conhecer o conjunto de dados}\par\vspace{.6cm}{\large Quais imagens e respostas temos disponíveis?}\end{center}
+\note{Tempo de fala: 10 segundos. Anuncie a nova parte e seu objetivo.}\end{frame}
 
-\begin{frame}{A tarefa: reconhecer um dígito escrito à mão}
-\centering\includegraphics[width=\textwidth]{mnist.png}\par\raggedright \begin{itemize}
-\item O MNIST contém imagens em tons de cinza, com rótulos conhecidos de 0 a 9.
-\item Cada imagem tem 28 por 28 pixels, organizados em 784 valores.
-\item Dividimos o brilho por 255 para usar uma escala entre 0 e 1.
+\begin{frame}{MNIST: imagens com respostas conhecidas}
+\centering\includegraphics[width=\textwidth]{mnist.png}\par\raggedright\begin{itemize}
+\item Imagens em tons de cinza, de 28 por 28 pixels, com rótulos de 0 a 9.
+\item O conjunto oficial tem 60 mil imagens de treino e 10 mil de teste.
+\item Pessoas diferentes escrevem o mesmo dígito de formas diferentes.
 \end{itemize}
-
-\note{Tempo de fala: 70 segundos. Fonte: MNIST de LeCun, Cortes e Burges. Os rótulos informam as respostas corretas; a escrita varia. Um pixel é uma medida de brilho. Preto vira zero, branco vira um e cinza fica entre eles. A sequência segue uma ordem fixa. A Parte 3 acompanhará uma imagem real por essa preparação e pela rede.}
-\end{frame}
-
-
+\note{Tempo de fala: 45 segundos. Fonte: MNIST de LeCun, Cortes e Burges. Aponte a variedade de escrita e as respostas conhecidas. Esta parte apresenta apenas o conjunto original. Deixe a conversão dos pixels e a separação da validação para a Parte 3.}\end{frame}
 
 \begin{frame}{Todos os dígitos aparecem nos dados}
 \centering\includegraphics[width=.9\textwidth]{classes_pt.png}\par\raggedright \begin{itemize}
@@ -132,51 +116,54 @@ aboveskip=4pt,belowskip=4pt,breaklines=false,tabsize=4}
 \item Isso ajuda a verificar se um bom resultado geral não depende apenas de um dígito muito comum.
 \end{itemize}
 
-\note{Tempo de fala: 40 segundos. Leia como porcentagens, não contagens. Treino, validação e teste têm quantidades diferentes de imagens, mas proporções comparáveis de classes. As contagens exatas continuam nos arquivos do experimento.}
+\note{Tempo de fala: 30 segundos. Todos os dígitos aparecem, com proporções próximas de um décimo, mas não exatamente iguais. As cores mostram os grupos do experimento; a próxima parte explica seus papéis. As contagens vêm da divisão real com seed 42.}
 \end{frame}
 
-\begin{frame}{Praticar é diferente de fazer a prova final}
-\begin{center}\begin{tabular}{lrl}\toprule Grupo & Imagens & Objetivo\\\midrule Treino & 50.000 & Praticar e ajustar\\ Validação & 10.000 & Escolher durante o desenvolvimento\\ Teste & 10.000 & Avaliar depois da escolha\\\bottomrule\end{tabular}\end{center}\begin{itemize}
-\item Reservamos imagens diferentes para funções diferentes.
-\item O teste final não orienta a escolha do modelo.
-\end{itemize}
-
-\note{Tempo de fala: 75 segundos. Use a analogia de exercícios, simulado e prova final. Por que avaliar nos mesmos exercícios seria enganoso? Explique que as 60.000 imagens oficiais de treino foram divididas em 50.000 para treino e 10.000 para validação; o teste oficial ficou separado.}
-\end{frame}
-
-\section{Parte 3: Como nossa rede aprendeu}
+\section{Parte 3: Preparação e divisão dos dados}
 \begin{frame}{Parte 3}
-\begin{center}\vspace{.35cm}{\Huge Observar o aprendizado}\par\vspace{.6cm}{\large Ligar a ideia básica à rede que construímos e aos seus resultados.}\end{center}
-\note{Tempo de fala: 10 segundos. Anuncie a mudança de parte e seu objetivo.}
-\end{frame}
+\begin{center}\vspace{.35cm}{\Huge Preparar os dados}\par\vspace{.6cm}{\large Converter pixels e separar a prática da avaliação.}\end{center}
+\note{Tempo de fala: 10 segundos. Anuncie a nova parte e seu objetivo.}\end{frame}
 
-\begin{frame}{Acompanhando uma imagem: um 7 escrito à mão}
+\begin{frame}{Preparando os pixels: flattening e normalização}
 \begin{columns}[c]\begin{column}{.24\textwidth}\centering\includegraphics[height=.31\textheight]{example_digit_7.png}\end{column}\begin{column}{.72\textwidth}\begin{itemize}
-\item Esta imagem tem 28 por 28 pixels: 784 valores de brilho.
-\item Usamos a mesma escala em todas as imagens: preto é 0 e branco é 1.
+\item O flattening organiza os pixels de 28 por 28 em 784 valores.
+\item A normalização divide o brilho por 255, deixando os valores entre 0 e 1.
 \end{itemize}\end{column}\end{columns}\projectcode{mnist.py: preparação das imagens}{snippets/preprocess.py}
 \note{Tempo de fala: 80 segundos. Fonte da imagem: primeira imagem do teste oficial MNIST, rotulada como 7; MNIST de LeCun, Cortes e Burges. Explique reshape como organizar pixels em uma linha, astype como permitir valores fracionários e a divisão por 255 como colocar o brilho entre zero e um. Por exemplo, brilho original 84 vira cerca de 0,33. Não detalhe tipos do NumPy. O rótulo fica separado e não entra na previsão. O trecho é o pré-processamento real com comentários acrescentados.}\end{frame}
 
-\begin{frame}{Como nossa rede usa esses valores}
-\begin{center}\Large $784\longrightarrow128\longrightarrow64\longrightarrow10$\end{center}\begin{itemize}
-\item As camadas intermediárias combinam as entradas e depois aplicam ReLU.
-\item A camada de saída produz dez pontuações, uma para cada dígito possível.
-\end{itemize}\projectcode{layers.py: trecho de Dense.forward}{snippets/dense.py}
-\note{Tempo de fala: 75 segundos. Leia a linha return como combinar entradas com pesos e depois acrescentar o viés. O símbolo @ faz a multiplicação de matrizes para os exemplos e neurônios em conjunto. A ReLU é uma etapa separada nas camadas escondidas; a última camada densa retorna pontuações. O trecho mostra o cálculo após as verificações do método completo. Não derive produtos de matrizes nem atribua traços específicos a neurônios individuais.}\end{frame}
-
-\begin{frame}{Por que a resposta é 7 neste exemplo}
-\centering\includegraphics[height=.34\textheight]{example_scores_pt.png}\par\raggedright\begin{itemize}
-\item A maior saída da Softmax para esta imagem é a do dígito 7.
-\item A operação de máximo escolhe esse dígito; uma pontuação alta ainda pode estar errada.
-\end{itemize}\projectcode{network.py: trecho de MLP.predict}{snippets/predict.py}
-\note{Tempo de fala: 65 segundos. Estas são saídas reais do melhor checkpoint salvo. Argmax devolve o índice da maior pontuação de cada imagem; os índices correspondem aos dígitos de 0 a 9. Nosso método predict compara as pontuações diretamente. A Softmax preserva a ordem, então a classe é a mesma da maior probabilidade. Axis 1 significa comparar as classes dentro de cada imagem. Na previsão os pesos ficam fixos; no treinamento eles são ajustados. Não aprofunde a notação dos eixos.}\end{frame}
-
-\begin{frame}{Como a prática foi repetida}
+\begin{frame}{O rótulo da resposta fica separado da imagem}
 \begin{itemize}
-\item 64 imagens por mini-lote, ao longo de 20 épocas com ordem embaralhada.
-\item Para cada grupo: prever, medir a perda, retropropagar e atualizar.
-\end{itemize}\projectcode{trainer.py: laço interno dos mini-lotes}{snippets/training.py}
-\note{Tempo de fala: 110 segundos. Acompanhe os comentários e as ações, sem explicar cada argumento. O laço for percorre mini-lotes; indices seleciona as imagens atuais. Forward prevê, criterion mede a perda, backward retropropaga gradientes e o otimizador atualiza os pesos. O laço externo de épocas cria uma nova ordem embaralhada a cada época. A perda e o otimizador são inicializados antes. O SGD usa taxa de aprendizado 0,1. As instruções exibidas vêm do laço real; os comentários acrescentados explicam as etapas.}\end{frame}
+\item As entradas contêm pixels; um rótulo como 7 é a resposta conhecida.
+\item Guardamos os rótulos como inteiros. Nossa perda aceita diretamente o número da classe.
+\item Este treinamento não converte os rótulos em vetores one-hot.
+\end{itemize}\projectcode{mnist.py: entradas e rótulos}{snippets/integer_labels.py}
+\note{Tempo de fala: 45 segundos. Um rótulo não é outro pixel nem uma entrada adicional. O carregador devolve linhas de imagens float32 e rótulos int64 separados. CrossEntropyLoss aceita alvos inteiros e usa o identificador da classe para localizar a saída correta. Também aceita distribuições, mas o treinamento realizado usou inteiros. Explique one-hot só se perguntarem: é outra forma de representar a mesma classe, não uma etapa usada neste treinamento.}\end{frame}
+
+\begin{frame}{Imagens diferentes para treino, escolha e teste final}
+\begin{center}\begin{tabular}{lrl}\toprule Grupo & Imagens & Finalidade\\\midrule Treino & 50.000 & Ajustar pesos\\ Validação & 10.000 & Escolher uma versão\\ Teste & 10.000 & Avaliação final\\\bottomrule\end{tabular}\end{center}\begin{itemize}
+\item Treino e validação preservam as proporções dos dígitos, com seed 42.
+\item O teste oficial fica separado durante a escolha do modelo.
+\end{itemize}\projectcode{load\_mnist: dividir o treino original}{snippets/split_data.py}
+\note{Tempo de fala: 90 segundos. Apenas as 60 mil imagens oficiais de treino são divididas em 50 mil e 10 mil. A estratificação distribui a validação proporcionalmente por dígito, com arredondamento para obter o total exato; os índices de cada classe são embaralhados por um gerador com semente. Seed 42 torna a divisão reproduzível. O teste oficial é carregado separadamente, não retirado dessas 60 mil imagens. A validação escolhe o checkpoint de menor perda; o teste avalia o modelo escolhido ao final. A escala dos pixels usa a constante 255, não estatísticas aprendidas com todos os grupos.}\end{frame}
+
+\section{Parte 4: Implementação, treinamento e resultados}
+\begin{frame}{Parte 4}
+\begin{center}\vspace{.35cm}{\Huge Ligar o código aos resultados}\par\vspace{.6cm}{\large Acompanhar as funções, o treinamento e as previsões finais.}\end{center}
+\note{Tempo de fala: 10 segundos. Anuncie a nova parte e seu objetivo.}\end{frame}
+
+\begin{frame}{Como o código conecta as etapas do aprendizado}
+\begin{center}\large $784\longrightarrow128\longrightarrow64\longrightarrow10$\end{center}\begin{itemize}
+\item \textbf{forward} prevê pontuações; a \textbf{perda} compara com os rótulos conhecidos.
+\item \textbf{backward} calcula gradientes; \textbf{step} ajusta os pesos.
+\end{itemize}\projectcode{Trainer.fit: as quatro chamadas centrais}{snippets/learning_cycle.py}
+\note{Tempo de fala: 95 segundos. Este é o resumo da implementação. Os dados já estão preparados, como explicado na Parte 3. MLP.forward chama as camadas densas e a ReLU, produzindo pontuações. CrossEntropyLoss.forward mede a diferença e prepara o gradiente da perda. Criterion.backward devolve esse gradiente; MLP.backward o retropropaga e preenche os gradientes dos parâmetros. SGD.step altera então pesos e vieses. Diga o que cada chamada fez, sem derivar gradientes. O trecho fica dentro de um mini-lote cujos índices são definidos pelo laço mostrado a seguir.}\end{frame}
+
+\begin{frame}{Como o laço repete essas funções}
+\begin{itemize}
+\item Usamos 20 épocas e mini-lotes de 64 imagens.
+\item Cada época muda a ordem das imagens; cada mini-lote executa o ciclo de aprendizado.
+\end{itemize}\projectcode{Trainer.fit: laços de épocas e mini-lotes}{snippets/epoch_batches.py}
+\note{Tempo de fala: 85 segundos. Época é uma passagem pelos dados de treino. Permutation muda a ordem dos índices, não os pixels ou rótulos. O laço interno seleciona grupos de até 64; o último grupo incompleto também é usado. As quatro chamadas do slide anterior ficam dentro desse laço. O treinamento usa seed 42 e SGD com taxa de aprendizado 0,1. A medição de tempo foi omitida do trecho, mas as instruções vêm da implementação real.}\end{frame}
 
 \begin{frame}{Escolhemos uma versão salva durante a validação}
 \begin{itemize}
@@ -195,17 +182,15 @@ aboveskip=4pt,belowskip=4pt,breaklines=false,tabsize=4}
 \item Os resultados do treino e da validação precisam ser lidos juntos.
 \end{itemize}
 
-\note{Tempo de fala: 80 segundos. Identifique eixos e cores antes de interpretar. Mostre um pico temporário e depois a diferença entre as curvas. Ela sugere que o sucesso nos exemplos de prática não se transfere completamente a outras imagens. É uma introdução intuitiva ao sobreajuste, não uma prova da causa de cada oscilação.}
+\note{Tempo de fala: 75 segundos. Identifique eixos e cores antes de interpretar. Mostre um pico temporário e depois a diferença entre as curvas. Ela sugere que o sucesso nos exemplos de prática não se transfere completamente a outras imagens. É uma introdução intuitiva ao sobreajuste, não uma prova da causa de cada oscilação.}
 \end{frame}
 
-\begin{frame}{Cerca de 98 acertos a cada 100 imagens}
-\begin{center}\begin{tabular}{lr}\toprule Teste oficial & Resultado\\\midrule Imagens avaliadas & 10.000\\ Acertos & 9.790\\ Erros & 210\\ Acurácia & 97,90\%\\\bottomrule\end{tabular}\end{center}\begin{itemize}
-\item Acurácia é a fração de previsões que coincidem com a resposta conhecida.
-\item Esses resultados pertencem a este experimento e a este conjunto de teste.
+\begin{frame}{O que aconteceu no teste final}
+\begin{center}\begin{tabular}{lr}\toprule Métrica & Resultado\\\midrule Imagens & 10.000\\ Acertos / erros & 9.790 / 210\\ Acurácia & 97,90\%\\ Entropia cruzada & 0,0728\\ AUC macro um-contra-os-demais & 0,9996\\\bottomrule\end{tabular}\end{center}\begin{itemize}
+\item A acurácia conta acertos; a perda avalia as pontuações atribuídas.
+\item A AUC mede a ordenação, não a porcentagem de respostas corretas.
 \end{itemize}
-
-\note{Tempo de fala: 65 segundos. Relacione 9.790 de 10.000 à porcentagem. Não sugira que qualquer grupo de cem imagens terá exatamente 98 acertos. Há outras métricas registradas se alguém perguntar; o ponto central é a quantidade de acertos e os erros que ainda existem.}
-\end{frame}
+\note{Tempo de fala: 60 segundos. Os valores vêm do melhor checkpoint existente, escolhido na época 13. Não houve novo treino nem alteração dos parâmetros. Explique a acurácia primeiro, depois a perda. Para AUC, faça apenas a distinção: uma curva ROC varia um limiar para cada dígito contra os demais, e a AUC resume a ordenação. A média é cerca de 0,9996, mas ainda houve 210 previsões erradas. As curvas ROC completas continuam no registro do experimento; não são outra aula aqui.}\end{frame}
 
 \begin{frame}{Onde aconteceram os erros}
 \centering\includegraphics[height=.53\textheight]{confusion_pt.png}\par\raggedright \begin{itemize}
@@ -214,7 +199,7 @@ aboveskip=4pt,belowskip=4pt,breaklines=false,tabsize=4}
 \item A confusão direcionada mais frequente foi 5 como 3, em 14 imagens.
 \end{itemize}
 
-\note{Tempo de fala: 65 segundos. Leia uma célula de acerto e depois a linha cinco e a coluna três. A matriz conta algo além da porcentagem geral: quais respostas foram confundidas. Não é necessário ler todos os números.}
+\note{Tempo de fala: 50 segundos. Leia uma célula de acerto e depois a linha cinco e a coluna três. A matriz conta algo além da porcentagem geral: quais respostas foram confundidas. Não é necessário ler todos os números.}
 \end{frame}
 
 \begin{frame}{Esses exemplos também seriam difíceis para nós?}
@@ -224,18 +209,15 @@ aboveskip=4pt,belowskip=4pt,breaklines=false,tabsize=4}
 \item Mesmo uma pontuação muito alta pode acompanhar uma resposta errada.
 \end{itemize}
 
-\note{Tempo de fala: 60 segundos. Dê tempo para o público responder antes de interpretar. Pergunte qual desenho é mais difícil de ler. A ambiguidade não explica todo erro do modelo. Os escores são saídas do modelo, portanto confiança não substitui verificar o acerto.}
+\note{Tempo de fala: 45 segundos. Dê tempo para o público responder antes de interpretar. Pergunte qual desenho é mais difícil de ler. A ambiguidade não explica todo erro do modelo. Os escores são saídas do modelo, portanto confiança não substitui verificar o acerto.}
 \end{frame}
 
-\begin{frame}{Outra visão de como os escores separam as classes}
-\centering\includegraphics[height=.48\textheight]{roc_pt.png}\par\raggedright \begin{itemize}
-\item A ROC verifica como um escore separa um dígito de todos os outros.
-\item A AUC resume essa separação; nossa média foi cerca de 0,9996.
-\item É uma medida de ordenação, não a porcentagem de respostas finais corretas.
-\end{itemize}
-
-\note{Tempo de fala: 30 segundos. Mantenha como resultado secundário. Para um dígito, variar o escore aceito troca encontrar mais exemplos reais por aceitar mais exemplos errados. Uma ordenação ao acaso tem AUC 0,5; uma perfeita, 1. Os 210 erros continuam existindo apesar da AUC alta.}
-\end{frame}
+\begin{frame}{Por que a resposta é 7 neste exemplo}
+\centering\includegraphics[height=.34\textheight]{example_scores_pt.png}\par\raggedright\begin{itemize}
+\item A maior saída da Softmax para esta imagem é a do dígito 7.
+\item A operação de máximo escolhe esse dígito; uma pontuação alta ainda pode estar errada.
+\end{itemize}\projectcode{network.py: trecho de MLP.predict}{snippets/predict_method.py}
+\note{Tempo de fala: 60 segundos. Aplique a implementação ao mesmo 7 preparado na Parte 3. Esta é a saída do modelo salvo, não uma pontuação inventada. Predict recebe as entradas preparadas, chama forward e devolve argmax para cada imagem. A maior saída corresponde ao 7, então o rótulo previsto é 7. Comparamos pontuações diretamente; a Softmax preserva a ordem. A previsão não atualiza pesos. Uma saída alta não garante acerto, como os exemplos de erros já mostraram.}\end{frame}
 
 \begin{frame}{O que este projeto nos ajudou a entender}
 \begin{itemize}
@@ -244,9 +226,7 @@ aboveskip=4pt,belowskip=4pt,breaklines=false,tabsize=4}
 \item Um resultado útil ainda tem limites: é uma execução, não uma garantia para qualquer fotografia ou escrita.
 \end{itemize}
 
-\note{Tempo de fala: 60 segundos. Retome a motivação do primeiro slide. Conectamos conceitos a previsões e erros observáveis. Há 24 testes da implementação, mas verificar os cálculos não garante desempenho em qualquer situação. Próximos passos seriam repetir o treinamento e avaliar outras condições de escrita.}
+\note{Tempo de fala: 45 segundos. Retome a motivação do primeiro slide. Conectamos conceitos a previsões e erros observáveis. Há 24 testes da implementação, mas verificar os cálculos não garante desempenho em qualquer situação. Próximos passos seriam repetir o treinamento e avaliar outras condições de escrita.}
 \end{frame}
-
-
 
 \end{document}

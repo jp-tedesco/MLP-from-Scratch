@@ -2,6 +2,9 @@
 
 ## Presentation update - 2026-11-18
 
+- We reorganized all decks into four parts, giving preprocessing and train/validation/test splitting their own Part 3 and moving the implementation summary/results to Part 4. Part 1 now relates the diagrams to commented dense, ReLU, and Softmax excerpts.
+- The decks explain the actual flattening, float32 pixel scaling, integer labels, and stratified seed-42 split. Public decks have 26 slides; local academic variants have 29, with 25:25 of narration plus questions and margin inside 30 minutes.
+
 - We expanded the local academic Part 1 code walkthrough to explain forward prediction, loss, reverse-layer backpropagation, optimizer updates, and the full prediction method. Three existing slides are reused; the 28-slide count and 25:35 narration budget are preserved by shortening repeated Part 3 explanations.
 
 - We added a vector repository QR code and clickable link to each title page.

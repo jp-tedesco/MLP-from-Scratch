@@ -1,9 +1,9 @@
 {
   "language": "pt",
-  "slide_count": 25,
-  "narration_seconds": 1400,
+  "slide_count": 26,
+  "narration_seconds": 1340,
   "questions_seconds": 120,
-  "buffer_seconds": 280,
+  "buffer_seconds": 340,
   "maximum_seconds": 1800,
   "slides": [
     {
@@ -14,7 +14,7 @@
     {
       "slide": 2,
       "title": "Por que fizemos este projeto",
-      "seconds": 35
+      "seconds": 25
     },
     {
       "slide": 3,
@@ -29,27 +29,27 @@
     {
       "slide": 5,
       "title": "Uma rede neural combina informações em camadas",
-      "seconds": 75
+      "seconds": 65
     },
     {
       "slide": 6,
       "title": "As conexões definem o que pesa mais",
-      "seconds": 65
+      "seconds": 70
     },
     {
       "slide": 7,
-      "title": "As funções de ativação dão flexibilidade às camadas",
-      "seconds": 75
+      "title": "ReLU: da regra de ativação ao código",
+      "seconds": 85
     },
     {
       "slide": 8,
-      "title": "A Softmax organiza os valores; escolhemos o maior",
-      "seconds": 65
+      "title": "Softmax: transformar pontuações em saídas comparáveis",
+      "seconds": 85
     },
     {
       "slide": 9,
       "title": "O aprendizado repete três passos",
-      "seconds": 85
+      "seconds": 70
     },
     {
       "slide": 10,
@@ -58,78 +58,83 @@
     },
     {
       "slide": 11,
-      "title": "A tarefa: reconhecer um dígito escrito à mão",
-      "seconds": 70
+      "title": "MNIST: imagens com respostas conhecidas",
+      "seconds": 45
     },
     {
       "slide": 12,
       "title": "Todos os dígitos aparecem nos dados",
-      "seconds": 40
+      "seconds": 30
     },
     {
       "slide": 13,
-      "title": "Praticar é diferente de fazer a prova final",
-      "seconds": 75
-    },
-    {
-      "slide": 14,
       "title": "Parte 3",
       "seconds": 10
     },
     {
-      "slide": 15,
-      "title": "Acompanhando uma imagem: um 7 escrito à mão",
+      "slide": 14,
+      "title": "Preparando os pixels: flattening e normalização",
       "seconds": 80
     },
     {
+      "slide": 15,
+      "title": "O rótulo da resposta fica separado da imagem",
+      "seconds": 45
+    },
+    {
       "slide": 16,
-      "title": "Como nossa rede usa esses valores",
-      "seconds": 75
+      "title": "Imagens diferentes para treino, escolha e teste final",
+      "seconds": 90
     },
     {
       "slide": 17,
-      "title": "Por que a resposta é 7 neste exemplo",
-      "seconds": 65
+      "title": "Parte 4",
+      "seconds": 10
     },
     {
       "slide": 18,
-      "title": "Como a prática foi repetida",
-      "seconds": 110
+      "title": "Como o código conecta as etapas do aprendizado",
+      "seconds": 95
     },
     {
       "slide": 19,
+      "title": "Como o laço repete essas funções",
+      "seconds": 85
+    },
+    {
+      "slide": 20,
       "title": "Escolhemos uma versão salva durante a validação",
       "seconds": 45
     },
     {
-      "slide": 20,
-      "title": "O que as curvas de aprendizado mostram",
-      "seconds": 80
-    },
-    {
       "slide": 21,
-      "title": "Cerca de 98 acertos a cada 100 imagens",
-      "seconds": 65
+      "title": "O que as curvas de aprendizado mostram",
+      "seconds": 75
     },
     {
       "slide": 22,
-      "title": "Onde aconteceram os erros",
-      "seconds": 65
+      "title": "O que aconteceu no teste final",
+      "seconds": 60
     },
     {
       "slide": 23,
-      "title": "Esses exemplos também seriam difíceis para nós?",
-      "seconds": 60
+      "title": "Onde aconteceram os erros",
+      "seconds": 50
     },
     {
       "slide": 24,
-      "title": "Outra visão de como os escores separam as classes",
-      "seconds": 30
+      "title": "Esses exemplos também seriam difíceis para nós?",
+      "seconds": 45
     },
     {
       "slide": 25,
-      "title": "O que este projeto nos ajudou a entender",
+      "title": "Por que a resposta é 7 neste exemplo",
       "seconds": 60
+    },
+    {
+      "slide": 26,
+      "title": "O que este projeto nos ajudou a entender",
+      "seconds": 45
     }
   ]
 }

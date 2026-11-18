@@ -1,45 +1,93 @@
-# Thirty-minute project presentations
+# Four-part project presentations
 
-We publish two equivalent main presentations, each with **25 slides** and no author or group-member names:
+We publish equivalent English and Portuguese presentations with **26 slides**.
+Public sources and PDFs contain no group-member names.
 
-| Language | Ready-to-present PDF | Complete editable source |
+| Language | PDF | Editable source |
 |---|---|---|
 | English | [slides_en.pdf](slides_en.pdf) | [slides_en.tex](slides_en.tex) |
 | Portuguese | [slides_pt.pdf](slides_pt.pdf) | [slides_pt.tex](slides_pt.tex) |
 
-## Three-part structure and pacing
+## Structure and 30-minute maximum
 
-| Public slides | Part | Narration time |
+| Public slides | Content | Narration |
 |---|---|---|
-| 1-3 | Title page, motivation, and preface | 1:25 |
-| 4-9 | Part 1: network, connections, activations, and learning | 6:15 |
-| 10-13 | Part 2: images, proportions, and data split | 3:15 |
-| 14-25 | Part 3: one digit, training, results, and limitations | 12:25 |
-| **Narration** | | **23:20** |
-| After slide 25 | Questions | 2:00 |
-| Reserved margin | Transitions, pauses, and slower explanations | 4:40 |
+| 1-3 | Title, motivation, and four-part preface | 1:15 |
+| 4-9 | Part 1: neural networks linked to commented code | 6:25 |
+| 10-12 | Part 2: the MNIST dataset | 1:25 |
+| 13-16 | Part 3: preprocessing, labels, and data splitting | 3:45 |
+| 17-26 | Part 4: implementation summary, training, and results | 9:30 |
+| **Narration** | | **22:20** |
+| After slide 26 | Questions | 2:00 |
+| Reserved margin | Transitions, pauses, slower explanations | 5:40 |
 | **Maximum slot** | | **30:00** |
 
-The **academic** variants add three programming slides (65, 65, and 55 seconds) at the end of Part 1 and shorten repeated code explanations in Part 3: 25:35 narration, 2:00 for questions, and a 2:25 margin within the same 30-minute maximum. Their part-transition slides are 4, 13, and 17. Public part transitions are 4, 10, and 14. The time budget is recorded per slide in [pacing_en.json](pacing_en.json) and [pacing_pt.json](pacing_pt.json), and matches the hidden speaker notes. Rehearse with a timer; this is a speaking plan, not a guarantee of live duration. Finish the narration by minute 26, limit questions to two minutes, and close by minute 28 to preserve the remaining margin. Do not extend audience activities beyond their allotted slide time.
+Local academic variants contain **29 slides**, adding the three-slide function
+walkthrough at the end of Part 1. Their narration is **25:25**, with **2:00**
+for questions and **2:35** of margin. Part transitions are slides 4, 13, 16,
+and 20 in those variants, and 4, 10, 13, and 17 in the public decks.
 
-The intended audience is first-year statistics students and people without a machine learning background. The preface briefly names the topic of each part. Names and dates appear only on the title page of the local academic variants; the motivation slide shows neither. After the title page, the motivation slide explains our purpose: learning the foundations by building the calculations ourselves and connecting them to an observable result. Slides 4, 10, and 14 explicitly introduce each part, with a subtitle explaining its purpose. We organize the content as a story about information, connections, predictions, and improvement. Part 1 remains conceptual and visual. Part 3 includes four short, commented excerpts from the real implementation: pixel preparation, dense forward calculation, maximum selection, and the mini-batch training loop. The local academic subsection also shows the core prediction/loss calls, the reverse backward loop, the optimizer update call, and the complete prediction method. Comments in the code are English in both versions; surrounding explanations are localized. The excerpts replace prose in existing slides, so slide counts remain unchanged. There are no derivative calculations or matrix derivations. The sources contain hidden `\note{...}` speaker prompts with approximate durations and explanations; open the `.tex` file to rehearse them. Rehearsal determines the final pace. We use audience questions and discussion to make the 30-minute talk engaging rather than adding more technical material.
+Per-slide budgets are in [pacing_en.json](pacing_en.json) and
+[pacing_pt.json](pacing_pt.json), matching the hidden speaker notes. Rehearse
+with a timer. Finish narration by minute 26 and questions by minute 28;
+keep the remaining two minutes as margin. A planned duration does not guarantee
+live delivery speed. Avoid repeating code explanations after their first use.
 
-Part 1 uses four editable TikZ illustrations: a small layered network, a weighted neuron with a bias, the ReLU input/output curve, and an illustrative Softmax comparison. The diagrams live in `diagrams/` and are embedded in existing slides; they add no slides. Illustrative numbers are separate from measured project results. Part 1 connects the ideas rather than listing technical terms: neurons combine inputs, weights control influence, layers pass results onward, activations provide flexibility, and the output compares possible answers. Learning then follows three roles: measure a loss, trace how connections affect it, and adjust the weights. It contains no MNIST-specific or project-specific implementation discussion. Part 2 introduces the data needed for this cycle. Part 3 begins with a three-slide walkthrough of a real handwritten 7: normalized pixel values, learned combinations in the dense layers, and the actual Softmax output from the saved checkpoint. Example provenance and all ten scores are recorded in [digit_example.json](digit_example.json). We did not retrain or change model parameters. Part 3 then shows what happened when we used it, with guided interpretation of learning curves, accuracy, mistakes, and ROC/AUC. Secondary numerical details remain in the experiment record for questions.
+## What each part explains
 
-Class proportions are computed from the actual seed-42 split. Exact counts are recorded in [class_counts.json](class_counts.json). Charts and metrics use the original selected checkpoint; no model was retrained to produce this update. Recorded results and limitations remain in [the experiment record](../experiments.md).
+**Part 1** connects the existing diagrams to real implementation excerpts:
+weighted input combinations in `Dense.forward`, the ReLU rule in
+`ReLU.forward`, and stable score normalization in `softmax`. It distinguishes
+Softmax output normalization from pixel preprocessing. No matrix derivations
+or derivative calculations are needed.
 
-## Repository access and code excerpts
+**Part 2** introduces the original 28-by-28 grayscale images, labels 0 through
+9, official dataset sizes, handwriting variation, and class proportions.
+Detailed pixel conversion is deliberately left to Part 3.
 
-The first slide of every version contains a vector QR code linking to
-`https://github.com/jp-tedesco/MLP-from-Scratch`, plus a clickable repository label.
-The title-page dates and author-visibility rules are unchanged.
+**Part 3** explains the preprocessing actually used in this project:
 
-The [snippets directory](snippets/README.md) records each excerpt's source.
-Statements match the real implementation, with added explanatory comments and
-reduced indentation. They are method/function excerpts, not standalone scripts.
-Read the purpose and action words while presenting; do not explain every NumPy
-argument. This extra explanation is included in the per-slide time budgets.
-No training implementation or model parameters changed.
+- Flatten each image into 784 values in a fixed order.
+- Convert image values to `float32`, then divide by 255 to obtain `[0, 1]`.
+- Keep labels separate as `int64` class IDs. This experiment uses integer
+  targets directly; it does not perform a one-hot conversion.
+- Split only the official 60,000-image training pool into 50,000 training and
+  10,000 validation images. The split is stratified by digit, proportional to
+  class counts, and reproducible with seed 42.
+- Keep the official 10,000-image test set separate for final evaluation.
+
+The pixel scale uses a fixed constant, not statistics fitted across the data
+splits. Download checksums and IDX checks validate the input files. Shuffling
+mini-batch order happens during training and is explained separately in Part 4.
+Class counts are in [class_counts.json](class_counts.json).
+
+**Part 4** summarizes the implementation using already prepared inputs:
+`MLP.forward` calculates scores, `CrossEntropyLoss.forward` measures the error,
+`backward` propagates gradients, `SGD.step` updates parameters, and `predict`
+selects the largest-score class. Commented code shows the core calls and the
+epoch/mini-batch loops, followed by checkpoint selection, learning curves,
+test metrics, a confusion matrix, errors, and the real prediction of a 7.
+ROC/AUC is summarized in the final metrics table; full ROC figures remain in
+the experiment assets rather than requiring another presentation slide.
+
+## Code excerpts and repository access
+
+Every title page includes a vector QR code and clickable link to
+`https://github.com/jp-tedesco/MLP-from-Scratch`. Public dates remain
+16 November 2026; local academic dates remain 17 November 2026. Motivation
+slides have no author or date fields.
+
+[Commented excerpts](snippets/README.md) reproduce real project statements,
+with English teaching comments and selected surrounding lines omitted.
+They are excerpts of functions/methods, not standalone scripts. Surrounding
+slide explanations are localized. Explain their inputs, purpose, and result
+rather than each NumPy argument. The code examples do not alter training code
+or model parameters.
+
+The real example and its ten output scores are recorded in
+[digit_example.json](digit_example.json). Results use the existing selected
+checkpoint; no retraining was performed. Details and limitations remain in
+[the experiment record](../experiments.md).
 
 ## Compile and present
 
@@ -50,23 +98,28 @@ tectonic slides_en.tex
 tectonic slides_pt.tex
 ```
 
-Alternatively, use pdfLaTeX twice for each file to resolve references:
-
-```bash
-pdflatex -interaction=nonstopmode -halt-on-error slides_en.tex
-pdflatex -interaction=nonstopmode -halt-on-error slides_en.tex
-pdflatex -interaction=nonstopmode -halt-on-error slides_pt.tex
-pdflatex -interaction=nonstopmode -halt-on-error slides_pt.tex
-```
-
-We use Beamer (Madrid theme, 16:9), babel, lmodern, amsmath, amssymb, booktabs, graphicx, TikZ, listings, and qrcode. Upload both sources and the complete `assets/`, `diagrams/`, and `snippets/` folders to an Overleaf project to compile there. Select the desired `.tex` as the main document. We recommend the compiled **PDF** for email and full-screen presenting; it preserves equations without a TeX installation on the audience's computer.
+Alternatively, run pdfLaTeX twice per source to resolve references. Upload the
+sources plus all of `assets/`, `diagrams/`, and `snippets/` to Overleaf and
+select the desired language as the main document. Dependencies are Beamer,
+babel, lmodern, amsmath, amssymb, booktabs, graphicx, TikZ, listings, and qrcode.
+The existing layout is Madrid, 16:9. We recommend PDF for email and full-screen
+presentation. Tectonic 0.17.0 compiles the decks locally.
 
 ## Local academic variants
 
-Separate academic variants are stored only under `docs/slides/academic-local/`, which is excluded by `.gitignore`. They sit beside the public slides locally but are **not part of the repository**. They contain 28 slides: the same 25-slide main content, plus author information on the title page and a three-slide programming subsection immediately before Part 2. Public dates remain 16 November 2026; local academic dates remain 17 November 2026.
+`docs/slides/academic-local/` contains the local-only English and Portuguese
+sources/PDFs, supporting assets, excerpts, and timing records. `.gitignore`
+excludes the entire directory. These variants retain the title-page authors
+and the three extra function/loop/decision slides at the end of Part 1.
 
-That subsection shows commented implementation excerpts and explains the most important responsibilities: network forward calculates scores, loss forward compares them with labels, backward propagates gradients through layers in reverse, optimizer step updates weights, and predict returns the selected digits. The three slides take 3:05. Later code explanations in Part 3 are shortened by 0:50 to avoid repeating the same lesson, preserving the academic 25:35 narration budget. The conditionals slide focuses on choosing the largest output: if the largest value belongs to 7, the prediction is 7. Its notes clarify that this is a conceptual conditional explanation; our prediction method uses NumPy `argmax` on logits, which has the same ordering as Softmax probabilities. No explicit per-class conditional is claimed. Apart from the author field, local presentation date, inserted subsection, and shorter academic timing notes for repeated Part 3 explanations, the sources share the same content.
+Their walkthrough shows score/loss calls, reverse-layer backpropagation,
+optimizer updates, and the complete prediction method. A conditional sentence
+explains choosing the largest output, while the actual method uses NumPy
+`argmax` on logits; Softmax preserves their ordering. No explicit per-class
+conditional is claimed.
 
-Before publishing, we check that public sources, extracted PDF text, and PDF metadata contain no group-member names. We also check page counts, referenced images, compilation, and rendered layouts. Keep local academic files and any bundles containing them out of commits.
-
-All four versions were compiled with Tectonic 0.17.0. The public PDFs and the local variants were checked for page count and layout. Dataset-derived images are attributed to the MNIST authors; plots use our recorded checkpoint. See [Beamer documentation](https://www.overleaf.com/learn/latex/Beamer) for presentation options.
+We check compilation, rendered layouts, timing totals, source references,
+code provenance, and QR decoding. Public sources, PDF text, and metadata are
+checked for group-member names. Never commit academic variants or bundles
+containing them. Dataset images are attributed to the MNIST authors; plots
+use the recorded checkpoint.
