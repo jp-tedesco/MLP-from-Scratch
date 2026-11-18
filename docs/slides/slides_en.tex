@@ -16,12 +16,23 @@
 \setbeamertemplate{itemize items}[circle]
 \graphicspath{{assets/}}
 \setbeameroption{hide notes}
+\usepackage{listings,qrcode}
+\lstset{language=Python,basicstyle=\fontsize{9}{11}\selectfont\ttfamily,
+keywordstyle=\color{navy}\bfseries,commentstyle=\color{teal},
+showstringspaces=false,keepspaces=true,columns=fullflexible,
+frame=single,rulecolor=\color{navy!25},framesep=4pt,
+aboveskip=4pt,belowskip=4pt,breaklines=false,tabsize=4}
+\newcommand{\projectcode}[2]{\par\medskip{\scriptsize\color{navy}#1}\par\smallskip\lstinputlisting{#2}}
+
 \title{MNIST MLP from Scratch}
 \subtitle{Learning neural network foundations with Python and NumPy}
 \author{}
 \date{16 November 2026}
 \begin{document}
-\begin{frame}\titlepage\note{Speaking time: 20 seconds. Present the title. Introduce the group only when author names are displayed in the local academic version. The next slide retains the project motivation.}\end{frame}
+\begin{frame}
+\begin{columns}[c]\begin{column}{.70\textwidth}\titlepage\end{column}
+\begin{column}{.27\textwidth}\centering\colorbox{white}{\qrcode[height=2.6cm]{https://github.com/jp-tedesco/MLP-from-Scratch}}\par\medskip{\small Explore the repository}\par\smallskip\href{https://github.com/jp-tedesco/MLP-from-Scratch}{\small GitHub: MLP-from-Scratch}\end{column}\end{columns}
+\note{Speaking time: 30 seconds. Present the title and invite the audience to scan the repository QR code. The QR target is https://github.com/jp-tedesco/MLP-from-Scratch. Mention authors only when the local academic title page displays them. People can explore the repository while listening; do not wait for everyone to finish browsing.}\end{frame}
 
 
 \begin{frame}{Why we built this project}
@@ -54,7 +65,7 @@
 \item Each circle is a neuron; the arrows pass results to the next layer.
 \item Learning adjusts the connections using examples with known answers.
 \end{itemize}
-\note{Speaking time: 90 seconds. Read the diagram from left to right. A layer groups neurons at one stage. Hidden simply means between input and output. The forward pass follows the arrows. This small network is illustrative, with arbitrary layer sizes. The model is inspired by biology but performs numerical calculations, not human understanding.}
+\note{Speaking time: 75 seconds. Read the diagram from left to right. A layer groups neurons at one stage. Hidden simply means between input and output. The forward pass follows the arrows. This small network is illustrative, with arbitrary layer sizes. The model is inspired by biology but performs numerical calculations, not human understanding.}
 \end{frame}
 
 \begin{frame}{Connections decide what matters more}
@@ -63,7 +74,7 @@
 \item The bias adds an adjustment to the combined result.
 \item Training changes weights and biases to improve predictions.
 \end{itemize}
-\note{Speaking time: 75 seconds. The illustrative neuron receives 2 and 1. Their weighted contributions are +1 and -1; a bias of +1 gives a combined result of 1 before activation. Explain influence without asking the audience to calculate. The signs indicate direction of contribution, not whether a weight is good or bad.}
+\note{Speaking time: 65 seconds. The illustrative neuron receives 2 and 1. Their weighted contributions are +1 and -1; a bias of +1 gives a combined result of 1 before activation. Explain influence without asking the audience to calculate. The signs indicate direction of contribution, not whether a weight is good or bad.}
 \end{frame}
 
 
@@ -74,7 +85,7 @@
 \item ReLU turns negative values into zero and keeps positive values.
 \item This transformation helps layers represent more complex relationships.
 \end{itemize}\end{column}\end{columns}
-\note{Speaking time: 90 seconds. Read input on the horizontal axis and output on the vertical axis. Trace -2 to 0, then 2 to 2. Explain the rule before its benefit: nonlinear activations allow multiple affine layers to represent more than one affine transformation. Keep that last idea verbal; no equations or derivatives are needed. Activation rules stay fixed while connection weights are learned.}
+\note{Speaking time: 75 seconds. Read input on the horizontal axis and output on the vertical axis. Trace -2 to 0, then 2 to 2. Explain the rule before its benefit: nonlinear activations allow multiple affine layers to represent more than one affine transformation. Keep that last idea verbal; no equations or derivatives are needed. Activation rules stay fixed while connection weights are learned.}
 \end{frame}
 
 \begin{frame}{Softmax organizes scores; we choose the largest}
@@ -83,7 +94,7 @@
 \item Softmax produces values that sum to 100\%.
 \item Choosing the largest value is a separate step; it can still be wrong.
 \end{itemize}\end{column}\end{columns}
-\note{Speaking time: 75 seconds. A, B and C are generic answer categories. The illustrative scores 2, 1, 0 yield approximately 66.5, 24.5 and 9.0 percent. These are illustrative values. Softmax normalizes scores and preserves their ordering; it does not choose a class or guarantee calibrated correctness. A maximum-search operation selects the class.}
+\note{Speaking time: 65 seconds. A, B and C are generic answer categories. The illustrative scores 2, 1, 0 yield approximately 66.5, 24.5 and 9.0 percent. These are illustrative values. Softmax normalizes scores and preserves their ordering; it does not choose a class or guarantee calibrated correctness. A maximum-search operation selects the class.}
 \end{frame}
 
 \begin{frame}{Learning repeats three steps}
@@ -93,7 +104,7 @@
 \item Adjust: an optimizer makes small changes to the weights, then the process repeats.
 \end{itemize}
 
-\note{Speaking time: 100 seconds. Explain loss as a penalty, with lower values preferred. Cross-entropy penalizes assigning very little support to the correct answer. Backpropagation supplies the information for adjustments; gradient descent performs them. No derivative calculation is needed. Ask the audience which step needs known answers before moving on.}
+\note{Speaking time: 85 seconds. Explain loss as a penalty, with lower values preferred. Cross-entropy penalizes assigning very little support to the correct answer. Backpropagation supplies the information for adjustments; gradient descent performs them. No derivative calculation is needed. Ask the audience which step needs known answers before moving on.}
 \end{frame}
 
 \section{Part 2: The Images We Used}
@@ -140,40 +151,32 @@
 \end{frame}
 
 \begin{frame}{Following one image: a handwritten 7}
-\begin{columns}[c]\begin{column}{.30\textwidth}\centering\includegraphics[width=.86\textwidth]{example_digit_7.png}\par\smallskip{\small Real MNIST test image}\end{column}\begin{column}{.67\textwidth}\begin{itemize}
-\item We see a 7; the network receives brightness values.
-\item Black becomes 0, white becomes 1, and gray lies in between.
-\item For example, a pixel with value 84 becomes approximately 0.33.
-\item We arrange the 28 by 28 pixels into a fixed sequence of 784 values.
-\end{itemize}\end{column}\end{columns}
-\note{Speaking time: 65 seconds. Use the first official test image, labeled 7. Source: MNIST by LeCun, Cortes and Burges. Pixel 202 in zero-based flattened order has raw brightness 84, divided by 255. We prepare the sequence row by row; the dense network then combines these values rather than reading a word or scanning sequentially. The label 7 is held separately and is not an input to the prediction.}\end{frame}
+\begin{columns}[c]\begin{column}{.24\textwidth}\centering\includegraphics[height=.31\textheight]{example_digit_7.png}\end{column}\begin{column}{.72\textwidth}\begin{itemize}
+\item This image has 28 by 28 pixels: 784 brightness values.
+\item We use the same scale for every image: black is 0 and white is 1.
+\end{itemize}\end{column}\end{columns}\projectcode{mnist.py: image preparation}{snippets/preprocess.py}
+\note{Speaking time: 80 seconds. Source image: first official MNIST test image, labeled 7; MNIST by LeCun, Cortes and Burges. Explain reshape as arranging pixels into one row, astype as permitting fractional values, and division by 255 as putting brightness between zero and one. For example, raw brightness 84 becomes approximately 0.33. Do not explain NumPy type details. The label stays separate and is not fed into prediction. The excerpt is the actual preprocessing code with added comments.}\end{frame}
 
 \begin{frame}{How our network uses those values}
-\begin{center}\Large $784\longrightarrow128\longrightarrow64\longrightarrow10$\end{center}\medskip\begin{itemize}
-\item Each neuron combines incoming values using learned weights and a bias.
-\item The 128- and 64-neuron layers create new combinations, using ReLU.
-\item The ten outputs assign scores to the digits 0 through 9.
-\item There is no hand-written rule saying what a 7 must look like.
-\end{itemize}
-\note{Speaking time: 55 seconds. Connect to Part 1: weights change influence, the bias adds an adjustment, and ReLU turns negative intermediate results into zero. Each dense neuron uses all values from the previous layer. Do not claim that individual neurons detect specific strokes: we have not analyzed their representations. He initialization is used in hidden layers and Xavier at the output; keep these names for questions.}\end{frame}
+\begin{center}\Large $784\longrightarrow128\longrightarrow64\longrightarrow10$\end{center}\begin{itemize}
+\item The intermediate layers combine inputs, then apply ReLU.
+\item The output layer produces ten scores, one for each possible digit.
+\end{itemize}\projectcode{layers.py: inside Dense.forward}{snippets/dense.py}
+\note{Speaking time: 75 seconds. Read the one-line return as combine inputs with weights, then add the bias. The @ symbol performs matrix multiplication for all examples and neurons together. ReLU is a separate step in hidden layers; the final dense layer returns logits. The excerpt shows the affine calculation after the full method has checked its inputs. Do not derive matrix products or attribute particular strokes to individual neurons.}\end{frame}
 
 \begin{frame}{Why the answer is 7 in this example}
-\centering\includegraphics[height=.42\textheight]{example_scores_en.png}\par\raggedright\begin{itemize}
-\item Softmax turns the ten scores into values that sum to 100\%.
-\item The largest value belongs to 7, so the network chooses 7.
-\item This is a real prediction from our saved model; high scores can still be wrong.
-\end{itemize}
-\note{Speaking time: 55 seconds. Values come from the existing best checkpoint, not a hypothetical distribution. The score for digit 7 is approximately 99.998 percent; the other bars are nonzero but tiny on this scale. Compare the answer with the held-out label only after prediction. This single image does not represent overall accuracy. Inference keeps weights fixed; training compares predictions with known labels and adjusts weights in batches. The next slide explains that repetition.}\end{frame}
+\centering\includegraphics[height=.34\textheight]{example_scores_en.png}\par\raggedright\begin{itemize}
+\item Softmax gives this image its largest output for digit 7.
+\item The maximum operation selects that digit; a high score can still be wrong.
+\end{itemize}\projectcode{network.py: inside MLP.predict}{snippets/predict.py}
+\note{Speaking time: 65 seconds. These are real outputs from the saved best checkpoint. Argmax returns the index of the largest score for each image; the indices map to digits 0 through 9. Our predict method compares logits directly. Softmax preserves their ordering, so the class is the same as the one with largest probability. Axis 1 means compare classes within each image. Prediction keeps weights fixed; training adjusts them. Avoid explaining array-axis notation in detail.}\end{frame}
 
 \begin{frame}{How practice was repeated}
 \begin{itemize}
-\item We showed 64 images at a time, then made small weight adjustments.
-\item A complete pass through the training images is called an epoch.
-\item The model completed 20 epochs, with a different image order each time.
-\end{itemize}
-
-\note{Speaking time: 80 seconds. Connect each group to the measure, trace and adjust cycle. The update method is mini-batch SGD, with learning rate 0.1. Explain the name only after the process: it updates from small groups instead of waiting for every image. Initial errors are expected because weights start without training.}
-\end{frame}
+\item 64 images per mini-batch, across 20 shuffled training epochs.
+\item For each group: predict, measure loss, backpropagate, and update.
+\end{itemize}\projectcode{trainer.py: inner mini-batch loop}{snippets/training.py}
+\note{Speaking time: 110 seconds. Follow the comments and action words rather than explaining every argument. The for loop visits mini-batches; indices selects the current images. Forward predicts, the criterion measures loss, backward propagates gradients, and the optimizer updates the weights. The enclosing epoch loop creates a new shuffled order each epoch. The loss and optimizer are initialized elsewhere. SGD uses learning rate 0.1. All displayed statements come from the real training loop; added comments explain the steps.}\end{frame}
 
 \begin{frame}{We selected a saved version during validation}
 \begin{itemize}
@@ -182,7 +185,7 @@
 \item That version came from epoch 13 and was then evaluated on the test.
 \end{itemize}
 
-\note{Speaking time: 55 seconds. Explain a saved version as a snapshot of the learned connections. All 20 epochs ran; using epoch 13 does not mean early stopping. Ask why the last version need not be best on new data.}
+\note{Speaking time: 45 seconds. Explain a saved version as a snapshot of the learned connections. All 20 epochs ran; using epoch 13 does not mean early stopping. Ask why the last version need not be best on new data.}
 \end{frame}
 
 \begin{frame}{What the learning curves tell us}
@@ -192,7 +195,7 @@
 \item Training results and validation results must be read together.
 \end{itemize}
 
-\note{Speaking time: 90 seconds. Identify the axes and colors before any interpretation. Point to one temporary spike and then the later gap. The gap suggests that success on practice examples does not fully transfer to other images. This is an intuitive introduction to overfitting, not proof of a specific cause for every fluctuation.}
+\note{Speaking time: 80 seconds. Identify the axes and colors before any interpretation. Point to one temporary spike and then the later gap. The gap suggests that success on practice examples does not fully transfer to other images. This is an intuitive introduction to overfitting, not proof of a specific cause for every fluctuation.}
 \end{frame}
 
 \begin{frame}{About 98 correct answers in every 100 images}
@@ -231,7 +234,7 @@
 \item This is a ranking measure, not the percentage of correct final answers.
 \end{itemize}
 
-\note{Speaking time: 45 seconds. Keep this as a secondary result. For one digit, varying the accepted score trades finding more real examples against accepting more wrong ones. A random ranking has AUC 0.5 and a perfect ranking 1. The recorded 210 errors still exist even though AUC is high.}
+\note{Speaking time: 30 seconds. Keep this as a secondary result. For one digit, varying the accepted score trades finding more real examples against accepting more wrong ones. A random ranking has AUC 0.5 and a perfect ranking 1. The recorded 210 errors still exist even though AUC is high.}
 \end{frame}
 
 \begin{frame}{What this project helped us understand}

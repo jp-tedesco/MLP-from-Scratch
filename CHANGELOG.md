@@ -1,5 +1,11 @@
 # Changelog
 
+## Presentation update - 2026-11-18
+
+- We added a vector repository QR code and clickable link to each title page.
+- Existing implementation slides now include short commented excerpts from the actual NumPy code, with source provenance. The local academic maximum-selection example also shows its implementation.
+- Slide counts remain 25 public and 28 academic. Revised narration budgets reserve two minutes for questions and at least 2:25 of margin within the 30-minute slot; dates and author visibility are unchanged.
+
 ## Presentation update - 2026-11-16
 
 - The local academic conditional slide now focuses only on choosing the largest output, with 7 as an example. Speaker notes retain the distinction between a conceptual conditional explanation and the actual maximum operation; slide counts and timing remain unchanged.

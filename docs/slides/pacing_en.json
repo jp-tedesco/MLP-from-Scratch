@@ -1,15 +1,15 @@
 {
   "language": "en",
   "slide_count": 25,
-  "narration_seconds": 1415,
+  "narration_seconds": 1400,
   "questions_seconds": 120,
-  "buffer_seconds": 265,
+  "buffer_seconds": 280,
   "maximum_seconds": 1800,
   "slides": [
     {
       "slide": 1,
       "title": "Title page",
-      "seconds": 20
+      "seconds": 30
     },
     {
       "slide": 2,
@@ -29,27 +29,27 @@
     {
       "slide": 5,
       "title": "A neural network combines information in layers",
-      "seconds": 90
+      "seconds": 75
     },
     {
       "slide": 6,
       "title": "Connections decide what matters more",
-      "seconds": 75
+      "seconds": 65
     },
     {
       "slide": 7,
       "title": "Activation functions give layers flexibility",
-      "seconds": 90
+      "seconds": 75
     },
     {
       "slide": 8,
       "title": "Softmax organizes scores; we choose the largest",
-      "seconds": 75
+      "seconds": 65
     },
     {
       "slide": 9,
       "title": "Learning repeats three steps",
-      "seconds": 100
+      "seconds": 85
     },
     {
       "slide": 10,
@@ -79,32 +79,32 @@
     {
       "slide": 15,
       "title": "Following one image: a handwritten 7",
-      "seconds": 65
+      "seconds": 80
     },
     {
       "slide": 16,
       "title": "How our network uses those values",
-      "seconds": 55
+      "seconds": 75
     },
     {
       "slide": 17,
       "title": "Why the answer is 7 in this example",
-      "seconds": 55
+      "seconds": 65
     },
     {
       "slide": 18,
       "title": "How practice was repeated",
-      "seconds": 80
+      "seconds": 110
     },
     {
       "slide": 19,
       "title": "We selected a saved version during validation",
-      "seconds": 55
+      "seconds": 45
     },
     {
       "slide": 20,
       "title": "What the learning curves tell us",
-      "seconds": 90
+      "seconds": 80
     },
     {
       "slide": 21,
@@ -124,7 +124,7 @@
     {
       "slide": 24,
       "title": "Another view of how well the scores separate classes",
-      "seconds": 45
+      "seconds": 30
     },
     {
       "slide": 25,
